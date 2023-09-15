@@ -16,9 +16,13 @@ export default {
     Map,
   },
   data() {
-    return {};
+    return {
+    }
   },
-};
+  created() {
+    console.log('hi')
+  }
+}
 </script>
 
 <style lang="scss">

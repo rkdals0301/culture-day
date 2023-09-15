@@ -1,8 +1,7 @@
 import axiosInstance from '@/services/axios'
 
 const endPoint = {
-  lookupCultureList: () =>
-    ``
+  lookupCultureList: () => `/culturalEventInfo/1/1000/`
 }
 
 const cultureAPI = {

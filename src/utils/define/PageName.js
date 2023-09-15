@@ -1,5 +1,5 @@
 const PageName = {
-  Culture: '/culture'
+  Culture: 'Culture'
 }
 
 export default PageName

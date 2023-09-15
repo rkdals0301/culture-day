@@ -1,14 +1,15 @@
 <template>
-  <div></div>
+  <div>2</div>
 </template>
 
 <script>
+import PageName from '@/utils/define/PageName'
 import cultureAPI from '@/services/api/culture'
 import SnackbarType from '@/utils/define/SnackbarType'
 import { cultureList } from '@/views/culture/CultureDummy'
 
 export default {
-  name: 'Culture',
+  name: PageName.Culture,
   data() {
     return {
     }
@@ -19,7 +20,8 @@ export default {
     }
   },
   created() {
-      this.loadCultureList()
+    console.log('hi2')
+    this.loadCultureList()
   },
   methods: {
     async loadCultureList() {
