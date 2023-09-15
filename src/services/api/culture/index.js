@@ -1,7 +1,10 @@
 import axiosInstance from '@/services/axios'
 
+const startIndex = 1
+const endIndex = 1000
+
 const endPoint = {
-  lookupCultureList: () => `/culturalEventInfo/1/1000/`
+  lookupCultureList: () => `/culturalEventInfo/${startIndex}/${endIndex}`
 }
 
 const cultureAPI = {

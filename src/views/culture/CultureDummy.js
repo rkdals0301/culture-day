@@ -1,9 +1,0 @@
-const cultureList = [
-    {},
-    {},
-    {},
-    {},
-    {},
-]
-
-export { cultureList }
