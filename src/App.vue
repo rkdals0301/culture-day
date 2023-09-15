@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <snackbar></snackbar>
-    <Map></Map>
+    <Map ref="map"></Map>
   </div>
 </template>
 
 <script>
 import Snackbar from "@/components/common/Snackbar.vue";
-import Map from "@/views/map/Map.vue";
+import Map from "@/components/map/Map.vue";
 
 export default {
   name: "App",
@@ -16,13 +16,15 @@ export default {
     Map,
   },
   data() {
-    return {
-    }
+    return {};
   },
   created() {
-    console.log('hi')
-  }
-}
+    console.log("hi");
+  },
+  mounted() {
+    this.$refs.map.init();
+  },
+};
 </script>
 
 <style lang="scss">

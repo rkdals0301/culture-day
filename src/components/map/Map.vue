@@ -6,12 +6,9 @@
 export default {
   name: "Map",
 
-  mounted() {
-    this.init();
-  },
-
   methods: {
     init() {
+      console.log("[Map.vue] inited.");
       // load naver maps API
       const script = document.createElement("script");
       const mapUrl = process.env.VUE_APP_MAP_URL;
