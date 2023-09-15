@@ -1,0 +1,9 @@
+const cultureList = [
+    {},
+    {},
+    {},
+    {},
+    {},
+]
+
+export { cultureList }
