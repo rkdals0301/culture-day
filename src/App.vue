@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Map ref="map"></Map>
+    <Map ref="map" :cultureList="cultureList"></Map>
     <item-list-handler></item-list-handler>
     <snackbar></snackbar>
   </div>
@@ -21,19 +21,19 @@ export default {
     ItemListHandler,
   },
   data() {
-    return {};
+    return {
+      cultureList: null
+    }
   },
   created() {
     this.loadCultureList();
   },
-  mounted() {
-    this.$refs.map.init();
-  },
   methods: {
     async loadCultureList() {
       try {
-        const response = await cultureAPI.lookupCultureList();
-        console.log("response >", response?.data?.culturalEventInfo);
+        const response = await cultureAPI.lookupCultureList()
+        this.cultureList = response?.data?.culturalEventInfo?.row
+        console.log('response >', response?.data?.culturalEventInfo?.row)
       } catch (error) {
         this.$root.showSnackbar(SnackbarType.ERROR, error);
       }
