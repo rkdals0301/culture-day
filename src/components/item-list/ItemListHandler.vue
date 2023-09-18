@@ -1,8 +1,24 @@
 <template>
-  <div class="list-wrapper">
-    <div class="list-container">
-      <search-box ref="search"></search-box>
-      <item-list ref="list"></item-list>
+  <div
+    class="list-wrapper"
+    :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`"
+  >
+    <div
+      class="list-container"
+      :style="
+        listVisibleStatus ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)' : ''
+      "
+    >
+      <search-box ref="search" @open="openList"></search-box>
+    </div>
+    <div v-show="listVisibleStatus">
+      <transition name="fade">
+        <item-list
+          ref="list"
+          v-show="listVisibleStatus"
+          :cultures="cultures"
+        ></item-list>
+      </transition>
     </div>
   </div>
 </template>
@@ -14,7 +30,19 @@ export default {
   components: { ItemList, SearchBox },
   name: "ItemListHandler",
   data() {
-    return {};
+    return {
+      cultures: [],
+      listVisibleStatus: false,
+    };
+  },
+
+  methods: {
+    setCultures(cultures = []) {
+      this.cultures = cultures;
+    },
+    openList() {
+      this.listVisibleStatus = true;
+    },
   },
 };
 </script>
@@ -25,19 +53,17 @@ export default {
   top: 0;
   left: 0;
   width: 330px;
-  height: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-
-  /*
-  border: 1px solid red;
-  background: rgba(255, 0, 0, 0.3);
-  */
 }
 .list-container {
   position: relative;
   width: 100%;
-  height: 100%;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -1,15 +1,25 @@
 <template>
-  <div class="item-wrapper">
+  <div
+    class="item-wrapper"
+    :style="idx < 1 ? 'border-top: 1px solid #e5e5e5;' : ''"
+  >
     <div class="content-wrapper">
-      <div class="content-title">{{ culture.title }}</div>
-      <div class="content-place">{{ culture.place }}</div>
+      <div class="content-title">{{ culture["TITLE"] }}</div>
+      <div class="content-place">
+        {{ culture["PLACE"] }}
+      </div>
       <div class="content-date">
-        {{ culture.startDate }} ~ {{ culture.endDate }}
+        <!-- {{ culture.startDate }} ~ {{ culture.endDate }} -->
+        {{ culture["DATE"] }}
+      </div>
+      <!-- 임시 -->
+      <div class="content-date" style="color: #b4b4b4">
+        {{ culture["IS_FREE"] }} / {{ culture["CODENAME"] }}
       </div>
     </div>
     <div
       class="image-wrapper"
-      :style="`background-image: url(${culture.url})`"
+      :style="`background-image: url(${culture['MAIN_IMG']})`"
     ></div>
   </div>
 </template>
@@ -22,7 +32,9 @@ export default {
       type: Object,
       default: () => {},
     },
+    idx: Number,
   },
+  mounted() {},
 };
 </script>
 
@@ -30,14 +42,19 @@ export default {
 .item-wrapper {
   width: 100%;
   height: 130px;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid #e5e5e5;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
+  text-align: left;
 }
 .item-wrapper:hover {
-  background-color: rgb(248, 255, 219);
+  background-color: #e2f7ef;
   cursor: pointer;
+  transition: ease-out 0.3s;
+}
+.item-wrapper:hover .content-title {
+  color: #2a6b39;
   transition: ease-out 0.3s;
 }
 .content-wrapper {

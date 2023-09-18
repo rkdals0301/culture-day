@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Map ref="map" :cultureList="cultureList"></Map>
-    <item-list-handler></item-list-handler>
+    <item-list-handler ref="handler"></item-list-handler>
     <snackbar></snackbar>
   </div>
 </template>
@@ -22,8 +22,8 @@ export default {
   },
   data() {
     return {
-      cultureList: null
-    }
+      cultureList: null,
+    };
   },
   created() {
     this.loadCultureList();
@@ -31,12 +31,18 @@ export default {
   methods: {
     async loadCultureList() {
       try {
-        const response = await cultureAPI.lookupCultureList()
-        this.cultureList = response?.data?.culturalEventInfo?.row
-        console.log('response >', response?.data?.culturalEventInfo?.row)
+        const response = await cultureAPI.lookupCultureList();
+        this.cultureList = response?.data?.culturalEventInfo?.row;
+        console.log("response >", response?.data?.culturalEventInfo?.row);
+
+        this.setCultureList();
       } catch (error) {
         this.$root.showSnackbar(SnackbarType.ERROR, error);
       }
+    },
+
+    setCultureList() {
+      this.$refs.handler.setCultures(this.cultureList);
     },
   },
 };

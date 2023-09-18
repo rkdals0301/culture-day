@@ -1,18 +1,11 @@
 <template>
-  <div
-    class="search-box-wrapper"
-    :style="`background: ${visibleStatus ? '#fff' : 'transparent'}`"
-  >
-    <div
-      class="search-box"
-      :style="`border: ${visibleStatus ? '1px solid #e5e5e5' : 'none'}`"
-    >
+  <div class="search-box-wrapper">
+    <div class="search-box">
       <div class="search-inp-wrapper">
         <input
           type="text"
           class="search-inp"
-          @focus="test"
-          @blur="test2"
+          @focus="open"
           placeholder="찾으실 행사명을 입력해 주세요"
         />
       </div>
@@ -29,16 +22,11 @@
 export default {
   name: "SearchBox",
   data() {
-    return {
-      visibleStatus: true,
-    };
+    return {};
   },
   methods: {
-    test() {
-      console.log("focus!");
-    },
-    test2() {
-      console.log("blur!");
+    open() {
+      this.$emit("open");
     },
   },
 };
@@ -58,7 +46,8 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
   display: flex;
 }
 .search-box > .search-inp-wrapper {
@@ -84,5 +73,6 @@ export default {
   height: 100%;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 </style>
