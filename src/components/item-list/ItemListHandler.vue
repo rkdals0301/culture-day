@@ -9,7 +9,7 @@
         listVisibleStatus ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)' : ''
       "
     >
-      <search-box ref="search" @open="openList"></search-box>
+      <search-box ref="search" @open="openList" @search="search"></search-box>
     </div>
     <div v-show="listVisibleStatus">
       <transition name="fade">
@@ -42,6 +42,9 @@ export default {
     },
     openList() {
       this.listVisibleStatus = true;
+    },
+    search(keyword = "") {
+      console.log("...", keyword);
     },
   },
 };
