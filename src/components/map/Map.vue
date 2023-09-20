@@ -7,24 +7,11 @@ import { makeMarkerClustering } from "@/plugins/MarkerClustering.js";
 
 export default {
   name: "Map",
-  props: {
-    cultureList: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  watch: {
-    cultureList: {
-      deep: true,
-      handler() {
-        this.addMarkerList();
-      },
-    },
-  },
   data() {
     return {
+      cultureList: null,
       map: null,
-      markers: null,
+      markerList: null,
       infoWindows: null,
     };
   },
@@ -51,7 +38,10 @@ export default {
       });
     },
     addEventListener() {
-      window.naver.maps.Event.addListener(this.map, "idle", () => {
+      window.naver.maps.Event.addListener(this.map, 'idle', () => {
+        
+      });
+      window.naver.maps.Event.addListener(this.map, 'click', () => {
         if (!this.$_.isEmpty(this.infoWindows)) {
           this.infoWindows.forEach((infoWindow) => {
             if (infoWindow.getMap()) {
@@ -61,67 +51,63 @@ export default {
         }
       });
     },
+    setCultureList(cultureList) {
+      this.cultureList = cultureList;
+      this.addMarkerList();
+    },
     addMarkerList() {
-      this.markers = [];
+      this.markerList = [];
       this.infoWindows = [];
-      this.cultureList.forEach(
-        (
-          {
-            LOT: lat,
-            LAT: lng,
-            TITLE: title,
-            CODENAME: codeName,
-            IS_FREE: isFree,
-            DATE: date,
-          },
-          index
-        ) => {
-          var contentElement = `<div style="width: 300px; height: fit-content; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.05);">
-          <div style="height: 100%; padding: 15px 20px; font-size: 14px; font-weight: 700; color: grey; display: flex; flex-direction: column; justify-content: center; gap: 5px;">
-            <div style="font-size: 16px; color: rgb(0, 104, 195);">${title}</div>
-            <div>${codeName}</div>
-            <div>${date}</div>
-            <div>${isFree}</div>
-            <div style="display: flex; justify-content: flex-end;">
-              <button type="button">상세보기</button>  
+      this.cultureList.forEach(({ LOT: lat, LAT: lng, TITLE: title, CODENAME: codeName, IS_FREE: isFree, DATE: date }, index) => {
+        const content = 
+        `<div class="info-window-wrapper">
+          <div class="info-window">
+            <div class="title">${title}</div>
+            <div class="content">${codeName}</div>
+            <div class="content">${date}</div>
+            <div class="content">${isFree}</div>
+            <div class="button-wrapper">
+              <button type="button" id="detail_button_${index}">상세보기</button>  
             </div>
           </div>
         </div>`;
 
-          this.infoWindows.push(
-            new window.naver.maps.InfoWindow({
-              borderWidth: 0,
-              disableAnchor: true,
-              backgroundColor: "transparent",
-              pixelOffset: new window.naver.maps.Point(0, -28),
-              content: contentElement,
-            })
-          );
+        this.infoWindows.push(new window.naver.maps.InfoWindow({
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent',
+          pixelOffset: new window.naver.maps.Point(0, -10),
+          content  
+        }));
 
-          this.markers.push(
+          this.markerList.push(
             new window.naver.maps.Marker({
               position: new window.naver.maps.LatLng(lat, lng),
             })
           );
 
-          window.naver.maps.Event.addListener(
-            this.markers[index],
-            "click",
-            () => {
-              this.map.setCenter(new window.naver.maps.LatLng(lat, lng));
-              if (this.infoWindows[index].getMap()) {
-                this.infoWindows[index].close();
-              } else {
-                this.infoWindows[index].open(this.map, this.markers[index]);
-              }
-            }
-          );
-        }
-      );
+        window.naver.maps.Event.addListener(this.markerList[index], "click", () => {
+          if (this.infoWindows[index].getMap()) {
+              this.infoWindows[index].close();
+          } else {
+              this.infoWindows[index].open(this.map, this.markerList[index]);
+              const clickButton = document.getElementById(`detail_button_${index}`)
+              clickButton.addEventListener('click', () => {
+                this.showCultureDetailModal(this.cultureList[index]);
+            })
+          }
+        });
+      })
 
-      this.updateMarkers();
+      this.updateMarkerList();
     },
-    updateMarkers() {
+    showCultureDetailModal(culture) {
+      this.$emit('showCultureDetailModal', culture);
+    },
+    moveTo() {
+      // this.map.panTo(new window.naver.maps.LatLng(lat, lng));
+    },
+    updateMarkerList() {
       const htmlMarker1 = {
         content:
           '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
@@ -158,7 +144,7 @@ export default {
         minClusterSize: 2,
         maxZoom: 14,
         map: this.map,
-        markers: this.markers,
+        markers: this.markerList,
         disableClickZoom: false,
         gridSize: 500,
         icons: [
@@ -169,15 +155,57 @@ export default {
           htmlMarker5,
         ],
         indexGenerator: [10, 100, 200, 500, 1000],
-        stylingFunction: function (clusterMarker, count) {
-          clusterMarker
-            .getElement()
-            .querySelector("div:first-child").innerText = count;
-        },
+        stylingFunction: (clusterMarker, count) => {
+          clusterMarker.getElement().querySelector('div:first-child').innerText = count;
+        }
       });
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .info-window-wrapper  {
+  width: 300px; 
+  height: fit-content; 
+  position: relative;
+  background: rgb(255, 255, 255); 
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px; 
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px; 
+  ::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: #ffffff;
+    border-bottom: 0;
+    margin-left: -6px;
+    margin-bottom: -6px;
+  }
+  .info-window {
+    padding: 15px 20px; 
+    font-weight: 700; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    gap: 5px;
+    .title {
+      font-size: 16px; 
+      color: rgb(0, 104, 195); 
+      line-height: 22px;
+    }
+    .content {
+      font-size: 14px; 
+      color: grey; 
+    }
+    .button-wrapper {
+      display: flex; 
+      justify-content: flex-end;
+    }
+  }
+}
+</style>

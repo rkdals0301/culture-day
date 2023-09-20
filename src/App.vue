@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <Map ref="map" :cultureList="cultureList"></Map>
+    <Map ref="map" @showCultureDetailModal="showCultureDetailModal"></Map>
     <item-list-handler ref="handler"></item-list-handler>
+    <item-detail-modal ref="item-detail-modal"></item-detail-modal>
     <snackbar></snackbar>
   </div>
 </template>
@@ -12,44 +13,52 @@ import SnackbarType from "@/utils/define/SnackbarType";
 import Map from "@/components/map/Map.vue";
 import Snackbar from "@/components/common/Snackbar.vue";
 import ItemListHandler from "./components/item-list/ItemListHandler.vue";
+import ItemDetailModal from './components/map/ItemDetailModal.vue';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: "App",
   components: {
-    Snackbar,
     Map,
     ItemListHandler,
+    ItemDetailModal,
+    Snackbar
   },
   data() {
     return {
-      cultureList: null,
+      // cultureList: null,
     };
   },
   created() {
     this.loadCultureList();
   },
+  computed: {
+    ...mapState('culture', ['rawCultures']),
+  },
   methods: {
+    ...mapMutations('culture', ['setRawCultures']),
     async loadCultureList() {
       try {
         const response = await cultureAPI.lookupCultureList();
-        this.cultureList = response?.data?.culturalEventInfo?.row;
         console.log("response >", response?.data?.culturalEventInfo?.row);
-
-        this.setCultureList();
+        this.setRawCultures(response?.data?.culturalEventInfo?.row);
+        // this.cultureList = response?.data?.culturalEventInfo?.row;
+        // this.$refs['map'].setCultureList(this.cultureList);
+        // this.$refs.handler.setCultures(this.cultureList);
       } catch (error) {
         this.$root.showSnackbar(SnackbarType.ERROR, error);
       }
     },
-
-    setCultureList() {
-      this.$refs.handler.setCultures(this.cultureList);
-    },
+    showCultureDetailModal(culture) {
+      this.$refs['item-detail-modal'].show(culture);
+    }
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./assets/css/reset.css";
+@import "./styles/global.scss";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
