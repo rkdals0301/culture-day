@@ -18,9 +18,9 @@ const culture = {
         },
     },
     actions: {
-        initCultures: ({state}, payload) => {
-            state.rawCultures = payload;
-            state.cultures = payload;
+        initCultures: ({ commit }, payload) => {
+            commit('setRawCultures', payload)
+            commit('setCultures', payload)
         },
     },
 };

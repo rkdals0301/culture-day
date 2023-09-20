@@ -2,7 +2,11 @@
     <div v-if="isShow" class="modal-wrapper">
         <div class="modal">
             <div class="content">
+                <div style="">
+                    <div></div>
                 <div>{{culture.TITLE}}</div>
+                </div>
+                
             </div>
             <div class="footer">
                 <button type="button" @click="hide">닫기</button>

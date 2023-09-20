@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="width: 100%; height: 100%"></div>
+    <div id="map" style="width: 100%; height: 100%"></div>
 </template>
 
 <script>
@@ -16,6 +16,7 @@ export default {
         };
     },
     watch: {
+        // TODO: 타이밍 이슈
         "rawCultures": {
             handler() {
                 this.addMarkerList()
@@ -67,15 +68,15 @@ export default {
             this.rawCultures.forEach(({ LOT: lat, LAT: lng, TITLE: title, CODENAME: codeName, IS_FREE: isFree, DATE: date }, index) => {
                 const content = 
                 `<div class="info-window-wrapper">
-                  <div class="info-window">
-                    <div class="title">${title}</div>
-                    <div class="content">${codeName}</div>
-                    <div class="content">${date}</div>
-                    <div class="content">${isFree}</div>
-                    <div class="button-wrapper">
-                      <button type="button" id="detail_button_${index}">상세보기</button>  
+                    <div class="info-window">
+                        <div class="title">${title}</div>
+                        <div class="content">${codeName}</div>
+                        <div class="content">${date}</div>
+                        <div class="content">${isFree}</div>
+                        <div class="button-wrapper">
+                        <button type="button" id="detail_button_${index}">상세보기</button>  
+                        </div>
                     </div>
-                  </div>
                 </div>`;
 
                 this.infoWindows.push(new window.naver.maps.InfoWindow({
@@ -115,32 +116,27 @@ export default {
         },
         updateMarkerList() {
             const htmlMarker1 = {
-                content:
-          '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
+                content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker2 = {
-                content:
-          '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
+                content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker3 = {
-                content:
-          '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
+                content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker4 = {
-                content:
-          '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
+                content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker5 = {
-                content:
-          '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
+                content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
@@ -172,46 +168,46 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep .info-window-wrapper  {
-  width: 300px; 
-  height: fit-content; 
-  position: relative;
-  background: rgb(255, 255, 255); 
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 4px; 
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px; 
-  ::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-top-color: #ffffff;
-    border-bottom: 0;
-    margin-left: -6px;
-    margin-bottom: -6px;
-  }
-  .info-window {
-    padding: 15px 20px; 
-    font-weight: 700; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    gap: 5px;
-    .title {
-      font-size: 16px; 
-      color: rgb(0, 104, 195); 
-      line-height: 22px;
+    width: 300px; 
+    height: fit-content; 
+    position: relative;
+    background: rgb(255, 255, 255); 
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 4px; 
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px; 
+    ::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-top-color: #ffffff;
+        border-bottom: 0;
+        margin-left: -6px;
+        margin-bottom: -6px;
     }
-    .content {
-      font-size: 14px; 
-      color: grey; 
+    .info-window {
+        padding: 15px 20px; 
+        font-weight: 700; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        gap: 5px;
+        .title {
+            font-size: 16px; 
+            color: rgb(0, 104, 195); 
+            line-height: 22px;
+        }
+        .content {
+            font-size: 14px; 
+            color: grey; 
+        }
+        .button-wrapper {
+            display: flex; 
+            justify-content: flex-end;
+        }
     }
-    .button-wrapper {
-      display: flex; 
-      justify-content: flex-end;
-    }
-  }
 }
 </style>
