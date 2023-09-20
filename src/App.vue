@@ -14,7 +14,7 @@ import Map from "@/components/map/Map.vue";
 import Snackbar from "@/components/common/Snackbar.vue";
 import ItemListHandler from "./components/item-list/ItemListHandler.vue";
 import ItemDetailModal from "./components/map/ItemDetailModal.vue";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
     name: "App",
@@ -36,7 +36,7 @@ export default {
         ...mapState("culture", ["rawCultures"]),
     },
     methods: {
-        ...mapMutations("culture", ["initCultures"]),
+        ...mapActions("culture", ["initCultures"]),
         async loadCultureList() {
             try {
                 const response = await cultureAPI.lookupCultureList();
@@ -45,7 +45,7 @@ export default {
                 this.initCultures(response?.data?.culturalEventInfo?.row);
                 // this.cultureList = response?.data?.culturalEventInfo?.row;
                 // this.$refs['map'].setCultureList(this.cultureList);
-                // this.$refs.handler.setCultures(this.cultureList);
+                this.$refs.handler.bindCultures();
             } catch (error) {
                 this.$root.showSnackbar(SnackbarType.ERROR, error);
             }

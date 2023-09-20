@@ -32,7 +32,7 @@ export default {
         return {};
     },
     mounted() {
-        console.log(this.cultures);
+        
     },
 };
 </script>

@@ -26,8 +26,11 @@
 <script>
 import ItemList from "./ItemList.vue";
 import SearchBox from "./SearchBox.vue";
+import { mapGetters } from "vuex";
+
 export default {
     components: { ItemList, SearchBox },
+    
     name: "ItemListHandler",
     data() {
         return {
@@ -35,16 +38,19 @@ export default {
             listVisibleStatus: false,
         };
     },
+    computed: {
+        ...mapGetters("culture", ["getCultures"]),
+    },
 
     methods: {
-        setCultures(cultures = []) {
-            this.cultures = cultures;
+        bindCultures() {
+            this.cultures = this.getCultures;
         },
         openList() {
             this.listVisibleStatus = true;
         },
         search(keyword = "") {
-            console.log("...", keyword);
+            console.log("keyword: ", keyword);
         },
     },
 };

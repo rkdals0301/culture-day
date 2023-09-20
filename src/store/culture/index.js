@@ -4,7 +4,11 @@ const culture = {
         rawCultures: [],
         cultures: [],
     },
-    getters: {},
+    getters: {
+        getCultures: (state) => {
+            return state.cultures;
+        }
+    },
     mutations: {
         setRawCultures: (state, payload) => {
             state.rawCultures = payload;
@@ -14,9 +18,9 @@ const culture = {
         },
     },
     actions: {
-        initCultures: (state, payload) => {
+        initCultures: ({state}, payload) => {
             state.rawCultures = payload;
-            state.culture = payload;
+            state.cultures = payload;
         },
     },
 };
