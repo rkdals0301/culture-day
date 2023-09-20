@@ -1,21 +1,24 @@
 const culture = {
-    namespaced: true,
-    state: {
-        rawCultures: [],
-        cultures: [],
+  namespaced: true,
+  state: {
+    rawCultures: [],
+    cultures: [],
+  },
+  getters: {},
+  mutations: {
+    setRawCultures: (state, payload) => {
+      state.rawCultures = payload;
     },
-    getters: {
+    setCultures: (state, payload) => {
+      state.cultures = payload;
     },
-    mutations: {
-        setRawCultures: (state, payload) => {
-            state.rawCultures = payload
-        },
-        setCultures: (state, payload) => {
-            state.cultures = payload
-        },
+  },
+  actions: {
+    initCultures: (state, payload) => {
+      state.rawCultures = payload;
+      state.culture = payload;
     },
-    actions: {
-    },
-}
+  },
+};
 
-export default culture
+export default culture;
