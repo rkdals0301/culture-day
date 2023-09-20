@@ -5,12 +5,14 @@
         <input
           type="text"
           class="search-inp"
+          v-model="keyword"
           @focus="open"
+          @keypress.enter="search"
           placeholder="찾으실 행사명을 입력해 주세요"
         />
       </div>
       <div class="search-btn-wrapper">
-        <button class="search-btn">
+        <button class="search-btn" @click="search">
           <img src="@/assets/icon_search.svg" width="100%" height="100%" />
         </button>
       </div>
@@ -22,11 +24,16 @@
 export default {
   name: "SearchBox",
   data() {
-    return {};
+    return {
+      keyword: "",
+    };
   },
   methods: {
     open() {
       this.$emit("open");
+    },
+    search() {
+      this.$emit("search", this.keyword);
     },
   },
 };
