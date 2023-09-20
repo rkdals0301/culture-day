@@ -4,62 +4,68 @@
 
 <script>
 import { makeMarkerClustering } from "@/plugins/MarkerClustering.js";
+import { mapState } from 'vuex';
 
 export default {
-  name: "Map",
-  data() {
-    return {
-      cultureList: null,
-      map: null,
-      markerList: null,
-      infoWindows: null,
-    };
-  },
-  created() {
-    this.init();
-  },
-  methods: {
-    init() {
-      const script = document.createElement("script");
-      const mapUrl = process.env.VUE_APP_MAP_URL;
-      const clientId = process.env.VUE_APP_MAP_CLIENT_ID;
-      script.src = `${mapUrl}?ncpClientId=${clientId}`;
-      document.head.appendChild(script);
-
-      script.onload = () => {
-        this.initMap();
-        this.addEventListener();
-      };
+    name: "Map",
+    data() {
+        return {
+            map: null,
+            markerList: null,
+            infoWindows: null,
+        };
     },
-    initMap() {
-      this.map = new window.naver.maps.Map("map", {
-        center: new window.naver.maps.LatLng(37.566655, 126.978379),
-        zoom: 15,
-      });
-    },
-    addEventListener() {
-      window.naver.maps.Event.addListener(this.map, 'idle', () => {
-        
-      });
-      window.naver.maps.Event.addListener(this.map, 'click', () => {
-        if (!this.$_.isEmpty(this.infoWindows)) {
-          this.infoWindows.forEach((infoWindow) => {
-            if (infoWindow.getMap()) {
-              infoWindow.close();
-            }
-          });
+    watch: {
+        "rawCultures": {
+            handler() {
+                this.addMarkerList()
+            },
         }
-      });
     },
-    setCultureList(cultureList) {
-      this.cultureList = cultureList;
-      this.addMarkerList();
+    computed: {
+        ...mapState('culture', ['rawCultures', 'cultures']),
     },
-    addMarkerList() {
-      this.markerList = [];
-      this.infoWindows = [];
-      this.cultureList.forEach(({ LOT: lat, LAT: lng, TITLE: title, CODENAME: codeName, IS_FREE: isFree, DATE: date }, index) => {
-        const content = 
+    created() {
+        this.init();
+    },
+    methods: {
+        init() {
+            const script = document.createElement("script");
+            const mapUrl = process.env.VUE_APP_MAP_URL;
+            const clientId = process.env.VUE_APP_MAP_CLIENT_ID;
+            script.src = `${mapUrl}?ncpClientId=${clientId}`;
+            document.head.appendChild(script);
+
+            script.onload = () => {
+                this.initMap();
+                this.addEventListener();
+            };
+        },
+        initMap() {
+            this.map = new window.naver.maps.Map("map", {
+                center: new window.naver.maps.LatLng(37.566655, 126.978379),
+                zoom: 15,
+            });
+        },
+        addEventListener() {
+            window.naver.maps.Event.addListener(this.map, 'idle', () => {
+        
+            });
+            window.naver.maps.Event.addListener(this.map, 'click', () => {
+                if (!this.$_.isEmpty(this.infoWindows)) {
+                    this.infoWindows.forEach((infoWindow) => {
+                        if (infoWindow.getMap()) {
+                            infoWindow.close();
+                        }
+                    });
+                }
+            });
+        },
+        addMarkerList() {
+            this.markerList = [];
+            this.infoWindows = [];
+            this.rawCultures.forEach(({ LOT: lat, LAT: lng, TITLE: title, CODENAME: codeName, IS_FREE: isFree, DATE: date }, index) => {
+                const content = 
         `<div class="info-window-wrapper">
           <div class="info-window">
             <div class="title">${title}</div>
@@ -72,95 +78,95 @@ export default {
           </div>
         </div>`;
 
-        this.infoWindows.push(new window.naver.maps.InfoWindow({
-          borderWidth: 0,
-          disableAnchor: true,
-          backgroundColor: 'transparent',
-          pixelOffset: new window.naver.maps.Point(0, -10),
-          content  
-        }));
+                this.infoWindows.push(new window.naver.maps.InfoWindow({
+                    borderWidth: 0,
+                    disableAnchor: true,
+                    backgroundColor: 'transparent',
+                    pixelOffset: new window.naver.maps.Point(0, -10),
+                    content  
+                }));
 
-          this.markerList.push(
-            new window.naver.maps.Marker({
-              position: new window.naver.maps.LatLng(lat, lng),
+                this.markerList.push(
+                    new window.naver.maps.Marker({
+                        position: new window.naver.maps.LatLng(lat, lng),
+                    })
+                );
+
+                window.naver.maps.Event.addListener(this.markerList[index], "click", () => {
+                    if (this.infoWindows[index].getMap()) {
+                        this.infoWindows[index].close();
+                    } else {
+                        this.infoWindows[index].open(this.map, this.markerList[index]);
+                        const clickButton = document.getElementById(`detail_button_${index}`)
+                        clickButton.addEventListener('click', () => {
+                            this.showCultureDetailModal(this.rawCultures[index]);
+                        })
+                    }
+                });
             })
-          );
 
-        window.naver.maps.Event.addListener(this.markerList[index], "click", () => {
-          if (this.infoWindows[index].getMap()) {
-              this.infoWindows[index].close();
-          } else {
-              this.infoWindows[index].open(this.map, this.markerList[index]);
-              const clickButton = document.getElementById(`detail_button_${index}`)
-              clickButton.addEventListener('click', () => {
-                this.showCultureDetailModal(this.cultureList[index]);
-            })
-          }
-        });
-      })
-
-      this.updateMarkerList();
-    },
-    showCultureDetailModal(culture) {
-      this.$emit('showCultureDetailModal', culture);
-    },
-    moveTo() {
-      // this.map.panTo(new window.naver.maps.LatLng(lat, lng));
-    },
-    updateMarkerList() {
-      const htmlMarker1 = {
-        content:
+            this.updateMarkerList();
+        },
+        showCultureDetailModal(culture) {
+            this.$emit('showCultureDetailModal', culture);
+        },
+        moveTo() {
+            // this.map.panTo(new window.naver.maps.LatLng(lat, lng));
+        },
+        updateMarkerList() {
+            const htmlMarker1 = {
+                content:
           '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
-        size: window.naver.maps.Size(40, 40),
-        anchor: window.naver.maps.Point(20, 20),
-      };
-      const htmlMarker2 = {
-        content:
+                size: window.naver.maps.Size(40, 40),
+                anchor: window.naver.maps.Point(20, 20),
+            };
+            const htmlMarker2 = {
+                content:
           '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
-        size: window.naver.maps.Size(40, 40),
-        anchor: window.naver.maps.Point(20, 20),
-      };
-      const htmlMarker3 = {
-        content:
+                size: window.naver.maps.Size(40, 40),
+                anchor: window.naver.maps.Point(20, 20),
+            };
+            const htmlMarker3 = {
+                content:
           '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
-        size: window.naver.maps.Size(40, 40),
-        anchor: window.naver.maps.Point(20, 20),
-      };
-      const htmlMarker4 = {
-        content:
+                size: window.naver.maps.Size(40, 40),
+                anchor: window.naver.maps.Point(20, 20),
+            };
+            const htmlMarker4 = {
+                content:
           '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
-        size: window.naver.maps.Size(40, 40),
-        anchor: window.naver.maps.Point(20, 20),
-      };
-      const htmlMarker5 = {
-        content:
+                size: window.naver.maps.Size(40, 40),
+                anchor: window.naver.maps.Point(20, 20),
+            };
+            const htmlMarker5 = {
+                content:
           '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
-        size: window.naver.maps.Size(40, 40),
-        anchor: window.naver.maps.Point(20, 20),
-      };
+                size: window.naver.maps.Size(40, 40),
+                anchor: window.naver.maps.Point(20, 20),
+            };
 
-      const MarkerClustering = makeMarkerClustering(window.naver);
-      new MarkerClustering({
-        minClusterSize: 2,
-        maxZoom: 14,
-        map: this.map,
-        markers: this.markerList,
-        disableClickZoom: false,
-        gridSize: 500,
-        icons: [
-          htmlMarker1,
-          htmlMarker2,
-          htmlMarker3,
-          htmlMarker4,
-          htmlMarker5,
-        ],
-        indexGenerator: [10, 100, 200, 500, 1000],
-        stylingFunction: (clusterMarker, count) => {
-          clusterMarker.getElement().querySelector('div:first-child').innerText = count;
-        }
-      });
+            const MarkerClustering = makeMarkerClustering(window.naver);
+            new MarkerClustering({
+                minClusterSize: 2,
+                maxZoom: 14,
+                map: this.map,
+                markers: this.markerList,
+                disableClickZoom: false,
+                gridSize: 500,
+                icons: [
+                    htmlMarker1,
+                    htmlMarker2,
+                    htmlMarker3,
+                    htmlMarker4,
+                    htmlMarker5,
+                ],
+                indexGenerator: [10, 100, 200, 500, 1000],
+                stylingFunction: (clusterMarker, count) => {
+                    clusterMarker.getElement().querySelector('div:first-child').innerText = count;
+                }
+            });
+        },
     },
-  },
 };
 </script>
 

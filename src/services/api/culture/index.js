@@ -4,14 +4,14 @@ const startIndex = 1;
 const endIndex = 30;
 
 const endPoint = {
-  lookupCultureList: () => `/culturalEventInfo/${startIndex}/${endIndex}`,
+    lookupCultureList: () => `/culturalEventInfo/${startIndex}/${endIndex}`,
 };
 
 const cultureAPI = {
-  lookupCultureList: (params) =>
-    axiosInstance.get(endPoint.lookupCultureList(), {
-      params,
-    }),
+    lookupCultureList: (params) =>
+        axiosInstance.get(endPoint.lookupCultureList(), {
+            params,
+        }),
 };
 
 export default cultureAPI;

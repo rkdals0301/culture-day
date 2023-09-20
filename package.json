@@ -44,6 +44,7 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
+      "indent": ["error", 4],
       "vue/multi-word-component-names": 0
     }
   },
