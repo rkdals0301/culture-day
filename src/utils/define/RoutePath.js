@@ -1,5 +1,5 @@
 const RoutePath = {
-  Home: '/',
+    Home: '/',
 }
 
 export default RoutePath

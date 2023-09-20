@@ -66,17 +66,17 @@ export default {
             this.infoWindows = [];
             this.rawCultures.forEach(({ LOT: lat, LAT: lng, TITLE: title, CODENAME: codeName, IS_FREE: isFree, DATE: date }, index) => {
                 const content = 
-        `<div class="info-window-wrapper">
-          <div class="info-window">
-            <div class="title">${title}</div>
-            <div class="content">${codeName}</div>
-            <div class="content">${date}</div>
-            <div class="content">${isFree}</div>
-            <div class="button-wrapper">
-              <button type="button" id="detail_button_${index}">상세보기</button>  
-            </div>
-          </div>
-        </div>`;
+                `<div class="info-window-wrapper">
+                  <div class="info-window">
+                    <div class="title">${title}</div>
+                    <div class="content">${codeName}</div>
+                    <div class="content">${date}</div>
+                    <div class="content">${isFree}</div>
+                    <div class="button-wrapper">
+                      <button type="button" id="detail_button_${index}">상세보기</button>  
+                    </div>
+                  </div>
+                </div>`;
 
                 this.infoWindows.push(new window.naver.maps.InfoWindow({
                     borderWidth: 0,

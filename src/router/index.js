@@ -3,19 +3,19 @@ import VueRouter from 'vue-router'
 import RoutePath from '@/utils/define/RoutePath'
 
 const routes = [
-  {
-    path: RoutePath.Home,
+    {
+        path: RoutePath.Home,
     // redirect: RoutePath.Culture
-  },
-  // {
-  //   path: RoutePath.Culture,
-  //   name: PageName.Culture,
-  //   component: () => import('@/views/culture/Culture')
-  // }
+    },
+    // {
+    //   path: RoutePath.Culture,
+    //   name: PageName.Culture,
+    //   component: () => import('@/views/culture/Culture')
+    // }
 ]
 
 const router = new VueRouter({
-  routes
+    routes
 })
 
 export default router

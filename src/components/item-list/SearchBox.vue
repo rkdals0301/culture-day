@@ -22,20 +22,20 @@
 
 <script>
 export default {
-  name: "SearchBox",
-  data() {
-    return {
-      keyword: "",
-    };
-  },
-  methods: {
-    open() {
-      this.$emit("open");
+    name: "SearchBox",
+    data() {
+        return {
+            keyword: "",
+        };
     },
-    search() {
-      this.$emit("search", this.keyword);
+    methods: {
+        open() {
+            this.$emit("open");
+        },
+        search() {
+            this.$emit("search", this.keyword);
+        },
     },
-  },
 };
 </script>
 

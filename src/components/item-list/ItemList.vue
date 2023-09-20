@@ -23,17 +23,17 @@
 import Item from "./item/Item.vue";
 
 export default {
-  name: "ItemList",
-  components: { Item },
-  props: {
-    cultures: Array,
-  },
-  data() {
-    return {};
-  },
-  mounted() {
-    console.log(this.cultures);
-  },
+    name: "ItemList",
+    components: { Item },
+    props: {
+        cultures: Array,
+    },
+    data() {
+        return {};
+    },
+    mounted() {
+        console.log(this.cultures);
+    },
 };
 </script>
 

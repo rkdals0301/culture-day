@@ -2,7 +2,7 @@ const SnackbarType = {
     SUCCESS: 'success',
     ERROR: 'error',
     WARNING: 'warning',
-	INFO: 'info',
+    INFO: 'info',
 }
 
 export default SnackbarType

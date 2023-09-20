@@ -27,26 +27,26 @@
 import ItemList from "./ItemList.vue";
 import SearchBox from "./SearchBox.vue";
 export default {
-  components: { ItemList, SearchBox },
-  name: "ItemListHandler",
-  data() {
-    return {
-      cultures: [],
-      listVisibleStatus: false,
-    };
-  },
+    components: { ItemList, SearchBox },
+    name: "ItemListHandler",
+    data() {
+        return {
+            cultures: [],
+            listVisibleStatus: false,
+        };
+    },
 
-  methods: {
-    setCultures(cultures = []) {
-      this.cultures = cultures;
+    methods: {
+        setCultures(cultures = []) {
+            this.cultures = cultures;
+        },
+        openList() {
+            this.listVisibleStatus = true;
+        },
+        search(keyword = "") {
+            console.log("...", keyword);
+        },
     },
-    openList() {
-      this.listVisibleStatus = true;
-    },
-    search(keyword = "") {
-      console.log("...", keyword);
-    },
-  },
 };
 </script>
 

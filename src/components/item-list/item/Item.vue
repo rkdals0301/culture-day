@@ -26,15 +26,15 @@
 
 <script>
 export default {
-  name: "Item",
-  props: {
-    culture: {
-      type: Object,
-      default: () => {},
+    name: "Item",
+    props: {
+        culture: {
+            type: Object,
+            default: () => {},
+        },
+        idx: Number,
     },
-    idx: Number,
-  },
-  mounted() {},
+    mounted() {},
 };
 </script>
 
