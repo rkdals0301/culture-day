@@ -5,16 +5,16 @@ const culture = {
         cultures: [],
     },
     getters: {
-        getCultures: (state) => {
-            return state.cultures;
-        }
+        getCultures: state => {
+            return state.cultures
+        },
     },
     mutations: {
         setRawCultures: (state, payload) => {
-            state.rawCultures = payload;
+            state.rawCultures = payload
         },
         setCultures: (state, payload) => {
-            state.cultures = payload;
+            state.cultures = payload
         },
     },
     actions: {
@@ -23,6 +23,6 @@ const culture = {
             commit('setCultures', payload)
         },
     },
-};
+}
 
-export default culture;
+export default culture

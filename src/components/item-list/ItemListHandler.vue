@@ -1,78 +1,67 @@
 <template>
-  <div
-    class="list-wrapper"
-    :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`"
-  >
-    <div
-      class="list-container"
-      :style="
-        listVisibleStatus ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)' : ''
-      "
-    >
-      <search-box ref="search" @open="openList" @search="search"></search-box>
+    <div class="list-wrapper" :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`">
+        <div class="list-container" :style="listVisibleStatus ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)' : ''">
+            <search-box ref="search" @open="openList" @search="search" />
+        </div>
+        <div v-show="listVisibleStatus">
+            <transition name="fade">
+                <item-list v-show="listVisibleStatus" ref="list" :cultures="cultures" @onClickItem="onClickItem" />
+            </transition>
+        </div>
     </div>
-    <div v-show="listVisibleStatus">
-      <transition name="fade">
-        <item-list
-          ref="list"
-          v-show="listVisibleStatus"
-          :cultures="cultures"
-        ></item-list>
-      </transition>
-    </div>
-  </div>
 </template>
 
 <script>
-import ItemList from "./ItemList.vue";
-import SearchBox from "./SearchBox.vue";
-import { mapGetters } from "vuex";
+import ItemList from './ItemList.vue'
+import SearchBox from './SearchBox.vue'
+import { mapGetters } from 'vuex'
 
 export default {
+    name: 'ItemListHandler',
     components: { ItemList, SearchBox },
-    
-    name: "ItemListHandler",
     data() {
         return {
             cultures: [],
             listVisibleStatus: false,
-        };
+        }
     },
     computed: {
-        ...mapGetters("culture", ["getCultures"]),
+        ...mapGetters('culture', ['getCultures']),
     },
-
     methods: {
         bindCultures() {
-            this.cultures = this.getCultures;
+            this.cultures = this.getCultures
         },
         openList() {
-            this.listVisibleStatus = true;
+            this.listVisibleStatus = true
         },
-        search(keyword = "") {
-            console.log("keyword: ", keyword);
+        search(keyword = '') {
+            console.log('keyword: ', keyword)
+        },
+        onClickItem(index) {
+            this.$emit('onClickItem', index)
         },
     },
-};
+}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .list-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 330px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 330px;
 }
 .list-container {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+    transition: opacity 0.3s;
 }
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>

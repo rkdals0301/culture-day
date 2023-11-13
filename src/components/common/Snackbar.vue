@@ -1,5 +1,5 @@
 <template>
-    <div></div>
+    <div />
 </template>
 
 <script>
@@ -24,24 +24,21 @@ export default {
             this.$root.showSnackbar = (type, text) => {
                 this.showSnackbar({
                     type,
-                    text
+                    text,
                 })
             }
         },
         setSubscribe() {
             this.$store.subscribe((mutation, state) => {
-                if (mutation.type !== 'snackbar/setSnackbar')
-                    return
-                    
+                if (mutation.type !== 'snackbar/setSnackbar') return
+
                 this.type = state.snackbar.type
                 this.text = state.snackbar.text
                 this.isShow = true
             })
-        }
-    }
+        },
+    },
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

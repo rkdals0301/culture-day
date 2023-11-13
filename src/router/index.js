@@ -5,7 +5,7 @@ import RoutePath from '@/utils/define/RoutePath'
 const routes = [
     {
         path: RoutePath.Home,
-    // redirect: RoutePath.Culture
+        // redirect: RoutePath.Culture
     },
     // {
     //   path: RoutePath.Culture,
@@ -15,7 +15,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    routes
+    routes,
 })
 
 export default router

@@ -1,23 +1,23 @@
 <template>
     <div id="app">
-        <Map ref="map" @showCultureDetailModal="showCultureDetailModal"></Map>
-        <item-list-handler ref="handler"></item-list-handler>
-        <item-detail-modal ref="item-detail-modal"></item-detail-modal>
-        <snackbar></snackbar>
+        <map ref="map" @showCultureDetailModal="showCultureDetailModal" />
+        <item-list-handler ref="handler" @onClickItem="onClickItem" />
+        <item-detail-modal ref="item-detail-modal" />
+        <snackbar />
     </div>
 </template>
 
 <script>
-import cultureAPI from "@/services/api/culture";
-import SnackbarType from "@/utils/define/SnackbarType";
-import Map from "@/components/map/Map.vue";
-import Snackbar from "@/components/common/Snackbar.vue";
-import ItemListHandler from "./components/item-list/ItemListHandler.vue";
-import ItemDetailModal from "./components/map/ItemDetailModal.vue";
-import { mapActions } from "vuex";
+import cultureAPI from '@/services/api/culture'
+import SnackbarType from '@/utils/define/SnackbarType'
+import Map from '@/components/map/Map.vue'
+import Snackbar from '@/components/common/Snackbar.vue'
+import ItemListHandler from './components/item-list/ItemListHandler.vue'
+import ItemDetailModal from './components/map/ItemDetailModal.vue'
+import { mapActions } from 'vuex'
 
 export default {
-    name: "App",
+    name: 'App',
     components: {
         Map,
         ItemListHandler,
@@ -25,30 +25,33 @@ export default {
         Snackbar,
     },
     created() {
-        this.loadCultureList();
+        this.loadCultureList()
     },
     methods: {
-        ...mapActions("culture", ["initCultures"]),
+        ...mapActions('culture', ['initCultures']),
         async loadCultureList() {
             try {
-                const response = await cultureAPI.lookupCultureList();
-                console.log("response >", response?.data?.culturalEventInfo?.row);
-                this.initCultures(response?.data?.culturalEventInfo?.row);
-                this.$refs.handler.bindCultures();
+                const response = await cultureAPI.lookupCultureList()
+                console.log('response >', response?.data?.culturalEventInfo?.row)
+                this.initCultures(response?.data?.culturalEventInfo?.row)
+                this.$refs.handler.bindCultures()
             } catch (error) {
-                this.$root.showSnackbar(SnackbarType.ERROR, error);
+                this.$root.showSnackbar(SnackbarType.ERROR, error)
             }
         },
         showCultureDetailModal(culture) {
-            this.$refs["item-detail-modal"].show(culture);
+            this.$refs['item-detail-modal'].show(culture)
+        },
+        onClickItem(index) {
+            this.$refs['map'].onClickMarker(index)
         },
     },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/css/reset.css";
-@import "./styles/global.scss";
+@import './styles/reset.scss';
+@import './styles/global.scss';
 
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

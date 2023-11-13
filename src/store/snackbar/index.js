@@ -2,11 +2,9 @@ const snackbar = {
     namespaced: true,
     state: {
         type: '',
-        text: ''
+        text: '',
     },
-    getters: {
-
-    },
+    getters: {},
     mutations: {
         setSnackbar: (state, payload) => {
             const { type, text } = payload
