@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <map ref="map" @showCultureDetailModal="showCultureDetailModal" />
+        <Map ref="map" @showCultureDetailModal="showCultureDetailModal" />
         <item-list-handler ref="handler" @onClickItem="onClickItem" />
         <item-detail-modal ref="item-detail-modal" />
         <snackbar />
