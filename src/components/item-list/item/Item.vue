@@ -52,18 +52,15 @@ export default {
     box-sizing: border-box;
     display: flex;
     text-align: left;
-
     &:hover {
         background-color: #e2f7ef;
         cursor: pointer;
         transition: ease-out 0.3s;
-
         .content-title {
             color: #2a6b39;
             transition: ease-out 0.3s;
         }
     }
-
     .content-wrapper {
         width: 100%;
         height: 100%;
@@ -73,13 +70,11 @@ export default {
         flex-direction: column;
         gap: 5px;
         font-size: 13px;
-
         & > .content-title {
             font-weight: bold;
             font-size: 14px;
         }
     }
-
     .image-wrapper {
         .image {
             width: 100px;

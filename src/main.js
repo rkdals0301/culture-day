@@ -6,6 +6,8 @@ import store from '@/store'
 import '@/utils/error'
 import _ from 'lodash'
 
+import '@/styles/reset.scss'
+
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 

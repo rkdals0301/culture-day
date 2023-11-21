@@ -6,7 +6,7 @@
             </div>
             <div class="search-btn-wrapper">
                 <button class="search-btn" @click="search">
-                    <img src="@/assets/icon_search.svg" width="100%" height="100%" />
+                    <img src="@/assets/icon_search.svg" alt="" />
                 </button>
             </div>
         </div>
@@ -41,38 +41,42 @@ export default {
     box-sizing: border-box;
     position: absolute;
     z-index: 1;
-}
-.search-box-wrapper > .search-box {
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 10px;
-    border: 1px solid #e5e5e5;
-    display: flex;
-}
-.search-box > .search-inp-wrapper {
-    width: 100%;
-    height: 100%;
-}
-.search-box > .search-btn-wrapper {
-    width: 50px;
-    height: 100%;
-}
-.search-inp {
-    width: 90%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-}
-.search-inp:focus {
-    outline: none;
-}
-.search-btn {
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+    .search-box {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        border-radius: 10px;
+        border: 1px solid #e5e5e5;
+        display: flex;
+        .search-inp-wrapper {
+            width: calc(100% - 50px);
+            height: 100%;
+            .search-inp {
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+                border: none;
+                padding-left: 10px;
+            }
+            .search-inp:focus {
+                outline: none;
+            }
+        }
+        .search-btn-wrapper {
+            width: 50px;
+            height: 100%;
+            .search-btn {
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
 }
 </style>

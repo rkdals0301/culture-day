@@ -47,15 +47,16 @@ export default {
 
 <style lang="scss" scoped>
 .list-wrapper {
+    width: 330px;
     position: absolute;
     top: 0;
     left: 0;
-    width: 330px;
+    .list-container {
+        position: relative;
+        width: 100%;
+    }
 }
-.list-container {
-    position: relative;
-    width: 100%;
-}
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;

@@ -46,7 +46,6 @@ export default {
     width: 100%;
     height: 100%;
     background-color: #fff;
-
     .item-list-header-wrapper {
         width: 100%;
         margin-top: 50px;
@@ -60,7 +59,6 @@ export default {
             font-size: 14px;
         }
     }
-
     .item-list-content-wrapper {
         width: 100%;
         height: calc(100% - 60px);
