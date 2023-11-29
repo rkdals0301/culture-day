@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Item from './item/Item.vue'
+import Item from './Item.vue'
 
 export default {
     name: 'ItemList',
@@ -26,10 +26,6 @@ export default {
             default: () => [],
         },
     },
-    data() {
-        return {}
-    },
-    mounted() {},
     methods: {
         onClickItem(index) {
             this.$emit('onClickItem', index)

@@ -34,7 +34,6 @@ export default {
             default: 0,
         },
     },
-    mounted() {},
     methods: {
         onClickItem() {
             this.$emit('onClickItem', this.index)

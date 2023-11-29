@@ -1,5 +1,5 @@
 <template>
-    <div class="list-wrapper" :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`">
+    <div class="sidebar-wrapper" :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`">
         <div class="list-container" :style="listVisibleStatus ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)' : ''">
             <search-box ref="search" @open="openList" @search="search" />
         </div>
@@ -35,6 +35,9 @@ export default {
         openList() {
             this.listVisibleStatus = true
         },
+        hideList() {
+            this.listVisibleStatus = false
+        },
         search(keyword = '') {
             console.log('keyword: ', keyword)
         },
@@ -46,8 +49,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.list-wrapper {
-    width: 330px;
+.sidebar-wrapper {
+    width: 400px;
     position: absolute;
     top: 0;
     left: 0;

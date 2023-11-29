@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isShow" class="modal-wrapper">
+    <div v-if="isShow" class="item-detail-modal-wrapper">
         <div class="modal">
             <div class="header">
                 <div class="left-wrapper">
@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-wrapper {
+.item-detail-modal-wrapper {
     width: 100%;
     height: 100%;
     position: absolute;
