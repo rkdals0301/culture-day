@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="left-wrapper">
                     <div class="title">
-                        {{ culture.TITLE || '-' }}
+                        {{ culture.TITLE || "-" }}
                     </div>
                 </div>
                 <div class="right-wrapper">
@@ -18,37 +18,39 @@
                     <div class="data">
                         <div class="title">장르</div>
                         <div class="value">
-                            {{ culture.CODENAME ?? '-' }}
+                            {{ culture.CODENAME ?? "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">기간</div>
                         <div class="value">
-                            {{ culture.DATE ?? '-' }}
+                            {{ culture.DATE ?? "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">장소</div>
                         <div class="value">
-                            {{ culture.PLACE || '-' }}
+                            {{ culture.PLACE || "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">연령</div>
                         <div class="value">
-                            {{ culture.USE_TRGT || '-' }}
+                            {{ culture.USE_TRGT || "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">요금</div>
                         <div class="value">
-                            {{ culture.USE_FEE || '-' }}
+                            {{ culture.USE_FEE || "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">홈페이지</div>
                         <div class="value">
-                            <a :href="culture.ORG_LINK" target="_blank">바로가기</a>
+                            <a :href="culture.ORG_LINK" target="_blank"
+                                >바로가기</a
+                            >
                         </div>
                     </div>
                 </div>
@@ -64,31 +66,31 @@
 
 <script>
 export default {
-    name: 'ItemDetailModal',
+    name: "ItemDetailModal",
     data() {
         return {
             isShow: false,
             culture: null,
-        }
+        };
     },
     mounted() {
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                this.hide()
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                this.hide();
             }
-        })
+        });
     },
     methods: {
         show(culture) {
-            console.log(culture)
-            this.isShow = true
-            this.culture = culture
+            console.log(culture);
+            this.isShow = true;
+            this.culture = culture;
         },
         hide() {
-            this.isShow = false
+            this.isShow = false;
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

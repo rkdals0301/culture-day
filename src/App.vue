@@ -8,16 +8,16 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import cultureAPI from '@/services/api/culture'
-import SnackbarType from '@/utils/define/SnackbarType'
-import Map from '@/components/map/Map.vue'
-import Sidebar from './components/sidebar/Sidebar.vue'
-import ItemDetailModal from './components/map/ItemDetailModal.vue'
-import Snackbar from '@/components/common/Snackbar.vue'
+import { mapActions } from "vuex";
+import cultureAPI from "@/services/api/culture";
+import SnackbarType from "@/utils/define/SnackbarType";
+import Map from "@/components/map/Map.vue";
+import Sidebar from "@/components/sidebar/Sidebar.vue";
+import ItemDetailModal from "@/components/map/ItemDetailModal.vue";
+import Snackbar from "@/components/common/Snackbar.vue";
 
 export default {
-    name: 'App',
+    name: "App",
     components: {
         Map,
         Sidebar,
@@ -25,28 +25,31 @@ export default {
         Snackbar,
     },
     created() {
-        this.loadCultureList()
+        this.loadCultureList();
     },
     methods: {
-        ...mapActions('culture', ['initCultures']),
+        ...mapActions("culture", ["initCultures"]),
         async loadCultureList() {
             try {
-                const response = await cultureAPI.lookupCultureList()
-                console.log('response >', response?.data?.culturalEventInfo?.row)
-                this.initCultures(response?.data?.culturalEventInfo?.row)
-                this.$refs.handler.bindCultures()
+                const response = await cultureAPI.lookupCultureList();
+                console.log(
+                    "response >",
+                    response?.data?.culturalEventInfo?.row
+                );
+                this.initCultures(response?.data?.culturalEventInfo?.row);
+                this.$refs.handler.bindCultures();
             } catch (error) {
-                this.$root.showSnackbar(SnackbarType.ERROR, error)
+                this.$root.showSnackbar(SnackbarType.ERROR, error);
             }
         },
         showCultureDetailModal(culture) {
-            this.$refs['item-detail-modal'].show(culture)
+            this.$refs["item-detail-modal"].show(culture);
         },
         onClickItem(index) {
-            this.$refs['map'].onClickMarker(index)
+            this.$refs["map"].onClickMarker(index);
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

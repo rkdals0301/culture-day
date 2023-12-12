@@ -1,5 +1,9 @@
 <template>
-    <div class="item-wrapper" :style="index < 1 ? 'border-top: 1px solid #e5e5e5;' : ''" @click="onClickItem">
+    <div
+        class="item-wrapper"
+        :style="index < 1 ? 'border-top: 1px solid #e5e5e5;' : ''"
+        @click="onClickItem"
+    >
         <div class="content-wrapper">
             <div class="content-title">
                 {{ culture.TITLE }}
@@ -10,7 +14,9 @@
             <div class="content-date">
                 {{ culture.DATE }}
             </div>
-            <div class="content-date" style="color: #b4b4b4">{{ culture.IS_FREE }} / {{ culture.CODENAME }}</div>
+            <div class="content-date" style="color: #b4b4b4">
+                {{ culture.IS_FREE }} / {{ culture.CODENAME }}
+            </div>
             <div class="content-date" style="color: #b4b4b4">
                 {{ culture.USE_FEE }}
             </div>
@@ -23,7 +29,7 @@
 
 <script>
 export default {
-    name: 'Item',
+    name: "Item",
     props: {
         culture: {
             type: Object,
@@ -36,10 +42,10 @@ export default {
     },
     methods: {
         onClickItem() {
-            this.$emit('onClickItem', this.index)
+            this.$emit("onClickItem", this.index);
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

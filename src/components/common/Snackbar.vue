@@ -3,42 +3,42 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
-    name: 'Snackbar',
+    name: "Snackbar",
     data() {
         return {
             isShow: false,
-            type: '',
-            text: '',
-        }
+            type: "",
+            text: "",
+        };
     },
     created() {
-        this.setSnackbar()
-        this.setSubscribe()
+        this.setSnackbar();
+        this.setSubscribe();
     },
     methods: {
-        ...mapActions('snackbar', ['showSnackbar']),
+        ...mapActions("snackbar", ["showSnackbar"]),
         setSnackbar() {
             this.$root.showSnackbar = (type, text) => {
                 this.showSnackbar({
                     type,
                     text,
-                })
-            }
+                });
+            };
         },
         setSubscribe() {
             this.$store.subscribe((mutation, state) => {
-                if (mutation.type !== 'snackbar/setSnackbar') return
+                if (mutation.type !== "snackbar/setSnackbar") return;
 
-                this.type = state.snackbar.type
-                this.text = state.snackbar.text
-                this.isShow = true
-            })
+                this.type = state.snackbar.type;
+                this.text = state.snackbar.text;
+                this.isShow = true;
+            });
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped></style>

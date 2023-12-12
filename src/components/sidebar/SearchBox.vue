@@ -2,7 +2,14 @@
     <div class="search-box-wrapper">
         <div class="search-box">
             <div class="search-inp-wrapper">
-                <input v-model="keyword" type="text" class="search-inp" placeholder="찾으실 행사명을 입력해 주세요" @focus="open" @keypress.enter="search" />
+                <input
+                    v-model="keyword"
+                    type="text"
+                    class="search-inp"
+                    placeholder="찾으실 행사명을 입력해 주세요"
+                    @focus="open"
+                    @keypress.enter="search"
+                />
             </div>
             <div class="search-btn-wrapper">
                 <button class="search-btn" @click="search">
@@ -15,21 +22,21 @@
 
 <script>
 export default {
-    name: 'SearchBox',
+    name: "SearchBox",
     data() {
         return {
-            keyword: '',
-        }
+            keyword: "",
+        };
     },
     methods: {
         open() {
-            this.$emit('open')
+            this.$emit("open");
         },
         search() {
-            this.$emit('search', this.keyword)
+            this.$emit("search", this.keyword);
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

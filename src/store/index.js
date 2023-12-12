@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import snackbar from '@/store/snackbar'
-import culture from '@/store/culture'
+import Vue from "vue";
+import Vuex from "vuex";
+import snackbar from "@/store/snackbar";
+import culture from "@/store/culture";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const store = new Vuex.Store({
     namespaced: true,
@@ -11,6 +11,6 @@ const store = new Vuex.Store({
         snackbar,
         culture,
     },
-})
+});
 
-export default store
+export default store;

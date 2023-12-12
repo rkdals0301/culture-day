@@ -43,45 +43,45 @@ function makeMarkerClustering(naver) {
             averageCenter: false,
             // 클러스터 마커를 갱신할 때 호출하는 콜백함수입니다. 이 함수를 통해 클러스터 마커에 개수를 표현하는 등의 엘리먼트를 조작할 수 있습니다.
             stylingFunction: function () {},
-        }
+        };
 
-        this._clusters = []
+        this._clusters = [];
 
-        this._mapRelations = null
-        this._markerRelations = []
+        this._mapRelations = null;
+        this._markerRelations = [];
 
         this.setOptions(
             naver.maps.Util.extend({}, this.DEFAULT_OPTIONS, options),
             true
-        )
-        this.setMap(options.map || null)
-    }
+        );
+        this.setMap(options.map || null);
+    };
 
     naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
         onAdd: function () {
-            var map = this.getMap()
+            var map = this.getMap();
 
             this._mapRelations = naver.maps.Event.addListener(
                 map,
-                'idle',
+                "idle",
                 naver.maps.Util.bind(this._onIdle, this)
-            )
+            );
 
             if (this.getMarkers().length > 0) {
-                this._createClusters()
-                this._updateClusters()
+                this._createClusters();
+                this._updateClusters();
             }
         },
 
         draw: naver.maps.Util.noop,
 
         onRemove: function () {
-            naver.maps.Event.removeListener(this._mapRelation)
+            naver.maps.Event.removeListener(this._mapRelation);
 
-            this._clearClusters()
+            this._clearClusters();
 
-            this._geoTree = null
-            this._mapRelation = null
+            this._geoTree = null;
+            this._mapRelation = null;
         },
 
         /**
@@ -89,24 +89,24 @@ function makeMarkerClustering(naver) {
          * @param {Object | string} newOptions 옵션
          */
         setOptions: function (newOptions) {
-            var _this = this
+            var _this = this;
 
-            if (typeof newOptions === 'string') {
+            if (typeof newOptions === "string") {
                 var key = newOptions,
-                    value = arguments[1]
+                    value = arguments[1];
 
-                _this.set(key, value)
+                _this.set(key, value);
             } else {
-                var isFirst = arguments[1]
+                var isFirst = arguments[1];
 
                 naver.maps.Util.forEach(newOptions, function (value, key) {
-                    if (key !== 'map') {
-                        _this.set(key, value)
+                    if (key !== "map") {
+                        _this.set(key, value);
                     }
-                })
+                });
 
                 if (newOptions.map && !isFirst) {
-                    _this.setMap(newOptions.map)
+                    _this.setMap(newOptions.map);
                 }
             }
         },
@@ -118,19 +118,19 @@ function makeMarkerClustering(naver) {
          */
         getOptions: function (key) {
             var _this = this,
-                options = {}
+                options = {};
 
             if (key !== undefined) {
-                return _this.get(key)
+                return _this.get(key);
             } else {
                 naver.maps.Util.forEach(
                     _this.DEFAULT_OPTIONS,
                     function (value, key) {
-                        options[key] = _this.get(key)
+                        options[key] = _this.get(key);
                     }
-                )
+                );
 
-                return options
+                return options;
             }
         },
 
@@ -139,7 +139,7 @@ function makeMarkerClustering(naver) {
          * @return {number} 클러스터를 구성하는 최소 마커 수
          */
         getMinClusterSize: function () {
-            return this.getOptions('minClusterSize')
+            return this.getOptions("minClusterSize");
         },
 
         /**
@@ -147,7 +147,7 @@ function makeMarkerClustering(naver) {
          * @param {number} size 클러스터를 구성하는 최소 마커 수
          */
         setMinClusterSize: function (size) {
-            this.setOptions('minClusterSize', size)
+            this.setOptions("minClusterSize", size);
         },
 
         /**
@@ -155,7 +155,7 @@ function makeMarkerClustering(naver) {
          * @return {number} 클러스터 마커를 노출할 최대 줌 레벨
          */
         getMaxZoom: function () {
-            return this.getOptions('maxZoom')
+            return this.getOptions("maxZoom");
         },
 
         /**
@@ -163,7 +163,7 @@ function makeMarkerClustering(naver) {
          * @param {number} zoom 클러스터 마커를 노출할 최대 줌 레벨
          */
         setMaxZoom: function (zoom) {
-            this.setOptions('maxZoom', zoom)
+            this.setOptions("maxZoom", zoom);
         },
 
         /**
@@ -171,7 +171,7 @@ function makeMarkerClustering(naver) {
          * @return {number} 클러스터를 구성할 그리드 크기
          */
         getGridSize: function () {
-            return this.getOptions('gridSize')
+            return this.getOptions("gridSize");
         },
 
         /**
@@ -179,7 +179,7 @@ function makeMarkerClustering(naver) {
          * @param {number} size 클러스터를 구성할 그리드 크기
          */
         setGridSize: function (size) {
-            this.setOptions('gridSize', size)
+            this.setOptions("gridSize", size);
         },
 
         /**
@@ -187,7 +187,7 @@ function makeMarkerClustering(naver) {
          * @return {Array | Function} 인덱스 생성기
          */
         getIndexGenerator: function () {
-            return this.getOptions('indexGenerator')
+            return this.getOptions("indexGenerator");
         },
 
         /**
@@ -195,7 +195,7 @@ function makeMarkerClustering(naver) {
          * @param {Array | Function} indexGenerator 인덱스 생성기
          */
         setIndexGenerator: function (indexGenerator) {
-            this.setOptions('indexGenerator', indexGenerator)
+            this.setOptions("indexGenerator", indexGenerator);
         },
 
         /**
@@ -203,7 +203,7 @@ function makeMarkerClustering(naver) {
          * @return {Array.<naver.maps.Marker>} 클러스터로 구성할 마커
          */
         getMarkers: function () {
-            return this.getOptions('markers')
+            return this.getOptions("markers");
         },
 
         /**
@@ -211,7 +211,7 @@ function makeMarkerClustering(naver) {
          * @param {Array.<naver.maps.Marker>} markers 클러스터로 구성할 마커
          */
         setMarkers: function (markers) {
-            this.setOptions('markers', markers)
+            this.setOptions("markers", markers);
         },
 
         /**
@@ -219,7 +219,7 @@ function makeMarkerClustering(naver) {
          * @return {Array.<naver.maps.Marker~ImageIcon | naver.maps.Marker~SymbolIcon | naver.maps.Marker~HtmlIcon>} 클러스터 마커 아이콘
          */
         getIcons: function () {
-            return this.getOptions('icons')
+            return this.getOptions("icons");
         },
 
         /**
@@ -227,7 +227,7 @@ function makeMarkerClustering(naver) {
          * @param {Array.<naver.maps.Marker~ImageIcon | naver.maps.Marker~SymbolIcon | naver.maps.Marker~HtmlIcon>} icons 클러스터 마커 아이콘
          */
         setIcons: function (icons) {
-            this.setOptions('icons', icons)
+            this.setOptions("icons", icons);
         },
 
         /**
@@ -235,7 +235,7 @@ function makeMarkerClustering(naver) {
          * @return {Funxtion} 콜백함수
          */
         getStylingFunction: function () {
-            return this.getOptions('stylingFunction')
+            return this.getOptions("stylingFunction");
         },
 
         /**
@@ -243,7 +243,7 @@ function makeMarkerClustering(naver) {
          * @param {Function} func 콜백함수
          */
         setStylingFunction: function (func) {
-            this.setOptions('stylingFunction', func)
+            this.setOptions("stylingFunction", func);
         },
 
         /**
@@ -251,7 +251,7 @@ function makeMarkerClustering(naver) {
          * @return {boolean} 줌 동작 수행 여부
          */
         getDisableClickZoom: function () {
-            return this.getOptions('disableClickZoom')
+            return this.getOptions("disableClickZoom");
         },
 
         /**
@@ -259,7 +259,7 @@ function makeMarkerClustering(naver) {
          * @param {boolean} flag 줌 동작 수행 여부
          */
         setDisableClickZoom: function (flag) {
-            this.setOptions('disableClickZoom', flag)
+            this.setOptions("disableClickZoom", flag);
         },
 
         /**
@@ -267,7 +267,7 @@ function makeMarkerClustering(naver) {
          * @return {boolean} 평균 좌표로 클러스터링 여부
          */
         getAverageCenter: function () {
-            return this.getOptions('averageCenter')
+            return this.getOptions("averageCenter");
         },
 
         /**
@@ -275,49 +275,49 @@ function makeMarkerClustering(naver) {
          * @param {boolean} averageCenter 평균 좌표로 클러스터링 여부
          */
         setAverageCenter: function (averageCenter) {
-            this.setOptions('averageCenter', averageCenter)
+            this.setOptions("averageCenter", averageCenter);
         },
 
         // KVO 이벤트 핸들러
         changed: function (key, value) {
-            if (!this.getMap()) return
+            if (!this.getMap()) return;
 
             switch (key) {
-                case 'marker':
-                case 'minClusterSize':
-                case 'gridSize':
-                case 'averageCenter':
-                    this._redraw()
-                    break
-                case 'indexGenerator':
-                case 'icons':
+                case "marker":
+                case "minClusterSize":
+                case "gridSize":
+                case "averageCenter":
+                    this._redraw();
+                    break;
+                case "indexGenerator":
+                case "icons":
                     this._clusters.forEach(function (cluster) {
-                        cluster.updateIcon()
-                    })
-                    break
-                case 'maxZoom':
+                        cluster.updateIcon();
+                    });
+                    break;
+                case "maxZoom":
                     this._clusters.forEach(function (cluster) {
                         if (cluster.getCount() > 1) {
-                            cluster.checkByZoomAndMinClusterSize()
+                            cluster.checkByZoomAndMinClusterSize();
                         }
-                    })
-                    break
-                case 'stylingFunction':
+                    });
+                    break;
+                case "stylingFunction":
                     this._clusters.forEach(function (cluster) {
-                        cluster.updateCount()
-                    })
-                    break
-                case 'disableClickZoom':
-                    var exec = 'enableClickZoom'
+                        cluster.updateCount();
+                    });
+                    break;
+                case "disableClickZoom":
+                    var exec = "enableClickZoom";
 
                     if (value) {
-                        exec = 'disableClickZoom'
+                        exec = "disableClickZoom";
                     }
 
                     this._clusters.forEach(function (cluster) {
-                        cluster[exec]()
-                    })
-                    break
+                        cluster[exec]();
+                    });
+                    break;
             }
         },
 
@@ -326,30 +326,30 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _createClusters: function () {
-            var map = this.getMap()
+            var map = this.getMap();
 
-            if (!map) return
+            if (!map) return;
 
             var bounds = map.getBounds(),
-                markers = this.getMarkers()
+                markers = this.getMarkers();
 
             for (var i = 0, ii = markers.length; i < ii; i++) {
                 var marker = markers[i],
-                    position = marker.getPosition()
+                    position = marker.getPosition();
 
-                if (!bounds.hasLatLng(position)) continue
+                if (!bounds.hasLatLng(position)) continue;
 
-                var closestCluster = this._getClosestCluster(position)
+                var closestCluster = this._getClosestCluster(position);
 
-                closestCluster.addMarker(marker)
+                closestCluster.addMarker(marker);
 
                 this._markerRelations.push(
                     naver.maps.Event.addListener(
                         marker,
-                        'dragend',
+                        "dragend",
                         naver.maps.Util.bind(this._onDragEnd, this)
                     )
-                )
+                );
             }
         },
 
@@ -358,10 +358,10 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _updateClusters: function () {
-            var clusters = this._clusters
+            var clusters = this._clusters;
 
             for (var i = 0, ii = clusters.length; i < ii; i++) {
-                clusters[i].updateCluster()
+                clusters[i].updateCluster();
             }
         },
 
@@ -370,16 +370,16 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _clearClusters: function () {
-            var clusters = this._clusters
+            var clusters = this._clusters;
 
             for (var i = 0, ii = clusters.length; i < ii; i++) {
-                clusters[i].destroy()
+                clusters[i].destroy();
             }
 
-            naver.maps.Event.removeListener(this._markerRelations)
+            naver.maps.Event.removeListener(this._markerRelations);
 
-            this._markerRelations = []
-            this._clusters = []
+            this._markerRelations = [];
+            this._clusters = [];
         },
 
         /**
@@ -387,9 +387,9 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _redraw: function () {
-            this._clearClusters()
-            this._createClusters()
-            this._updateClusters()
+            this._clearClusters();
+            this._createClusters();
+            this._updateClusters();
         },
 
         /**
@@ -401,59 +401,59 @@ function makeMarkerClustering(naver) {
             var proj = this.getProjection(),
                 clusters = this._clusters,
                 closestCluster = null,
-                distance = Infinity
+                distance = Infinity;
 
             for (var i = 0, ii = clusters.length; i < ii; i++) {
                 var cluster = clusters[i],
-                    center = cluster.getCenter()
+                    center = cluster.getCenter();
 
                 if (cluster.isInBounds(position)) {
-                    var delta = proj.getDistance(center, position)
+                    var delta = proj.getDistance(center, position);
 
                     if (delta < distance) {
-                        distance = delta
-                        closestCluster = cluster
+                        distance = delta;
+                        closestCluster = cluster;
                     }
                 }
             }
 
             if (!closestCluster) {
-                closestCluster = new Cluster(this)
-                this._clusters.push(closestCluster)
+                closestCluster = new Cluster(this);
+                this._clusters.push(closestCluster);
             }
 
-            return closestCluster
+            return closestCluster;
         },
 
         /**
          * 지도의 Idle 상태 이벤트 핸들러입니다.
          */
         _onIdle: function () {
-            this._redraw()
+            this._redraw();
         },
 
         /**
          * 각 마커의 드래그 종료 이벤트 핸들러입니다.
          */
         _onDragEnd: function () {
-            this._redraw()
+            this._redraw();
         },
-    })
+    });
 
     /**
      * 마커를 가지고 있는 클러스터를 정의합니다.
      * @param {MarkerClustering} markerClusterer
      */
     var Cluster = function (markerClusterer) {
-        this._clusterCenter = null
-        this._clusterBounds = null
-        this._clusterMarker = null
-        this._relation = null
+        this._clusterCenter = null;
+        this._clusterBounds = null;
+        this._clusterMarker = null;
+        this._relation = null;
 
-        this._clusterMember = []
+        this._clusterMember = [];
 
-        this._markerClusterer = markerClusterer
-    }
+        this._markerClusterer = markerClusterer;
+    };
 
     Cluster.prototype = {
         constructor: Cluster,
@@ -463,38 +463,38 @@ function makeMarkerClustering(naver) {
          * @param {naver.maps.Marker} marker 클러스터에 추가할 마커
          */
         addMarker: function (marker) {
-            if (this._isMember(marker)) return
+            if (this._isMember(marker)) return;
 
             if (!this._clusterCenter) {
-                var position = marker.getPosition()
+                var position = marker.getPosition();
 
-                this._clusterCenter = position
-                this._clusterBounds = this._calcBounds(position)
+                this._clusterCenter = position;
+                this._clusterBounds = this._calcBounds(position);
             }
 
-            this._clusterMember.push(marker)
+            this._clusterMember.push(marker);
         },
 
         /**
          * 클러스터를 제거합니다.
          */
         destroy: function () {
-            naver.maps.Event.removeListener(this._relation)
+            naver.maps.Event.removeListener(this._relation);
 
-            var members = this._clusterMember
+            var members = this._clusterMember;
 
             for (var i = 0, ii = members.length; i < ii; i++) {
-                members[i].setMap(null)
+                members[i].setMap(null);
             }
 
-            this._clusterMarker.setMap(null)
+            this._clusterMarker.setMap(null);
 
-            this._clusterMarker = null
-            this._clusterCenter = null
-            this._clusterBounds = null
-            this._relation = null
+            this._clusterMarker = null;
+            this._clusterCenter = null;
+            this._clusterBounds = null;
+            this._relation = null;
 
-            this._clusterMember = []
+            this._clusterMember = [];
         },
 
         /**
@@ -502,7 +502,7 @@ function makeMarkerClustering(naver) {
          * @return {naver.maps.LatLng} 클러스터 중심점
          */
         getCenter: function () {
-            return this._clusterCenter
+            return this._clusterCenter;
         },
 
         /**
@@ -510,7 +510,7 @@ function makeMarkerClustering(naver) {
          * @return {naver.maps.LatLngBounds} 클러스터 경계 영역
          */
         getBounds: function () {
-            return this._clusterBounds
+            return this._clusterBounds;
         },
 
         /**
@@ -518,7 +518,7 @@ function makeMarkerClustering(naver) {
          * @return {number} 클러스터를 구성하는 마커 수
          */
         getCount: function () {
-            return this._clusterMember.length
+            return this._clusterMember.length;
         },
 
         /**
@@ -526,7 +526,7 @@ function makeMarkerClustering(naver) {
          * @return {naver.maps.Marker[]} 클러스터를 구성하는 마커 객체 집합
          */
         getClusterMember: function () {
-            return this._clusterMember
+            return this._clusterMember;
         },
 
         /**
@@ -535,34 +535,34 @@ function makeMarkerClustering(naver) {
          * @return {boolean} 클러스터 경계 영역 내의 위치 여부
          */
         isInBounds: function (latlng) {
-            return this._clusterBounds && this._clusterBounds.hasLatLng(latlng)
+            return this._clusterBounds && this._clusterBounds.hasLatLng(latlng);
         },
 
         /**
          * 클러스터 마커 클릭 시 줌 동작을 수행하도록 합니다.
          */
         enableClickZoom: function () {
-            if (this._relation) return
+            if (this._relation) return;
 
-            var map = this._markerClusterer.getMap()
+            var map = this._markerClusterer.getMap();
 
             this._relation = naver.maps.Event.addListener(
                 this._clusterMarker,
-                'click',
+                "click",
                 naver.maps.Util.bind(function (e) {
-                    map.morph(e.coord, map.getZoom() + 1)
+                    map.morph(e.coord, map.getZoom() + 1);
                 }, this)
-            )
+            );
         },
 
         /**
          * 클러스터 마커 클릭 시 줌 동작을 수행하지 않도록 합니다.
          */
         disableClickZoom: function () {
-            if (!this._relation) return
+            if (!this._relation) return;
 
-            naver.maps.Event.removeListener(this._relation)
-            this._relation = null
+            naver.maps.Event.removeListener(this._relation);
+            this._relation = null;
         },
 
         /**
@@ -573,28 +573,28 @@ function makeMarkerClustering(naver) {
          */
         updateCluster: function () {
             if (!this._clusterMarker) {
-                var position
+                var position;
 
                 if (this._markerClusterer.getAverageCenter()) {
-                    position = this._calcAverageCenter(this._clusterMember)
+                    position = this._calcAverageCenter(this._clusterMember);
                 } else {
-                    position = this._clusterCenter
+                    position = this._clusterCenter;
                 }
 
                 this._clusterMarker = new naver.maps.Marker({
                     position: position,
                     map: this._markerClusterer.getMap(),
-                })
+                });
 
                 if (!this._markerClusterer.getDisableClickZoom()) {
-                    this.enableClickZoom()
+                    this.enableClickZoom();
                 }
             }
 
-            this.updateIcon()
-            this.updateCount()
+            this.updateIcon();
+            this.updateCount();
 
-            this.checkByZoomAndMinClusterSize()
+            this.checkByZoomAndMinClusterSize();
         },
 
         /**
@@ -604,15 +604,15 @@ function makeMarkerClustering(naver) {
             var clusterer = this._markerClusterer,
                 minClusterSize = clusterer.getMinClusterSize(),
                 maxZoom = clusterer.getMaxZoom(),
-                currentZoom = clusterer.getMap().getZoom()
+                currentZoom = clusterer.getMap().getZoom();
 
             if (this.getCount() < minClusterSize) {
-                this._showMember()
+                this._showMember();
             } else {
-                this._hideMember()
+                this._hideMember();
 
                 if (maxZoom <= currentZoom) {
-                    this._showMember()
+                    this._showMember();
                 }
             }
         },
@@ -621,10 +621,10 @@ function makeMarkerClustering(naver) {
          * 클러스터를 구성하는 마커 수를 갱신합니다.
          */
         updateCount: function () {
-            var stylingFunction = this._markerClusterer.getStylingFunction()
+            var stylingFunction = this._markerClusterer.getStylingFunction();
 
             stylingFunction &&
-                stylingFunction(this._clusterMarker, this.getCount())
+                stylingFunction(this._clusterMarker, this.getCount());
         },
 
         /**
@@ -633,12 +633,12 @@ function makeMarkerClustering(naver) {
         updateIcon: function () {
             var count = this.getCount(),
                 index = this._getIndex(count),
-                icons = this._markerClusterer.getIcons()
+                icons = this._markerClusterer.getIcons();
 
-            index = Math.max(index, 0)
-            index = Math.min(index, icons.length - 1)
+            index = Math.max(index, 0);
+            index = Math.min(index, icons.length - 1);
 
-            this._clusterMarker.setIcon(icons[index])
+            this._clusterMarker.setIcon(icons[index]);
         },
 
         /**
@@ -648,14 +648,14 @@ function makeMarkerClustering(naver) {
         _showMember: function () {
             var map = this._markerClusterer.getMap(),
                 marker = this._clusterMarker,
-                members = this._clusterMember
+                members = this._clusterMember;
 
             for (var i = 0, ii = members.length; i < ii; i++) {
-                members[i].setMap(map)
+                members[i].setMap(map);
             }
 
             if (marker) {
-                marker.setMap(null)
+                marker.setMap(null);
             }
         },
 
@@ -666,14 +666,14 @@ function makeMarkerClustering(naver) {
         _hideMember: function () {
             var map = this._markerClusterer.getMap(),
                 marker = this._clusterMarker,
-                members = this._clusterMember
+                members = this._clusterMember;
 
             for (var i = 0, ii = members.length; i < ii; i++) {
-                members[i].setMap(null)
+                members[i].setMap(null);
             }
 
             if (marker && !marker.getMap()) {
-                marker.setMap(map)
+                marker.setMap(map);
             }
         },
 
@@ -695,10 +695,10 @@ function makeMarkerClustering(naver) {
                 map_min_px = proj.fromCoordToOffset(mapBounds.getSW()),
                 max_px = proj.fromCoordToOffset(bounds.getNE()),
                 min_px = proj.fromCoordToOffset(bounds.getSW()),
-                gridSize = this._markerClusterer.getGridSize() / 2
+                gridSize = this._markerClusterer.getGridSize() / 2;
 
-            max_px.add(gridSize, -gridSize)
-            min_px.add(-gridSize, gridSize)
+            max_px.add(gridSize, -gridSize);
+            min_px.add(-gridSize, gridSize);
 
             var max_px_x = Math.min(map_max_px.x, max_px.x),
                 max_px_y = Math.max(map_max_px.y, max_px.y),
@@ -709,9 +709,9 @@ function makeMarkerClustering(naver) {
                 ),
                 newMin = proj.fromOffsetToCoord(
                     new naver.maps.Point(min_px_x, min_px_y)
-                )
+                );
 
-            return new naver.maps.LatLngBounds(newMin, newMax)
+            return new naver.maps.LatLngBounds(newMin, newMax);
         },
 
         /**
@@ -721,22 +721,22 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _getIndex: function (count) {
-            var indexGenerator = this._markerClusterer.getIndexGenerator()
+            var indexGenerator = this._markerClusterer.getIndexGenerator();
 
             if (naver.maps.Util.isFunction(indexGenerator)) {
-                return indexGenerator(count)
+                return indexGenerator(count);
             } else if (naver.maps.Util.isArray(indexGenerator)) {
-                var index = 0
+                var index = 0;
 
                 for (var i = index, ii = indexGenerator.length; i < ii; i++) {
-                    var factor = indexGenerator[i]
+                    var factor = indexGenerator[i];
 
-                    if (count < factor) break
+                    if (count < factor) break;
 
-                    index++
+                    index++;
                 }
 
-                return index
+                return index;
             }
         },
 
@@ -747,7 +747,7 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _isMember: function (marker) {
-            return this._clusterMember.indexOf(marker) !== -1
+            return this._clusterMember.indexOf(marker) !== -1;
         },
 
         /**
@@ -757,22 +757,22 @@ function makeMarkerClustering(naver) {
          * @private
          */
         _calcAverageCenter: function (markers) {
-            var numberOfMarkers = markers.length
-            var averageCenter = [0, 0]
+            var numberOfMarkers = markers.length;
+            var averageCenter = [0, 0];
 
             for (var i = 0; i < numberOfMarkers; i++) {
-                averageCenter[0] += markers[i].position.x
-                averageCenter[1] += markers[i].position.y
+                averageCenter[0] += markers[i].position.x;
+                averageCenter[1] += markers[i].position.y;
             }
 
-            averageCenter[0] /= numberOfMarkers
-            averageCenter[1] /= numberOfMarkers
+            averageCenter[0] /= numberOfMarkers;
+            averageCenter[1] /= numberOfMarkers;
 
-            return new naver.maps.Point(averageCenter[0], averageCenter[1])
+            return new naver.maps.Point(averageCenter[0], averageCenter[1]);
         },
-    }
+    };
 
-    return MarkerClustering
+    return MarkerClustering;
 }
-export { makeMarkerClustering }
+export { makeMarkerClustering };
 /* eslint-enable */

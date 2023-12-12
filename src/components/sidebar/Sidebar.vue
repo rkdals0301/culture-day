@@ -1,51 +1,66 @@
 <template>
-    <div class="sidebar-wrapper" :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`">
-        <div class="list-container" :style="listVisibleStatus ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)' : ''">
+    <div
+        class="sidebar-wrapper"
+        :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`"
+    >
+        <div
+            class="list-container"
+            :style="
+                listVisibleStatus
+                    ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)'
+                    : ''
+            "
+        >
             <search-box ref="search" @open="openList" @search="search" />
         </div>
         <div v-show="listVisibleStatus">
             <transition name="fade">
-                <item-list v-show="listVisibleStatus" ref="list" :cultures="cultures" @onClickItem="onClickItem" />
+                <item-list
+                    v-show="listVisibleStatus"
+                    ref="list"
+                    :cultures="cultures"
+                    @onClickItem="onClickItem"
+                />
             </transition>
         </div>
     </div>
 </template>
 
 <script>
-import ItemList from './ItemList.vue'
-import SearchBox from './SearchBox.vue'
-import { mapGetters } from 'vuex'
+import ItemList from "./ItemList.vue";
+import SearchBox from "./SearchBox.vue";
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'ItemListHandler',
+    name: "ItemListHandler",
     components: { ItemList, SearchBox },
     data() {
         return {
             cultures: [],
             listVisibleStatus: false,
-        }
+        };
     },
     computed: {
-        ...mapGetters('culture', ['getCultures']),
+        ...mapGetters("culture", ["getCultures"]),
     },
     methods: {
         bindCultures() {
-            this.cultures = this.getCultures
+            this.cultures = this.getCultures;
         },
         openList() {
-            this.listVisibleStatus = true
+            this.listVisibleStatus = true;
         },
         hideList() {
-            this.listVisibleStatus = false
+            this.listVisibleStatus = false;
         },
-        search(keyword = '') {
-            console.log('keyword: ', keyword)
+        search(keyword = "") {
+            console.log("keyword: ", keyword);
         },
         onClickItem(index) {
-            this.$emit('onClickItem', index)
+            this.$emit("onClickItem", index);
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

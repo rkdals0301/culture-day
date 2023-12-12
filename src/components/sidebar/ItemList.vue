@@ -9,16 +9,22 @@
         <div style="color: red; font-weight: bold">핫이슈</div>
     </div> -->
         <div class="item-list-content-wrapper">
-            <item v-for="(culture, index) in cultures" :key="`${culture['TITLE']}-${index}`" :culture="culture" :index="index" @onClickItem="onClickItem" />
+            <item
+                v-for="(culture, index) in cultures"
+                :key="`${culture['TITLE']}-${index}`"
+                :culture="culture"
+                :index="index"
+                @onClickItem="onClickItem"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import Item from './Item.vue'
+import Item from "./Item.vue";
 
 export default {
-    name: 'ItemList',
+    name: "ItemList",
     components: { Item },
     props: {
         cultures: {
@@ -28,10 +34,10 @@ export default {
     },
     methods: {
         onClickItem(index) {
-            this.$emit('onClickItem', index)
+            this.$emit("onClickItem", index);
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

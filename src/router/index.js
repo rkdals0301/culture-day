@@ -1,6 +1,6 @@
-import VueRouter from 'vue-router'
+import VueRouter from "vue-router";
 // import PageName from '@/utils/define/PageName'
-import RoutePath from '@/utils/define/RoutePath'
+import RoutePath from "@/utils/define/RoutePath";
 
 const routes = [
     {
@@ -12,10 +12,10 @@ const routes = [
     //   name: PageName.Culture,
     //   component: () => import('@/views/culture/Culture')
     // }
-]
+];
 
 const router = new VueRouter({
     routes,
-})
+});
 
-export default router
+export default router;

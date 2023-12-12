@@ -1,8 +1,8 @@
 const SnackbarType = {
-    SUCCESS: 'success',
-    ERROR: 'error',
-    WARNING: 'warning',
-    INFO: 'info',
-}
+    SUCCESS: "success",
+    ERROR: "error",
+    WARNING: "warning",
+    INFO: "info",
+};
 
-export default SnackbarType
+export default SnackbarType;
