@@ -79,10 +79,12 @@ export default {
                 ) => {
                     const content = `<div class="info-window-wrapper">
                     <div class="info-window">
-                        <div class="title">${title}</div>
-                        <div class="content">${date}</div>
-                        <div class="content">${isFree} / ${codeName}</div>
-                        <div class="content">${useFee}</div>
+                        <div class="title">${title || "-"}</div>
+                        <div class="content">${date || "-"}</div>
+                        <div class="content">${isFree || "-"} / ${
+                        codeName || "-"
+                    }</div>
+                        <div class="content">${useFee || "-"}</div>
                         <div class="button-wrapper">
                         <button type="button" id="detail_button_${index}">상세보기</button>
                         </div>
