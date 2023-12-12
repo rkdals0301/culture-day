@@ -82,7 +82,6 @@ export default {
     },
     methods: {
         show(culture) {
-            console.log(culture);
             this.isShow = true;
             this.culture = culture;
         },
