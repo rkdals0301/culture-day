@@ -9,7 +9,9 @@
 		"build-dev": "vue-cli-service build --mode development",
 		"build-prod": "vue-cli-service build --mode production",
 		"serve-dev": "vue-cli-service serve --mode development",
-		"serve-prod": "vue-cli-service serve --mode production"
+		"serve-prod": "vue-cli-service serve --mode production",
+		"predeploy": "vue-cli-service build",
+		"deploy": "gh-pages -d dist"
 	},
 	"dependencies": {
 		"axios": "^0.27.2",
@@ -30,6 +32,7 @@
 		"eslint-plugin-html": "^7.1.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-vue": "^9.18.1",
+		"gh-pages": "^6.1.0",
 		"prettier": "2.8.8",
 		"sass": "~1.32.0",
 		"sass-loader": "^10.0.0",
