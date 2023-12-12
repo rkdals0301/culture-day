@@ -9,12 +9,13 @@
 
 <script>
 import { mapActions } from "vuex";
-import cultureAPI from "@/services/api/culture";
+// import cultureAPI from "@/services/api/culture";
 import SnackbarType from "@/utils/define/SnackbarType";
 import Map from "@/components/map/Map.vue";
 import Sidebar from "@/components/sidebar/Sidebar.vue";
 import ItemDetailModal from "@/components/map/ItemDetailModal.vue";
 import Snackbar from "@/components/common/Snackbar.vue";
+import Mock from "./Mock";
 
 export default {
     name: "App",
@@ -31,13 +32,13 @@ export default {
         ...mapActions("culture", ["initCultures"]),
         async loadCultureList() {
             try {
-                const response = await cultureAPI.lookupCultureList();
-                console.log(
-                    "response >",
-                    response?.data?.culturalEventInfo?.row
-                );
-                this.initCultures(response?.data?.culturalEventInfo?.row);
-                this.$refs.handler.bindCultures();
+                // const response = await cultureAPI.lookupCultureList();
+                // console.log(
+                //     "response >",
+                //     response?.data?.culturalEventInfo?.row
+                // );
+                // this.initCultures(response?.data?.culturalEventInfo?.row);
+                this.initCultures(Mock.DATA);
             } catch (error) {
                 this.$root.showSnackbar(SnackbarType.ERROR, error);
             }

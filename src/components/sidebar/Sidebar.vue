@@ -29,24 +29,20 @@
 <script>
 import ItemList from "./ItemList.vue";
 import SearchBox from "./SearchBox.vue";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
     name: "ItemListHandler",
     components: { ItemList, SearchBox },
     data() {
         return {
-            cultures: [],
             listVisibleStatus: false,
         };
     },
     computed: {
-        ...mapGetters("culture", ["getCultures"]),
+        ...mapState("culture", ["cultures"]),
     },
     methods: {
-        bindCultures() {
-            this.cultures = this.getCultures;
-        },
         openList() {
             this.listVisibleStatus = true;
         },

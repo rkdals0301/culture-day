@@ -6,23 +6,23 @@
     >
         <div class="content-wrapper">
             <div class="content-title">
-                {{ culture.TITLE }}
+                {{ culture.title }}
             </div>
             <div class="content-place">
-                {{ culture.PLACE }}
+                {{ culture.place }}
             </div>
             <div class="content-date">
-                {{ culture.DATE }}
+                {{ culture.date }}
             </div>
             <div class="content-date" style="color: #b4b4b4">
-                {{ culture.IS_FREE }} / {{ culture.CODENAME }}
+                {{ culture.is_free }} / {{ culture.codename }}
             </div>
             <div class="content-date" style="color: #b4b4b4">
-                {{ culture.USE_FEE }}
+                {{ culture.use_fee }}
             </div>
         </div>
         <div class="image-wrapper">
-            <img class="image" :src="culture.MAIN_IMG" alt="" />
+            <img class="image" :src="culture.main_img" alt="" />
         </div>
     </div>
 </template>

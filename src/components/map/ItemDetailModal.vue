@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="left-wrapper">
                     <div class="title">
-                        {{ culture.TITLE || "-" }}
+                        {{ culture.title || "-" }}
                     </div>
                 </div>
                 <div class="right-wrapper">
@@ -18,37 +18,37 @@
                     <div class="data">
                         <div class="title">장르</div>
                         <div class="value">
-                            {{ culture.CODENAME ?? "-" }}
+                            {{ culture.codename ?? "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">기간</div>
                         <div class="value">
-                            {{ culture.DATE ?? "-" }}
+                            {{ culture.date ?? "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">장소</div>
                         <div class="value">
-                            {{ culture.PLACE || "-" }}
+                            {{ culture.place || "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">연령</div>
                         <div class="value">
-                            {{ culture.USE_TRGT || "-" }}
+                            {{ culture.use_trgt || "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">요금</div>
                         <div class="value">
-                            {{ culture.USE_FEE || "-" }}
+                            {{ culture.use_fee || "-" }}
                         </div>
                     </div>
                     <div class="data">
                         <div class="title">홈페이지</div>
                         <div class="value">
-                            <a :href="culture.ORG_LINK" target="_blank"
+                            <a :href="culture.org_link" target="_blank"
                                 >바로가기</a
                             >
                         </div>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="right-wrapper">
                     <div class="image-wrapper">
-                        <img class="image" :src="culture.MAIN_IMG" alt="" />
+                        <img class="image" :src="culture.main_img" alt="" />
                     </div>
                 </div>
             </div>

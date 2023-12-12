@@ -16,11 +16,11 @@ export default {
         };
     },
     computed: {
-        ...mapState("culture", ["rawCultures", "cultures"]),
+        ...mapState("culture", ["cultures"]),
     },
     watch: {
         // TODO: 타이밍 이슈
-        rawCultures: {
+        cultures: {
             handler() {
                 this.addMarkerList();
             },
@@ -40,6 +40,7 @@ export default {
             script.onload = () => {
                 this.initMap();
                 this.addEventListener();
+                this.addMarkerList();
             };
         },
         initMap() {
@@ -63,16 +64,16 @@ export default {
         addMarkerList() {
             this.markerList = [];
             this.infoWindows = [];
-            this.rawCultures.forEach(
+            this.cultures.forEach(
                 (
                     {
-                        TITLE: title,
-                        CODENAME: codeName,
-                        DATE: date,
-                        IS_FREE: isFree,
-                        USE_FEE: useFee,
-                        LOT: lat,
-                        LAT: lng,
+                        title: title,
+                        codename: codeName,
+                        date: date,
+                        is_free: isFree,
+                        use_fee: useFee,
+                        lot: lat,
+                        lat: lng,
                     },
                     index
                 ) => {
@@ -122,7 +123,7 @@ export default {
                 `detail_button_${index}`
             );
             clickButton.addEventListener("click", () => {
-                this.showCultureDetailModal(this.rawCultures[index]); // TODO.. BUG 이벤트 처리
+                this.showCultureDetailModal(this.cultures[index]); // TODO.. BUG 이벤트 처리
             });
         },
         showCultureDetailModal(culture) {

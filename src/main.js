@@ -3,12 +3,15 @@ import App from "@/App.vue";
 import VueRouter from "vue-router";
 import router from "@/router";
 import store from "@/store";
-import "@/utils/error";
 import _ from "lodash";
 
 import "@/styles/reset.scss";
 
 Vue.config.productionTip = false;
+Vue.config.errorHandler = (error) => {
+    console.error("errorHandler", error);
+};
+
 Vue.use(VueRouter);
 
 Vue.prototype.$_ = _;

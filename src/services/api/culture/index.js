@@ -1,4 +1,4 @@
-import axiosInstance from "@/services/axios";
+import axiosInstance from "@/services/Axios";
 
 const startIndex = 1;
 const endIndex = 1000;

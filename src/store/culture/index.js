@@ -5,6 +5,9 @@ const culture = {
         cultures: [],
     },
     getters: {
+        getRawCultures: (state) => {
+            return state.rawCultures;
+        },
         getCultures: (state) => {
             return state.cultures;
         },
