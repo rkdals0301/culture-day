@@ -1,14 +1,15 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
-    publicPath: process.env.NODE_ENV === "production" ? "/culture-day" : "/",
+    publicPath: process.env.NODE_ENV === "production" ? "/culture-day/" : "/",
     outputDir: "./dist",
     transpileDependencies: [],
     css: {
         loaderOptions: {
             scss: {
                 additionalData: `
-					@import "@/styles/global.scss";
-                    @import "@/styles/color.scss";
+                    @import "@/assets/styles/reset.scss";
+					@import "@/assets/styles/global.scss";
+                    @import "@/assets/styles/color.scss";
 				`,
             },
         },

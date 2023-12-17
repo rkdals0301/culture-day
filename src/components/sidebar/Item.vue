@@ -52,9 +52,7 @@ export default {
 .item-wrapper {
     width: 100%;
     max-height: 170px;
-    border-bottom: 1px solid #e5e5e5;
     padding: 10px;
-    box-sizing: border-box;
     display: flex;
     text-align: left;
     &:hover {
@@ -70,14 +68,13 @@ export default {
         width: 100%;
         height: 100%;
         padding: 0 10px;
-        box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        gap: 5px;
-        font-size: 13px;
+        gap: 3px;
+        font-size: 0.75rem;
         & > .content-title {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
     }
     .image-wrapper {

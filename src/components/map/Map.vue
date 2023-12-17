@@ -125,31 +125,31 @@ export default {
         updateMarkers() {
             const htmlMarker1 = {
                 content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
+                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker2 = {
                 content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
+                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker3 = {
                 content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
+                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker4 = {
                 content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
+                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
             const htmlMarker5 = {
                 content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
+                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
                 size: window.naver.maps.Size(40, 40),
                 anchor: window.naver.maps.Point(20, 20),
             };
@@ -212,12 +212,11 @@ export default {
         justify-content: center;
         gap: 5px;
         .title {
-            font-size: 16px;
+            font-size: 1rem;
             color: rgb(0, 104, 195);
-            line-height: 22px;
         }
         .content {
-            font-size: 14px;
+            font-size: 0.875rem;
             color: grey;
         }
         .button-wrapper {

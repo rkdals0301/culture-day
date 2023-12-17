@@ -120,7 +120,7 @@ export default {
             justify-content: space-between;
             .left-wrapper {
                 .title {
-                    font-size: 18px;
+                    font-size: 1.5rem;
                     font-weight: 700;
                 }
             }
@@ -136,7 +136,7 @@ export default {
                 .data {
                     display: flex;
                     gap: 10px;
-                    font-size: 16px;
+                    font-size: 1.25rem;
                     .title {
                         width: 70px;
                         font-weight: 700;

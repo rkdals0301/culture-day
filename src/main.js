@@ -5,8 +5,6 @@ import router from "@/router";
 import store from "@/store";
 import _ from "lodash";
 
-import "@/styles/reset.scss";
-
 Vue.config.productionTip = false;
 Vue.config.errorHandler = (error) => {
     console.error("errorHandler", error);

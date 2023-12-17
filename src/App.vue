@@ -51,6 +51,5 @@ export default {
     width: 100dvw;
     height: 100dvh;
     position: relative;
-    color: #2c3e50;
 }
 </style>

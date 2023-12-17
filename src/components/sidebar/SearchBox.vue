@@ -48,7 +48,6 @@ export default {
     height: 60px;
     background-color: transparent;
     padding: 10px;
-    box-sizing: border-box;
     position: absolute;
     z-index: 1;
     .search-box {

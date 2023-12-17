@@ -65,7 +65,7 @@ export default {
     //     align-items: center;
     //     & > div {
     //         padding: 5px;
-    //         font-size: 14px;
+    //         font-size: 0.875rem;
     //     }
     // }
     .item-list-content-wrapper {
