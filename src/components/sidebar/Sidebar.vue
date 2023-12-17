@@ -1,35 +1,32 @@
 <template>
-    <div
-        class="sidebar-wrapper"
-        :style="`height: ${listVisibleStatus ? '100%' : 'auto'}`"
-    >
+    <div>
         <div
-            class="list-container"
-            :style="
-                listVisibleStatus
-                    ? 'box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24)'
-                    : ''
-            "
+            ref="side-menu"
+            class="sidebar-wrapper"
+            :style="`height: ${listVisibleStatus ? '100dvh' : 'auto'}`"
         >
-            <search-box ref="search" @open="openList" @search="search" />
+            <search-box ref="search" @open="openList" />
+            <div v-show="listVisibleStatus">
+                <transition name="fade">
+                    <item-list
+                        v-show="listVisibleStatus"
+                        @onClickItem="onClickItem"
+                    />
+                </transition>
+            </div>
         </div>
-        <div v-show="listVisibleStatus">
-            <transition name="fade">
-                <item-list
-                    v-show="listVisibleStatus"
-                    ref="list"
-                    :cultures="cultures"
-                    @onClickItem="onClickItem"
-                />
-            </transition>
-        </div>
+        <div
+            v-show="listVisibleStatus"
+            class="overlay"
+            :class="{ show: listVisibleStatus }"
+            @click="hideList"
+        ></div>
     </div>
 </template>
 
 <script>
 import ItemList from "./ItemList.vue";
 import SearchBox from "./SearchBox.vue";
-import { mapState } from "vuex";
 
 export default {
     name: "ItemListHandler",
@@ -39,21 +36,20 @@ export default {
             listVisibleStatus: false,
         };
     },
-    computed: {
-        ...mapState("culture", ["cultures"]),
-    },
     methods: {
         openList() {
             this.listVisibleStatus = true;
         },
-        hideList() {
-            this.listVisibleStatus = false;
+        hideList(e) {
+            if (
+                this.listVisibleStatus &&
+                !this.$refs["side-menu"].contains(e.target)
+            ) {
+                this.listVisibleStatus = false;
+            }
         },
-        search(keyword = "") {
-            console.log("keyword: ", keyword);
-        },
-        onClickItem(index) {
-            this.$emit("onClickItem", index);
+        onClickItem(id) {
+            this.$emit("onClickItem", id);
         },
     },
 };
@@ -65,10 +61,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    .list-container {
-        position: relative;
-        width: 100%;
-    }
+    z-index: 1;
 }
 
 .fade-enter-active,
@@ -78,5 +71,18 @@ export default {
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
+}
+.overlay {
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.overlay.show {
+    display: block;
 }
 </style>

@@ -5,12 +5,9 @@ import culture from "@/store/culture";
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
-    namespaced: true,
+export default new Vuex.Store({
     modules: {
         snackbar,
         culture,
     },
 });
-
-export default store;

@@ -9,64 +9,70 @@
         <div style="color: red; font-weight: bold">핫이슈</div>
     </div> -->
         <div class="item-list-content-wrapper">
-            <item
-                v-for="(culture, index) in cultures"
-                :key="`${culture['TITLE']}-${index}`"
-                :culture="culture"
-                :index="index"
-                @onClickItem="onClickItem"
-            />
+            <RecycleScroller
+                v-slot="{ item, active }"
+                :items="filteredCultures"
+                key-field="id"
+                :item-size="130"
+                :buffer="50"
+                style="height: calc(100dvh - 70px)"
+            >
+                <template v-if="active">
+                    <item :culture="item" @onClickItem="onClickItem" />
+                </template>
+                <template v-else> Loading...??????? </template>
+            </RecycleScroller>
         </div>
     </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { RecycleScroller } from "vue-virtual-scroller";
 import Item from "./Item.vue";
 
 export default {
     name: "ItemList",
-    components: { Item },
-    props: {
-        cultures: {
-            type: Array,
-            default: () => [],
-        },
+    components: { RecycleScroller, Item },
+    computed: {
+        ...mapState("culture", ["filteredCultures"]),
     },
     methods: {
-        onClickItem(index) {
-            this.$emit("onClickItem", index);
+        onClickItem(id) {
+            this.$emit("onClickItem", id);
         },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+
 .item-list-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100dvh;
     background-color: #fff;
-    .item-list-header-wrapper {
-        width: 100%;
-        margin-top: 50px;
-        height: 50px;
-        padding: 10px;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        & > div {
-            padding: 5px;
-            font-size: 14px;
-        }
-    }
+    // .item-list-header-wrapper {
+    //     width: 100%;
+    //     margin-top: 50px;
+    //     height: 50px;
+    //     padding: 10px;
+    //     box-sizing: border-box;
+    //     display: flex;
+    //     align-items: center;
+    //     & > div {
+    //         padding: 5px;
+    //         font-size: 14px;
+    //     }
+    // }
     .item-list-content-wrapper {
         width: 100%;
-        height: calc(100% - 60px);
+        height: calc(100dvh - 60px);
         margin-top: 60px;
         // height: calc(100%);
-        overflow-y: auto;
     }
 }
 </style>

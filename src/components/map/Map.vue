@@ -1,5 +1,5 @@
 <template>
-    <div id="map" style="width: 100%; height: 100%" />
+    <div id="map" style="height: 100%" />
 </template>
 
 <script>
@@ -11,20 +11,13 @@ export default {
     data() {
         return {
             map: null,
-            markerList: null,
-            infoWindows: null,
+            markers: [],
+            markerMap: new Map(),
+            infoWindow: {},
         };
     },
     computed: {
-        ...mapState("culture", ["cultures"]),
-    },
-    watch: {
-        // TODO: 타이밍 이슈
-        cultures: {
-            handler() {
-                this.addMarkerList();
-            },
-        },
+        ...mapState("culture", ["cultures", "cultureMap"]),
     },
     created() {
         this.init();
@@ -40,7 +33,6 @@ export default {
             script.onload = () => {
                 this.initMap();
                 this.addEventListener();
-                this.addMarkerList();
             };
         },
         initMap() {
@@ -52,86 +44,85 @@ export default {
         addEventListener() {
             window.naver.maps.Event.addListener(this.map, "idle", () => {});
             window.naver.maps.Event.addListener(this.map, "click", () => {
-                if (!this.$_.isEmpty(this.infoWindows)) {
-                    this.infoWindows.forEach((infoWindow) => {
-                        if (infoWindow.getMap()) {
-                            infoWindow.close();
-                        }
+                if (
+                    !this.$_.isEmpty(this.infoWindow) &&
+                    this.infoWindow.getMap()
+                ) {
+                    this.infoWindow.close();
+                }
+            });
+        },
+        addMarkers() {
+            this.markers = [];
+            this.markerMap = new Map();
+
+            this.markers = this.cultures.map(
+                ({ id: id, lot: lat, lat: lng }) => {
+                    return new window.naver.maps.Marker({
+                        id: id,
+                        position: new window.naver.maps.LatLng(lat, lng),
                     });
                 }
-            });
-        },
-        addMarkerList() {
-            this.markerList = [];
-            this.infoWindows = [];
-            this.cultures.forEach(
-                (
-                    {
-                        title: title,
-                        codename: codeName,
-                        date: date,
-                        is_free: isFree,
-                        use_fee: useFee,
-                        lot: lat,
-                        lat: lng,
-                    },
-                    index
-                ) => {
-                    const content = `<div class="info-window-wrapper">
-                    <div class="info-window">
-                        <div class="title">${title || "-"}</div>
-                        <div class="content">${date || "-"}</div>
-                        <div class="content">${isFree || "-"} / ${
-                        codeName || "-"
-                    }</div>
-                        <div class="content">${useFee || "-"}</div>
-                        <div class="button-wrapper">
-                        <button type="button" id="detail_button_${index}">상세보기</button>
-                        </div>
-                    </div>
-                </div>`;
-
-                    this.infoWindows.push(
-                        new window.naver.maps.InfoWindow({
-                            borderWidth: 0,
-                            disableAnchor: true,
-                            backgroundColor: "transparent",
-                            pixelOffset: new window.naver.maps.Point(0, -10),
-                            content,
-                        })
-                    );
-
-                    this.markerList.push(
-                        new window.naver.maps.Marker({
-                            position: new window.naver.maps.LatLng(lat, lng),
-                        })
-                    );
-
-                    window.naver.maps.Event.addListener(
-                        this.markerList[index],
-                        "click",
-                        () => this.onClickMarker(index)
-                    );
-                }
             );
 
-            this.updateMarkerList();
+            this.markers.forEach((marker) => {
+                window.naver.maps.Event.addListener(marker, "click", () =>
+                    this.onClickMarker(marker.id)
+                );
+
+                this.markerMap.set(marker.id, marker);
+            });
+
+            this.updateMarkers();
         },
-        onClickMarker(index) {
+        onClickMarker(id) {
+            const marker = this.markerMap.get(id);
             this.map.setZoom(15);
-            this.map.setCenter(this.markerList[index].getPosition());
-            this.infoWindows[index].open(this.map, this.markerList[index]);
-            const clickButton = document.getElementById(
-                `detail_button_${index}`
-            );
-            clickButton.addEventListener("click", () => {
-                this.showCultureDetailModal(this.cultures[index]); // TODO.. BUG 이벤트 처리
+            this.map.setCenter(marker.getPosition());
+
+            this.createInfoWindow(id);
+            this.infoWindow.open(this.map, marker);
+            const infoWindowId = `info-window-wrapper-${id}`;
+            const infoWindowWrapperElement =
+                document.getElementById(infoWindowId);
+            infoWindowWrapperElement.addEventListener("click", () => {
+                this.showCultureDetailModal(id); // TODO.. BUG 이벤트 처리
             });
         },
-        showCultureDetailModal(culture) {
+        createInfoWindow(id) {
+            const {
+                title: title,
+                codename: codeName,
+                date: date,
+                is_free: isFree,
+                use_fee: useFee,
+            } = this.cultureMap.get(id);
+            const infoWindowId = `info-window-wrapper-${id}`;
+            const content = `<div id=${infoWindowId} class="info-window-wrapper">
+                        <div class="info-window">
+                            <div class="title">${title || "-"}</div>
+                            <div class="content">${date || "-"}</div>
+                            <div class="content">${isFree || "-"} / ${
+                codeName || "-"
+            }</div>
+                            <div class="content">${useFee || "-"}</div>
+                        </div>
+                    </div>`;
+
+            this.infoWindow = new window.naver.maps.InfoWindow({
+                id: infoWindowId,
+                borderWidth: 0,
+                disableAnchor: true,
+                backgroundColor: "transparent",
+                pixelOffset: new window.naver.maps.Point(0, -10),
+                content,
+            });
+        },
+        showCultureDetailModal(id) {
+            const culture = this.cultureMap.get(id);
             this.$emit("showCultureDetailModal", culture);
         },
-        updateMarkerList() {
+        updateMarkers() {
             const htmlMarker1 = {
                 content:
                     '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
@@ -168,7 +159,7 @@ export default {
                 minClusterSize: 2,
                 maxZoom: 14,
                 map: this.map,
-                markers: this.markerList,
+                markers: this.markers,
                 disableClickZoom: false,
                 gridSize: 500,
                 icons: [
@@ -192,13 +183,14 @@ export default {
 
 <style lang="scss" scoped>
 :deep(.info-window-wrapper) {
-    width: 300px;
+    width: 400px;
     height: fit-content;
     position: relative;
     background: rgb(255, 255, 255);
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px;
+    cursor: pointer;
     ::after {
         content: "";
         position: absolute;

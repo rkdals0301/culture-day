@@ -102,7 +102,7 @@ export default {
     background-color: rgb(0, 0, 0, 0.4);
     z-index: 2;
     .modal {
-        width: 500px;
+        width: 650px;
         height: fit-content;
         position: fixed;
         top: 50%;

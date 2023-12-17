@@ -30,7 +30,7 @@ export default {
         },
         setSubscribe() {
             this.$store.subscribe((mutation, state) => {
-                if (mutation.type !== "snackbar/setSnackbar") return;
+                if (mutation.type !== "snackbar/SET_SNACKBAR") return;
 
                 this.type = state.snackbar.type;
                 this.text = state.snackbar.text;

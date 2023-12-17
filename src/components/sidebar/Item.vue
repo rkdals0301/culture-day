@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="image-wrapper">
-            <img class="image" :src="culture.main_img" alt="" />
+            <img class="image" :src="culture.main_img" alt="culture_main_img" />
         </div>
     </div>
 </template>
@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         onClickItem() {
-            this.$emit("onClickItem", this.index);
+            this.$emit("onClickItem", this.culture.id);
         },
     },
 };
@@ -86,6 +86,7 @@ export default {
             height: 108px;
             object-fit: fill;
             display: block; // height bug default inline-block
+            border: 1px solid #cccccc;
             border-radius: 10px;
         }
     }

@@ -8,7 +8,7 @@
                     class="search-inp"
                     placeholder="찾으실 행사명을 입력해 주세요"
                     @focus="open"
-                    @keypress.enter="search"
+                    @keyup.enter="search"
                 />
             </div>
             <div class="search-btn-wrapper">
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
     name: "SearchBox",
     data() {
@@ -29,11 +31,12 @@ export default {
         };
     },
     methods: {
+        ...mapActions("culture", ["fetchFilteredCultures"]),
         open() {
             this.$emit("open");
         },
         search() {
-            this.$emit("search", this.keyword);
+            this.fetchFilteredCultures({ keyword: this.keyword });
         },
     },
 };
