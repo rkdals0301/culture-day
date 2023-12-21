@@ -15,7 +15,7 @@
                 key-field="id"
                 :item-size="155"
                 :buffer="50"
-                style="height: calc(100dvh - 60px)"
+                class="recycle-scroller"
             >
                 <template v-if="active">
                     <item
@@ -72,9 +72,36 @@ export default {
     //         font-size: 0.875rem;
     //     }
     // }
+
     .item-list-content-wrapper {
         height: calc(100dvh - 60px);
         margin-top: 60px;
+
+        /* Webkit 기반 브라우저 (Chrome, Safari) */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: $item_background_color;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: $background_color;
+        }
+
+        // /* Firefox */
+        scrollbar-color: $item_background_color $background_color;
+        scrollbar-width: thin;
+
+        // /* Edge 및 IE 11 */
+        scrollbar-color: $item_background_color $background_color;
+        scrollbar-width: thin;
+
+        .recycle-scroller {
+            height: calc(100dvh - 60px);
+        }
     }
 }
 </style>
