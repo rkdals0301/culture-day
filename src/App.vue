@@ -31,6 +31,7 @@ export default {
         async loadCultures() {
             try {
                 await this.fetchCultures();
+                await this.$nextTick();
                 this.$refs["map"].addMarkers();
             } catch (error) {
                 this.$root.showSnackbar(SnackbarType.ERROR, error);

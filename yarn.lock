@@ -1960,6 +1960,11 @@
     "follow-redirects" "^1.14.9"
     "form-data" "^4.0.0"
 
+"babel-helper-vue-jsx-merge-props@^2.0.3":
+  "integrity" "sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg=="
+  "resolved" "https://registry.npmjs.org/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz"
+  "version" "2.0.3"
+
 "babel-loader@^8.2.2":
   "integrity" "sha512-OSiFfH89LrEMiWd4pLNqGz4CwJDtbs2ZVc+iGu2HrkRfPxId9F2anQj38IxWpmRfsUY0aBZYi1EFcd3mhtRMLQ=="
   "resolved" "https://registry.npmjs.org/babel-loader/-/babel-loader-8.2.5.tgz"
@@ -6014,6 +6019,13 @@
   "integrity" "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="
   "resolved" "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   "version" "1.1.2"
+
+"vue-content-loader@^0.2.3":
+  "integrity" "sha512-gJlNEdXkuHGvgnyY0lBMsrSsOMk+TTog5uNAil5MSLv08f/mE7Apag0VavpxJ6ieb4P5J1iVKEIhHI41HQNq9Q=="
+  "resolved" "https://registry.npmjs.org/vue-content-loader/-/vue-content-loader-0.2.3.tgz"
+  "version" "0.2.3"
+  dependencies:
+    "babel-helper-vue-jsx-merge-props" "^2.0.3"
 
 "vue-eslint-parser@^9.3.1":
   "integrity" "sha512-q7tWyCVaV9f8iQyIA5Mkj/S6AoJ9KBN8IeUSf3XEmBrOtxOZnfTg5s4KClbZBCK3GtnT/+RyCLZyDHuZwTuBjg=="

@@ -135,7 +135,18 @@ export default {
         clickItemEventHandler() {
             this.recognizer.hide();
         },
-        addMarkers() {
+        addMarkers(tryCount = 0) {
+            if (tryCount >= 10) {
+                alert("Error Load Naver Map");
+                return;
+            }
+
+            if (this.$_.isEmpty(this.map)) {
+                setTimeout(() => {
+                    this.addMarkers(tryCount + 1);
+                }, 250);
+            }
+
             this.marker = {};
             this.markers = [];
             this.markerMap = new Map();

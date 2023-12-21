@@ -9,23 +9,33 @@
         <div style="color: red; font-weight: bold">핫이슈</div>
     </div> -->
         <div class="item-list-content-wrapper">
-            <RecycleScroller
-                v-slot="{ item, index, active }"
-                :items="filteredCultures"
-                key-field="id"
-                :item-size="155"
-                :buffer="50"
-                class="recycle-scroller"
-            >
-                <template v-if="active">
+            <template v-if="filteredCultures.length > 0">
+                <recycle-scroller
+                    v-slot="{ item, index }"
+                    :items="filteredCultures"
+                    key-field="id"
+                    :item-size="155"
+                    :buffer="50"
+                    class="list-wrapper"
+                >
                     <item
                         :culture="item"
                         :index="index"
                         @onClickItem="onClickItem(item.id)"
                     />
-                </template>
-                <template v-else>Loading...</template>
-            </RecycleScroller>
+                </recycle-scroller>
+            </template>
+            <template v-else>
+                <div class="list-wrapper">
+                    <div
+                        v-for="idx in skeletonSize"
+                        :key="idx"
+                        style="margin: 10px"
+                    >
+                        <skeleton />
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -33,11 +43,17 @@
 <script>
 import { mapState } from "vuex";
 import { RecycleScroller } from "vue-virtual-scroller";
+import Skeleton from "./Skeleton.vue";
 import Item from "./Item.vue";
 
 export default {
     name: "ItemList",
-    components: { RecycleScroller, Item },
+    components: { RecycleScroller, Skeleton, Item },
+    data() {
+        return {
+            skeletonSize: 7,
+        };
+    },
     computed: {
         ...mapState("culture", ["filteredCultures"]),
     },
@@ -99,7 +115,7 @@ export default {
         scrollbar-color: $item_background_color $background_color;
         scrollbar-width: thin;
 
-        .recycle-scroller {
+        .list-wrapper {
             height: calc(100dvh - 60px);
         }
     }
