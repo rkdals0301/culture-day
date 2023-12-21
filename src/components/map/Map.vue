@@ -1,26 +1,36 @@
 <template>
-    <div id="map" style="height: 100%" />
+    <div id="map" class="map" />
 </template>
 
 <script>
 import { makeMarkerClustering } from "@/plugins/MarkerClustering.js";
+import { MarkerOverlappingRecognizer } from "@/plugins/MarkerOverlappingRecognizer.js";
 import { mapState } from "vuex";
+import icon_marker from "@/assets/icon_marker.png";
+import icon_marker_selected from "@/assets/icon_marker_selected.png";
 
 export default {
     name: "Map",
     data() {
         return {
             map: null,
+            recognizer: null,
+            marker: {},
             markers: [],
             markerMap: new Map(),
             infoWindow: {},
+            markerIcon: {},
+            selectedMarkerIcon: {},
         };
     },
     computed: {
         ...mapState("culture", ["cultures", "cultureMap"]),
     },
-    created() {
+    mounted() {
         this.init();
+    },
+    beforeDestroy() {
+        this.removeEventListener();
     },
     methods: {
         init() {
@@ -28,65 +38,166 @@ export default {
             const mapUrl = process.env.VUE_APP_MAP_URL;
             const clientId = process.env.VUE_APP_MAP_CLIENT_ID;
             script.src = `${mapUrl}?ncpClientId=${clientId}`;
-            document.head.appendChild(script);
-
-            script.onload = () => {
+            script.defer = true;
+            script.addEventListener("load", () => {
                 this.initMap();
-                this.addEventListener();
-            };
+            });
+
+            document.head.appendChild(script);
         },
         initMap() {
             this.map = new window.naver.maps.Map("map", {
-                center: new window.naver.maps.LatLng(37.566655, 126.978379),
+                center: new window.naver.maps.LatLng(37.5665, 126.978), // Seoul
                 zoom: 15,
+                scaleControl: false,
+                mapDataControl: false,
+                mapTypeControl: false,
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: window.naver.maps.ZoomControlStyle.SMALL,
+                    position: window.naver.maps.Position.BOTTOM_RIGHT,
+                },
+                logoControlOptions: {
+                    position: window.naver.maps.Position.BOTTOM_LEFT,
+                },
+            });
+
+            this.recognizer = new MarkerOverlappingRecognizer({
+                highlightRect: false,
+                tolerance: 5,
+            });
+
+            this.recognizer.setMap(this.map);
+
+            window.naver.maps.Event.once(this.map, "init", () => {
+                this.addEventListener();
             });
         },
         addEventListener() {
-            window.naver.maps.Event.addListener(this.map, "idle", () => {});
-            window.naver.maps.Event.addListener(this.map, "click", () => {
-                if (
-                    !this.$_.isEmpty(this.infoWindow) &&
-                    this.infoWindow.getMap()
-                ) {
-                    this.infoWindow.close();
-                }
-            });
+            window.naver.maps.Event.addListener(
+                this.map,
+                "idle",
+                this.idleEventHandler
+            );
+            window.naver.maps.Event.addListener(
+                this.map,
+                "click",
+                this.clickEventHandler
+            );
+            window.naver.maps.Event.addListener(
+                this.map,
+                "zoom_changed",
+                this.zoomChangedEventHandler
+            );
+            window.naver.maps.Event.addListener(
+                this.recognizer,
+                "clickItem",
+                this.clickItemEventHandler
+            );
+        },
+        removeEventListener() {
+            window.naver.maps.Event.removeListener(
+                this.map,
+                "idle",
+                this.idleEventHandler
+            );
+            window.naver.maps.Event.removeListener(
+                this.map,
+                "click",
+                this.clickEventHandler
+            );
+            window.naver.maps.Event.removeListener(
+                this.map,
+                "zoom_changed",
+                this.zoomChangedEventHandler
+            );
+            window.naver.maps.Event.removeListener(
+                this.recognizer,
+                "clickItem",
+                this.clickItemEventHandler
+            );
+        },
+        idleEventHandler() {},
+        clickEventHandler() {
+            if (!this.$_.isEmpty(this.marker)) {
+                this.marker.setZIndex(100);
+                this.marker.setIcon(this.markerIcon);
+            }
+            if (!this.$_.isEmpty(this.infoWindow) && this.infoWindow.getMap()) {
+                this.infoWindow.close();
+            }
+        },
+        zoomChangedEventHandler(zoom) {
+            if (zoom < 16) {
+                this.clickEventHandler();
+            }
+        },
+        clickItemEventHandler() {
+            this.recognizer.hide();
         },
         addMarkers() {
+            this.marker = {};
             this.markers = [];
             this.markerMap = new Map();
 
+            const commonIcon = {
+                size: new window.naver.maps.Size(32, 32),
+                scaledSize: new window.naver.maps.Size(32, 32),
+                origin: new window.naver.maps.Point(0, 0),
+                anchor: new window.naver.maps.Point(16, 24),
+            };
+
+            this.markerIcon = {
+                url: icon_marker,
+                ...commonIcon,
+            };
+
+            this.selectedMarkerIcon = {
+                url: icon_marker_selected,
+                ...commonIcon,
+            };
+
             this.markers = this.cultures.map(
-                ({ id: id, lot: lat, lat: lng }) => {
-                    return new window.naver.maps.Marker({
-                        id: id,
+                ({ id: id, lot: lat, lat: lng, title: title }) =>
+                    new window.naver.maps.Marker({
+                        id,
                         position: new window.naver.maps.LatLng(lat, lng),
-                    });
-                }
+                        title,
+                        icon: this.markerIcon,
+                        zIndex: 100,
+                    })
             );
 
             this.markers.forEach((marker) => {
-                window.naver.maps.Event.addListener(marker, "click", () =>
-                    this.onClickMarker(marker.id)
-                );
+                window.naver.maps.Event.addListener(marker, "click", () => {
+                    this.onClickMarker(marker.id);
+                });
 
+                this.recognizer.add(marker);
                 this.markerMap.set(marker.id, marker);
             });
 
             this.updateMarkers();
         },
         onClickMarker(id) {
-            const marker = this.markerMap.get(id);
-            this.map.setZoom(15);
-            this.map.setCenter(marker.getPosition());
+            if (!this.$_.isEmpty(this.marker) && this.marker.id !== id) {
+                this.marker.setIcon(this.markerIcon);
+                this.marker.setZIndex(100);
+            }
+
+            this.marker = this.markerMap.get(id);
+            this.marker.setIcon(this.selectedMarkerIcon);
+            this.marker.setZIndex(1000);
+            this.map.setZoom(16);
+            this.map.setCenter(this.marker.getPosition());
 
             this.createInfoWindow(id);
-            this.infoWindow.open(this.map, marker);
+            this.infoWindow.open(this.map, this.marker);
             const infoWindowId = `info-window-wrapper-${id}`;
             const infoWindowWrapperElement =
                 document.getElementById(infoWindowId);
             infoWindowWrapperElement.addEventListener("click", () => {
-                this.showCultureDetailModal(id); // TODO.. BUG 이벤트 처리
+                this.showCultureDetailModal(id);
             });
         },
         createInfoWindow(id) {
@@ -123,52 +234,32 @@ export default {
             this.$emit("showCultureDetailModal", culture);
         },
         updateMarkers() {
-            const htmlMarker1 = {
-                content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
-                size: window.naver.maps.Size(40, 40),
-                anchor: window.naver.maps.Point(20, 20),
-            };
-            const htmlMarker2 = {
-                content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
-                size: window.naver.maps.Size(40, 40),
-                anchor: window.naver.maps.Point(20, 20),
-            };
-            const htmlMarker3 = {
-                content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
-                size: window.naver.maps.Size(40, 40),
-                anchor: window.naver.maps.Point(20, 20),
-            };
-            const htmlMarker4 = {
-                content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
-                size: window.naver.maps.Size(40, 40),
-                anchor: window.naver.maps.Point(20, 20),
-            };
-            const htmlMarker5 = {
-                content:
-                    '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
-                size: window.naver.maps.Size(40, 40),
-                anchor: window.naver.maps.Point(20, 20),
-            };
-
+            const size = window.naver.maps.Size(40, 40);
+            const anchor = window.naver.maps.Point(20, 20);
+            const images = [
+                "cluster-marker-1.png",
+                "cluster-marker-2.png",
+                "cluster-marker-3.png",
+                "cluster-marker-4.png",
+                "cluster-marker-5.png",
+            ];
+            const htmlMarkers = images.map((image) => {
+                return {
+                    content: `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/${image});background-size:contain;"></div>`,
+                    size,
+                    anchor,
+                };
+            });
             const MarkerClustering = makeMarkerClustering(window.naver);
             new MarkerClustering({
-                minClusterSize: 2,
-                maxZoom: 14,
+                minClusterSize: 1,
+                maxZoom: 16,
                 map: this.map,
                 markers: this.markers,
                 disableClickZoom: false,
-                gridSize: 500,
-                icons: [
-                    htmlMarker1,
-                    htmlMarker2,
-                    htmlMarker3,
-                    htmlMarker4,
-                    htmlMarker5,
-                ],
+                averageCenter: true,
+                gridSize: 400,
+                icons: htmlMarkers,
                 indexGenerator: [10, 100, 200, 500, 1000],
                 stylingFunction: (clusterMarker, count) => {
                     clusterMarker
@@ -182,6 +273,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.map {
+    height: 100dvh;
+}
+
 :deep(.info-window-wrapper) {
     width: 400px;
     height: fit-content;
@@ -189,7 +284,7 @@ export default {
     background: rgb(255, 255, 255);
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px 0px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
     cursor: pointer;
     ::after {
         content: "";

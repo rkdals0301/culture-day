@@ -18,7 +18,7 @@
                 style="height: calc(100dvh - 70px)"
             >
                 <template v-if="active">
-                    <item :culture="item" @onClickItem="onClickItem" />
+                    <item :culture="item" @onClickItem="onClickItem(item.id)" />
                 </template>
                 <template v-else> Loading...??????? </template>
             </RecycleScroller>
