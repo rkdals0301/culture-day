@@ -158,7 +158,7 @@ export default {
             };
 
             this.markers = this.cultures.map(
-                ({ id: id, lot: lat, lat: lng, title: title }) =>
+                ({ id, lot: lat, lat: lng, title }) =>
                     new window.naver.maps.Marker({
                         id,
                         position: new window.naver.maps.LatLng(lat, lng),
@@ -202,9 +202,9 @@ export default {
         },
         createInfoWindow(id) {
             const {
-                title: title,
+                title,
                 codename: codeName,
-                date: date,
+                date,
                 is_free: isFree,
                 use_fee: useFee,
             } = this.cultureMap.get(id);

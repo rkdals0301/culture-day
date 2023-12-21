@@ -36,6 +36,7 @@ export default {
             this.$emit("open");
         },
         search() {
+            this.open();
             this.fetchFilteredCultures({ keyword: this.keyword });
         },
     },
@@ -53,9 +54,8 @@ export default {
     .search-box {
         width: 100%;
         height: 100%;
-        background-color: #fff;
+        background-color: $item_background_color;
         border-radius: 10px;
-        border: 1px solid #e5e5e5;
         display: flex;
         .search-inp-wrapper {
             width: calc(100% - 50px);
@@ -63,9 +63,11 @@ export default {
             .search-inp {
                 width: 100%;
                 height: 100%;
-                background-color: transparent;
+                color: #fff;
+                background-color: $item_background_color;
                 border: none;
-                padding-left: 10px;
+                padding-left: 15px;
+                border-radius: 10px 0 0 10px;
             }
             .search-inp:focus {
                 outline: none;
@@ -77,8 +79,9 @@ export default {
             .search-btn {
                 width: 100%;
                 height: 100%;
-                background-color: transparent;
+                background-color: $item_background_color;
                 border: none;
+                border-radius: 0 10px 10px 0;
                 cursor: pointer;
                 img {
                     width: 24px;

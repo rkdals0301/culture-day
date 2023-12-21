@@ -66,7 +66,7 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.3s;
+    transition: opacity 0.5s;
 }
 .fade-enter,
 .fade-leave-to {
@@ -75,14 +75,13 @@ export default {
 .overlay {
     width: 100dvw;
     height: 100dvh;
-    background-color: rgba(0, 0, 0, 0);
-    position: fixed;
+    background-color: rgba(0, 0, 0, 0.1);
+    position: absolute;
     top: 0;
     left: 0;
     display: none;
-}
-
-.overlay.show {
-    display: block;
+    &.show {
+        display: block;
+    }
 }
 </style>

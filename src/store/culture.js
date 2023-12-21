@@ -21,9 +21,9 @@ const actions = {
         commit("SET_CULTURE_MAP", cultureMap);
         commit("SET_FILTERED_CULTURES", cultures);
     },
-    fetchFilteredCultures: ({ state, commit }, { keyword }) => {
+    fetchFilteredCultures: ({ state, commit }, { keyword = "" }) => {
         const filteredCultures = state.cultures.filter((culture) =>
-            culture.title.includes(keyword)
+            culture.title.toUpperCase().includes(keyword.toUpperCase())
         );
 
         commit("SET_FILTERED_CULTURES", filteredCultures);

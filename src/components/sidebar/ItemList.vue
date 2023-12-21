@@ -10,17 +10,21 @@
     </div> -->
         <div class="item-list-content-wrapper">
             <RecycleScroller
-                v-slot="{ item, active }"
+                v-slot="{ item, index, active }"
                 :items="filteredCultures"
                 key-field="id"
-                :item-size="130"
+                :item-size="155"
                 :buffer="50"
-                style="height: calc(100dvh - 70px)"
+                style="height: calc(100dvh - 60px)"
             >
                 <template v-if="active">
-                    <item :culture="item" @onClickItem="onClickItem(item.id)" />
+                    <item
+                        :culture="item"
+                        :index="index"
+                        @onClickItem="onClickItem(item.id)"
+                    />
                 </template>
-                <template v-else> Loading...??????? </template>
+                <template v-else>Loading...</template>
             </RecycleScroller>
         </div>
     </div>
@@ -54,7 +58,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100dvh;
-    background-color: #fff;
+    background-color: $background_color;
     // .item-list-header-wrapper {
     //     width: 100%;
     //     margin-top: 50px;
@@ -69,10 +73,8 @@ export default {
     //     }
     // }
     .item-list-content-wrapper {
-        width: 100%;
         height: calc(100dvh - 60px);
         margin-top: 60px;
-        // height: calc(100%);
     }
 }
 </style>
