@@ -123,6 +123,13 @@ export default {
                 "clickItem",
                 this.clickItemEventHandler
             );
+            window.naver.maps.Event.addDOMListener(
+                this.map.getPanes().floatPane,
+                "mousewheel",
+                (e) => {
+                    e.stopPropagation();
+                }
+            );
         },
         removeEventListener() {
             window.naver.maps.Event.removeListener(
@@ -274,7 +281,7 @@ export default {
             ];
             const htmlMarkers = images.map((image) => {
                 return {
-                    content: `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/${image});background-size:contain;"></div>`,
+                    content: `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:700;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/${image});background-size:contain;"></div>`,
                     size,
                     anchor,
                 };

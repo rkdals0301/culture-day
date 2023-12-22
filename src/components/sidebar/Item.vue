@@ -92,7 +92,7 @@ export default {
         }
         .content-title {
             font-size: 0.875rem;
-            font-weight: bold;
+            font-weight: 700;
         }
         .content-organization,
         .content-target,

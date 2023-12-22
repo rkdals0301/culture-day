@@ -31,17 +31,15 @@ var MarkerOverlappingRecognizer = function (opts) {
                 fillOpacity: 0.5,
             },
             intersectNotice: true,
-            intersectNoticeTemplate:
-                '<div style="border:solid 1px #333;background-color:#fff;padding:5px;"><em style="font-weight:bold;color:#f00;">{{count}}</em>개의 마커가 있습니다.</div>',
+            intersectNoticeTemplate: `<div style="color:#ffffff;background-color:#37373f;border-radius:7px;padding:5px;box-shadow: 0 0 10px rgba(59, 79, 129, 0.8), 0 0 20px rgba(59, 79, 129, 0.6);"><span style="font-weight:700;">{{count}}</span>개의 마커가 있습니다.</div>`,
             intersectList: true,
-            intersectListTemplate:
-                '<div style="border:solid 1px #333;background-color:#fff;padding:5px;">' +
-                '<ul style="list-style:none;margin:0;padding:0;">' +
-                "{{#repeat}}" +
-                '<li style="list-style:none;margin:0;padding:0;"><a href="#">{{order}}. {{title}}</a></li>' +
-                "{{/#repeat}}" +
-                "</ul>" +
-                "</div>",
+            intersectListTemplate: `<div style="color:#ffffff;height:fit-content;max-height:200px;border-radius:7px;overflow:auto;background-color:#37373f;padding:15px;box-shadow: 0 0 10px rgba(59, 79, 129, 0.8), 0 0 20px rgba(59, 79, 129, 0.6);">
+                <ul style="list-style:none;margin:0;padding:0;">
+                {{#repeat}}
+                <li style="list-style:none;margin:0;padding:0;"><a href="#" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" style="color:#ffffff;text-decoration: none;">{{order}}. {{title}}</a></li>
+                {{/#repeat}}
+                </ul>
+                </div>`,
         },
         opts
     );

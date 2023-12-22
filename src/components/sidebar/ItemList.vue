@@ -1,12 +1,12 @@
 <template>
     <div class="item-list-wrapper">
         <!-- <div class="item-list-header-wrapper">
-        <div style="color: #2a6b39; font-weight: bold">전체보기</div>
+        <div style="color: #2a6b39; font-weight: 700;">전체보기</div>
         <div>이번주</div>
         <div>무료</div>
         <div>축제</div>
         <div>음악회</div>
-        <div style="color: red; font-weight: bold">핫이슈</div>
+        <div style="color: red; font-weight: 700;">핫이슈</div>
     </div> -->
         <div class="item-list-content-wrapper">
             <template v-if="filteredCultures.length > 0">
