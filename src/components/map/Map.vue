@@ -79,10 +79,14 @@ export default {
             this.infoWindow = new window.naver.maps.InfoWindow({
                 id: "",
                 title: "",
-                codeName: "",
+                guname: "",
+                place: "",
                 date: "",
-                isFree: "",
-                useFee: "",
+                themecode: "",
+                orgName: "",
+                use_trgt: "",
+                is_free: "",
+                use_fee: "",
                 borderWidth: 0,
                 disableAnchor: true,
                 backgroundColor: "transparent",
@@ -229,18 +233,26 @@ export default {
         showInfoWindow(id) {
             const {
                 title,
-                codename: codeName,
+                guname,
+                place,
                 date,
-                is_free: isFree,
-                use_fee: useFee,
+                themecode,
+                org_name,
+                use_trgt,
+                is_free,
+                use_fee,
             } = this.cultureMap.get(id);
 
             this.infoWindow.id = id;
             this.infoWindow.title = title;
-            this.infoWindow.codeName = codeName;
+            this.infoWindow.guname = guname;
+            this.infoWindow.place = place;
             this.infoWindow.date = date;
-            this.infoWindow.isFree = isFree;
-            this.infoWindow.useFee = useFee;
+            this.infoWindow.themecode = themecode;
+            this.infoWindow.org_name = org_name;
+            this.infoWindow.use_trgt = use_trgt;
+            this.infoWindow.is_free = is_free;
+            this.infoWindow.use_fee = use_fee;
 
             this.infoWindow.open(this.map, this.marker);
         },

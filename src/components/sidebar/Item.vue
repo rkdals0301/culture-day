@@ -40,7 +40,7 @@ export default {
             return date ? date.replaceAll("~", " ~ ") : "";
         },
         organization() {
-            return this.generateString("themecode", "orgName");
+            return this.generateString("themecode", "org_name");
         },
         target() {
             const { use_trgt } = this.culture;

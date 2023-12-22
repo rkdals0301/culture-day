@@ -1,13 +1,12 @@
 <template>
     <div class="info-window-wrapper" @click="showCultureDetailModal">
         <div class="info-window">
-            <p class="title">{{ infoWindow.title }}</p>
-            <p class="content">{{ infoWindow.date }}</p>
-            <p class="content">
-                {{ infoWindow.isFree }} /
-                {{ infoWindow.codeName }}
-            </p>
-            <p class="content">{{ infoWindow.useFee }}</p>
+            <p class="title">{{ title }}</p>
+            <p class="content">{{ place }}</p>
+            <p class="content">{{ date }}</p>
+            <p class="content">{{ organization }}</p>
+            <p class="content">{{ target }}</p>
+            <p class="content">{{ price }}</p>
         </div>
     </div>
 </template>
@@ -21,7 +20,41 @@ export default {
             default: () => {},
         },
     },
+    computed: {
+        title() {
+            const { title } = this.infoWindow;
+            return title ? title : "";
+        },
+        place() {
+            return this.generateString("guname", "place", " / ");
+        },
+        date() {
+            const { date } = this.infoWindow;
+            return date ? date.replaceAll("~", " ~ ") : "";
+        },
+        organization() {
+            return this.generateString("themecode", "org_name");
+        },
+        target() {
+            const { use_trgt } = this.infoWindow;
+            return use_trgt ? use_trgt : "";
+        },
+        price() {
+            return this.generateString("is_free", "use_fee");
+        },
+    },
     methods: {
+        generateString(key1, key2, separate = ", ") {
+            const value1 = this.infoWindow[key1];
+            const value2 = this.infoWindow[key2];
+            const result = [value1, value2]
+                .filter((val) => val !== undefined && val !== null)
+                .join(separate);
+
+            console.log(result);
+
+            return result;
+        },
         showCultureDetailModal() {
             this.$emit("showCultureDetailModal", this.infoWindow.id);
         },
@@ -32,7 +65,7 @@ export default {
 <style lang="scss" scoped>
 .info-window-wrapper {
     width: 400px;
-    height: 200px;
+    height: 170px;
     position: relative;
     border-radius: 7px;
     background-color: $item_background_color;
@@ -59,6 +92,9 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        & > * {
+            @include ellipsis;
+        }
         .title {
             font-size: 1rem;
             color: $font_color;
@@ -66,10 +102,6 @@ export default {
         .content {
             font-size: 0.875rem;
             color: $font_sub_color;
-        }
-        .button-wrapper {
-            display: flex;
-            justify-content: flex-end;
         }
     }
 }
