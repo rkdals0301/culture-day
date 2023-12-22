@@ -1,8 +1,7 @@
 <template>
     <div id="app">
-        <Map ref="map" @showCultureDetailModal="showCultureDetailModal" />
+        <Map ref="map" />
         <sidebar ref="handler" @onClickItem="onClickItem" />
-        <item-detail-modal ref="item-detail-modal" />
         <snackbar />
     </div>
 </template>
@@ -12,7 +11,6 @@ import { mapActions } from "vuex";
 import SnackbarType from "@/utils/define/SnackbarType";
 import Map from "@/components/map/Map.vue";
 import Sidebar from "@/components/sidebar/Sidebar.vue";
-import ItemDetailModal from "@/components/map/ItemDetailModal.vue";
 import Snackbar from "@/components/common/Snackbar.vue";
 
 export default {
@@ -20,7 +18,6 @@ export default {
     components: {
         Map,
         Sidebar,
-        ItemDetailModal,
         Snackbar,
     },
     created() {
@@ -36,9 +33,6 @@ export default {
             } catch (error) {
                 this.$root.showSnackbar(SnackbarType.ERROR, error);
             }
-        },
-        showCultureDetailModal(culture) {
-            this.$refs["item-detail-modal"].show(culture);
         },
         onClickItem(id) {
             this.$refs["map"].onClickMarker(id);

@@ -51,8 +51,6 @@ export default {
                 .filter((val) => val !== undefined && val !== null)
                 .join(separate);
 
-            console.log(result);
-
             return result;
         },
         showCultureDetailModal() {
@@ -96,12 +94,12 @@ export default {
             @include ellipsis;
         }
         .title {
-            font-size: 1rem;
             color: $font_color;
+            font-size: 1rem;
         }
         .content {
-            font-size: 0.875rem;
             color: $font_sub_color;
+            font-size: 0.875rem;
         }
     }
 }

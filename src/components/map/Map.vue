@@ -6,6 +6,7 @@
             :info-window="infoWindow"
             @showCultureDetailModal="showCultureDetailModal"
         ></info-window>
+        <item-detail-modal ref="item-detail-modal" />
     </div>
 </template>
 
@@ -16,10 +17,11 @@ import { mapState } from "vuex";
 import icon_marker from "@/assets/icon_marker.png";
 import icon_marker_selected from "@/assets/icon_marker_selected.png";
 import InfoWindow from "@/components/map/InfoWindow.vue";
+import ItemDetailModal from "@/components/map/ItemDetailModal.vue";
 
 export default {
     name: "Map",
-    components: { InfoWindow },
+    components: { InfoWindow, ItemDetailModal },
     data() {
         return {
             map: null,
@@ -258,7 +260,7 @@ export default {
         },
         showCultureDetailModal(id) {
             const culture = this.cultureMap.get(id);
-            this.$emit("showCultureDetailModal", culture);
+            this.$refs["item-detail-modal"].show(culture);
         },
         updateMarkers() {
             const size = window.naver.maps.Size(40, 40);
