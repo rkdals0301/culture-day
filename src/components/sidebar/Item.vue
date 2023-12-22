@@ -71,7 +71,7 @@ export default {
 .item-wrapper {
     height: 145px;
     display: flex;
-    gap: 5px;
+    gap: 10px;
     margin: 0 10px 10px 10px;
     padding: 15px;
     background-color: $item_background_color;
@@ -82,7 +82,7 @@ export default {
         cursor: pointer;
     }
     .content-wrapper {
-        width: calc(100% - 105px);
+        width: calc(100% - 110px);
         height: 100%;
         display: flex;
         flex-direction: column;

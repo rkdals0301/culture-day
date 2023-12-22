@@ -108,7 +108,7 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: white;
-        border-radius: 4px;
+        border-radius: 7px;
         padding: 20px;
         display: flex;
         flex-direction: column;

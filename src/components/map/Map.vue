@@ -1,5 +1,12 @@
 <template>
-    <div id="map" class="map" />
+    <div class="map-wrapper">
+        <div id="map" class="map" />
+        <info-window
+            ref="info-window"
+            :info-window="infoWindow"
+            @showCultureDetailModal="showCultureDetailModal"
+        ></info-window>
+    </div>
 </template>
 
 <script>
@@ -8,9 +15,11 @@ import { MarkerOverlappingRecognizer } from "@/plugins/MarkerOverlappingRecogniz
 import { mapState } from "vuex";
 import icon_marker from "@/assets/icon_marker.png";
 import icon_marker_selected from "@/assets/icon_marker_selected.png";
+import InfoWindow from "@/components/map/InfoWindow.vue";
 
 export default {
     name: "Map",
+    components: { InfoWindow },
     data() {
         return {
             map: null,
@@ -65,6 +74,20 @@ export default {
             this.recognizer = new MarkerOverlappingRecognizer({
                 highlightRect: false,
                 tolerance: 5,
+            });
+
+            this.infoWindow = new window.naver.maps.InfoWindow({
+                id: "",
+                title: "",
+                codeName: "",
+                date: "",
+                isFree: "",
+                useFee: "",
+                borderWidth: 0,
+                disableAnchor: true,
+                backgroundColor: "transparent",
+                pixelOffset: new window.naver.maps.Point(0, -10),
+                content: this.$refs["info-window"].$el,
             });
 
             this.recognizer.setMap(this.map);
@@ -123,7 +146,7 @@ export default {
                 this.marker.setZIndex(100);
                 this.marker.setIcon(this.markerIcon);
             }
-            if (!this.$_.isEmpty(this.infoWindow) && this.infoWindow.getMap()) {
+            if (this.infoWindow.getMap()) {
                 this.infoWindow.close();
             }
         },
@@ -201,17 +224,9 @@ export default {
             this.marker.setZIndex(1000);
             this.map.setZoom(16);
             this.map.setCenter(this.marker.getPosition());
-
-            this.createInfoWindow(id);
-            this.infoWindow.open(this.map, this.marker);
-            const infoWindowId = `info-window-wrapper-${id}`;
-            const infoWindowWrapperElement =
-                document.getElementById(infoWindowId);
-            infoWindowWrapperElement.addEventListener("click", () => {
-                this.showCultureDetailModal(id);
-            });
+            this.showInfoWindow(id);
         },
-        createInfoWindow(id) {
+        showInfoWindow(id) {
             const {
                 title,
                 codename: codeName,
@@ -219,26 +234,15 @@ export default {
                 is_free: isFree,
                 use_fee: useFee,
             } = this.cultureMap.get(id);
-            const infoWindowId = `info-window-wrapper-${id}`;
-            const content = `<div id=${infoWindowId} class="info-window-wrapper">
-                        <div class="info-window">
-                            <div class="title">${title || "-"}</div>
-                            <div class="content">${date || "-"}</div>
-                            <div class="content">${isFree || "-"} / ${
-                codeName || "-"
-            }</div>
-                            <div class="content">${useFee || "-"}</div>
-                        </div>
-                    </div>`;
 
-            this.infoWindow = new window.naver.maps.InfoWindow({
-                id: infoWindowId,
-                borderWidth: 0,
-                disableAnchor: true,
-                backgroundColor: "transparent",
-                pixelOffset: new window.naver.maps.Point(0, -10),
-                content,
-            });
+            this.infoWindow.id = id;
+            this.infoWindow.title = title;
+            this.infoWindow.codeName = codeName;
+            this.infoWindow.date = date;
+            this.infoWindow.isFree = isFree;
+            this.infoWindow.useFee = useFee;
+
+            this.infoWindow.open(this.map, this.marker);
         },
         showCultureDetailModal(id) {
             const culture = this.cultureMap.get(id);
@@ -284,51 +288,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.map {
+.map-wrapper {
     height: 100dvh;
-}
-
-:deep(.info-window-wrapper) {
-    width: 400px;
-    height: fit-content;
-    position: relative;
-    background: rgb(255, 255, 255);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
-    cursor: pointer;
-    ::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border: 6px solid transparent;
-        border-top-color: #ffffff;
-        border-bottom: 0;
-        margin-left: -6px;
-        margin-bottom: -6px;
-    }
-    .info-window {
-        padding: 15px 20px;
-        font-weight: 700;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        .title {
-            font-size: 1rem;
-            color: rgb(0, 104, 195);
-        }
-        .content {
-            font-size: 0.875rem;
-            color: grey;
-        }
-        .button-wrapper {
-            display: flex;
-            justify-content: flex-end;
-        }
+    .map {
+        height: 100dvh;
     }
 }
 </style>

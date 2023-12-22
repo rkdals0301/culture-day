@@ -13,7 +13,7 @@
             </div>
             <div class="search-btn-wrapper">
                 <button class="search-btn" @click="search">
-                    <img src="@/assets/icon_search.svg" alt="" />
+                    <img src="@/assets/icon_search.svg" alt="icon_search" />
                 </button>
             </div>
         </div>
