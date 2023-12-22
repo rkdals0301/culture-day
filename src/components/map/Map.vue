@@ -126,9 +126,7 @@ export default {
             window.naver.maps.Event.addDOMListener(
                 this.map.getPanes().floatPane,
                 "mousewheel",
-                (e) => {
-                    e.stopPropagation();
-                }
+                this.mouseWheelEventHandler
             );
         },
         removeEventListener() {
@@ -152,6 +150,11 @@ export default {
                 "clickItem",
                 this.clickItemEventHandler
             );
+            window.naver.maps.Event.removeDOMListener(
+                this.map.getPanes().floatPane,
+                "mousewheel",
+                this.mouseWheelEventHandler
+            );
         },
         idleEventHandler() {},
         clickEventHandler() {
@@ -170,6 +173,9 @@ export default {
         },
         clickItemEventHandler() {
             this.recognizer.hide();
+        },
+        mouseWheelEventHandler(e) {
+            e.stopPropagation();
         },
         addMarkers(tryCount = 0) {
             if (tryCount >= 10) {
