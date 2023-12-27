@@ -9,7 +9,11 @@
             <p class="content-price">{{ price }}</p>
         </div>
         <div class="image-wrapper">
-            <img class="image" :src="culture.main_img" alt="culture_main_img" />
+            <img
+                v-lazy="culture.main_img"
+                class="image"
+                alt="culture_main_img"
+            />
         </div>
     </div>
 </template>

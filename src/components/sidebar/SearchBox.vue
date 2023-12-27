@@ -12,9 +12,7 @@
                 />
             </div>
             <div class="search-btn-wrapper">
-                <button class="search-btn" @click="search">
-                    <img src="@/assets/icon_search.svg" alt="icon_search" />
-                </button>
+                <button class="search-btn" @click="search"></button>
             </div>
         </div>
     </div>
@@ -57,8 +55,9 @@ export default {
         background-color: $item_background_color;
         border-radius: 10px;
         display: flex;
+        padding-right: 15px;
         .search-inp-wrapper {
-            width: calc(100% - 50px);
+            width: calc(100% - 24px);
             height: 100%;
             .search-inp {
                 width: 100%;
@@ -74,18 +73,21 @@ export default {
             }
         }
         .search-btn-wrapper {
-            width: 50px;
+            width: 24px;
             height: 100%;
+            display: flex;
+            align-items: center;
             .search-btn {
-                width: 100%;
-                height: 100%;
-                background-color: $item_background_color;
+                background-image: url("@/assets/icon_search.svg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-color: transparent;
                 border: none;
-                border-radius: 0 10px 10px 0;
-                cursor: pointer;
-                img {
-                    width: 24px;
-                    height: 24px;
+                padding: 0;
+                width: 24px;
+                height: 24px;
+                &:hover {
+                    cursor: pointer;
                 }
             }
         }

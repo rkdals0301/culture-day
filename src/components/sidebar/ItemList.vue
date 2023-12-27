@@ -9,23 +9,7 @@
         <div style="color: red; font-weight: 700;">핫이슈</div>
     </div> -->
         <div class="item-list-content-wrapper">
-            <template v-if="filteredCultures.length > 0">
-                <recycle-scroller
-                    v-slot="{ item, index }"
-                    :items="filteredCultures"
-                    key-field="id"
-                    :item-size="155"
-                    :buffer="50"
-                    class="list-wrapper"
-                >
-                    <item
-                        :culture="item"
-                        :index="index"
-                        @onClickItem="onClickItem(item.id)"
-                    />
-                </recycle-scroller>
-            </template>
-            <template v-else>
+            <template v-if="isLoading">
                 <div class="list-wrapper">
                     <div
                         v-for="idx in skeletonSize"
@@ -35,6 +19,27 @@
                         <skeleton />
                     </div>
                 </div>
+            </template>
+            <template v-else>
+                <template v-if="isData">
+                    <recycle-scroller
+                        v-slot="{ item, index }"
+                        :items="filteredCultures"
+                        key-field="id"
+                        :item-size="155"
+                        :buffer="50"
+                        class="list-wrapper"
+                    >
+                        <item
+                            :culture="item"
+                            :index="index"
+                            @onClickItem="onClickItem(item.id)"
+                        />
+                    </recycle-scroller>
+                </template>
+                <template v-else>
+                    <div class="no-data">조회된 행사가 없습니다.</div>
+                </template>
             </template>
         </div>
     </div>
@@ -55,7 +60,10 @@ export default {
         };
     },
     computed: {
-        ...mapState("culture", ["filteredCultures"]),
+        ...mapState("culture", ["isLoading", "filteredCultures"]),
+        isData() {
+            return this.filteredCultures.length > 0;
+        },
     },
     methods: {
         onClickItem(id) {
@@ -93,10 +101,17 @@ export default {
         height: calc(100dvh - 60px);
         margin-top: 60px;
 
-        @include scrollbar;
+        @include scrollbar; // 중복 리팩토링
 
         .list-wrapper {
             height: calc(100dvh - 60px);
+        }
+        .no-data {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $font_color;
         }
     }
 }

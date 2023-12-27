@@ -7,19 +7,15 @@
                         <div class="title">{{ culture.title }}</div>
                     </div>
                     <div class="right-wrapper">
-                        <button
-                            type="button"
-                            class="close-button"
-                            @click="hide"
-                        ></button>
+                        <button class="close-button" @click="hide"></button>
                     </div>
                 </div>
                 <div class="content-wrapper">
                     <div class="image-wrapper">
                         <img
+                            v-lazy="culture.main_img"
                             class="image"
-                            :src="culture.main_img"
-                            alt="main_img"
+                            alt="culture_main_img"
                         />
                     </div>
                     <div class="content">
