@@ -5,6 +5,7 @@ import router from "@/router";
 import store from "@/store";
 import _ from "lodash";
 import VueLazyload from "vue-lazyload";
+import VueUUID from "vue-uuid";
 
 Vue.config.productionTip = false;
 Vue.config.errorHandler = (error) => {
@@ -13,6 +14,7 @@ Vue.config.errorHandler = (error) => {
 
 Vue.use(VueRouter);
 Vue.use(VueLazyload);
+Vue.use(VueUUID);
 
 Vue.prototype.$_ = _;
 

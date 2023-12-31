@@ -5,12 +5,12 @@ module.exports = defineConfig({
     transpileDependencies: [],
     css: {
         loaderOptions: {
-            scss: {
+            sass: {
                 additionalData: `
                     @import "@/assets/styles/reset.scss";
                     @import "@/assets/styles/color.scss";
-					@import "@/assets/styles/global.scss";
-				`,
+                    @import "@/assets/styles/global.scss";
+                `,
             },
         },
     },

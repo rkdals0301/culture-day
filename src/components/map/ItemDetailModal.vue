@@ -128,14 +128,15 @@ export default {
     box-shadow: 0 0 10px rgba(59, 79, 129, 0.8), 0 0 20px rgba(59, 79, 129, 0.6);
     .modal {
         width: 600px;
-        height: fit-content;
+        height: 700px;
         position: fixed;
+        overflow: auto;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: $item_background_color;
         border-radius: 7px;
-        padding: 20px;
+        padding: 25px;
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -178,7 +179,7 @@ export default {
             .image-wrapper {
                 .image {
                     width: 100%;
-                    height: 500px;
+                    height: 350px;
                     object-fit: fill;
                     border-radius: 7px;
                 }

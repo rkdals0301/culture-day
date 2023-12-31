@@ -11,13 +11,7 @@
         <div class="item-list-content-wrapper">
             <template v-if="isLoading">
                 <div class="list-wrapper">
-                    <div
-                        v-for="idx in skeletonSize"
-                        :key="idx"
-                        style="margin: 10px"
-                    >
-                        <skeleton />
-                    </div>
+                    <skeleton :count="7" />
                 </div>
             </template>
             <template v-else>
@@ -54,11 +48,6 @@ import Item from "./Item.vue";
 export default {
     name: "ItemList",
     components: { RecycleScroller, Skeleton, Item },
-    data() {
-        return {
-            skeletonSize: 7,
-        };
-    },
     computed: {
         ...mapState("culture", ["isLoading", "filteredCultures"]),
         isData() {
@@ -100,11 +89,10 @@ export default {
     .item-list-content-wrapper {
         height: calc(100dvh - 60px);
         margin-top: 60px;
-
         @include scrollbar; // 중복 리팩토링
-
         .list-wrapper {
             height: calc(100dvh - 60px);
+            overflow: auto;
         }
         .no-data {
             height: 100%;
