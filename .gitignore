@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,webstorm+all,git,windows,macos
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,webstorm+all,git,windows,macos
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,windows,node,vue,vuejs,git,webstorm+all
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,windows,node,vue,vuejs,git,webstorm+all
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -208,6 +208,24 @@ dist
 .history
 .ionide
 
+### Vue ###
+# gitignore template for Vue.js projects
+#
+# Recommended template: Node.gitignore
+
+# TODO: where does this rule come from?
+docs/_book
+
+# TODO: where does this rule come from?
+test/
+
+### Vuejs ###
+# Recommended template: Node.gitignore
+
+dist/
+npm-debug.log
+yarn-error.log
+
 ### WebStorm+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -322,4 +340,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,webstorm+all,git,windows,macos
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,windows,node,vue,vuejs,git,webstorm+all
