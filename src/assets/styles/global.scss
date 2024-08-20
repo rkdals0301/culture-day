@@ -1,57 +1,57 @@
 @mixin ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin scrollbar {
-    /* Webkit 기반 브라우저 (Chrome, Safari) */
-    ::-webkit-scrollbar {
-        width: 12px;
-    }
+  /* Webkit 기반 브라우저 (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
 
-    ::-webkit-scrollbar-thumb {
-        background-color: $item_background_color;
-        border-radius: 6px;
-    }
+  ::-webkit-scrollbar-thumb {
+    background-color: $item_background_color;
+    border-radius: 6px;
+  }
 
-    ::-webkit-scrollbar-track {
-        background-color: $background_color;
-    }
+  ::-webkit-scrollbar-track {
+    background-color: $background_color;
+  }
 
-    // /* Firefox */
-    scrollbar-color: $item_background_color $background_color;
-    scrollbar-width: thin;
+  // /* Firefox */
+  scrollbar-color: $item_background_color $background_color;
+  scrollbar-width: thin;
 
-    // /* Edge 및 IE 11 */
-    scrollbar-color: $item_background_color $background_color;
-    scrollbar-width: thin;
+  // /* Edge 및 IE 11 */
+  scrollbar-color: $item_background_color $background_color;
+  scrollbar-width: thin;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: "Arial", sans-serif;
-    font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
 
-    @include scrollbar;
+  @include scrollbar;
 }
 
 p {
-    line-height: 1.6;
+  line-height: 1.6;
 }
 
 a {
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }

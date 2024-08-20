@@ -1,9 +1,9 @@
 name: Deploy
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
   workflow_dispatch:
 jobs:
   build:
@@ -12,11 +12,11 @@ jobs:
       # 1. 저장소 체크아웃
       - name: Checkout
         uses: actions/checkout@v4.1.1
-      
+
       # 2. node.js 환경설정
       - name: Setup Node.js Environment
         uses: actions/setup-node@v4.0.0
-        with: 
+        with:
           node-version: '16.16.0'
 
       # 3. Github Repository Secrets를 통해 .env 환경 변수 파일을 생성
@@ -31,7 +31,7 @@ jobs:
       # 4. 패키지 설치
       - name: Install Packages
         run: npm install
-      
+
       # 5. 빌드
       - name: Build
         run: npm run build

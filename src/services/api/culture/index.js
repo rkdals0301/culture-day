@@ -1,5 +1,5 @@
 // import axiosInstance from "@/services/Axios";
-import axios from "axios";
+import axios from 'axios';
 
 // const startIndex = 1;
 // const endIndex = 1000;
@@ -9,11 +9,11 @@ import axios from "axios";
 // };
 
 const cultureAPI = {
-    // fetchCultures: (params) =>
-    //     axiosInstance.get(endPoint.fetchCultures(), {
-    //         params,
-    //     }),
-    fetchCultures: () => axios.get("mock/mock.json"),
+  // fetchCultures: (params) =>
+  //     axiosInstance.get(endPoint.fetchCultures(), {
+  //         params,
+  //     }),
+  fetchCultures: () => axios.get('mock/mock.json'),
 };
 
 export default cultureAPI;
