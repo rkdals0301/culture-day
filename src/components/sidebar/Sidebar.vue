@@ -2,9 +2,7 @@
   <div>
     <div ref="side-menu" class="sidebar-wrapper" :style="`height: ${listVisibleStatus ? '100dvh' : 'auto'}`">
       <search-box ref="search" :listVisibleStatus="listVisibleStatus" @open="openList" @close="closeList" />
-      <div v-show="listVisibleStatus">
-        <item-list v-show="listVisibleStatus" @onClickItem="onClickItem" />
-      </div>
+      <item-list v-show="listVisibleStatus" @onClickItem="onClickItem" />
     </div>
     <!-- <div v-show="listVisibleStatus" class="overlay" :class="{ show: listVisibleStatus }" @click="closeList"></div> -->
   </div>
@@ -30,6 +28,7 @@ export default {
       this.listVisibleStatus = false;
     },
     onClickItem(id) {
+      this.closeList();
       this.$emit('onClickItem', id);
     },
   },
@@ -39,30 +38,31 @@ export default {
 <style lang="scss" scoped>
 .sidebar-wrapper {
   width: 100%;
+  height: auto;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.overlay {
-  width: 100dvw;
-  height: 100dvh;
-  background-color: rgba(0, 0, 0, 0.1);
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-  &.show {
-    display: block;
-  }
-}
+// .fade-enter-active,
+// .fade-leave-active {
+//   transition: opacity 0.5s;
+// }
+// .fade-enter,
+// .fade-leave-to {
+//   opacity: 0;
+// }
+// .overlay {
+//   width: 100dvw;
+//   height: 100dvh;
+//   background-color: rgba(0, 0, 0, 0.1);
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   display: none;
+//   &.show {
+//     display: block;
+//   }
+// }
 </style>

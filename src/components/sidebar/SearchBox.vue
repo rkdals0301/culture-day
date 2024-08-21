@@ -73,6 +73,7 @@ export default {
     border-radius: 10px;
     display: flex;
     padding: 0 15px;
+    justify-content: space-between;
     align-items: center;
     .back-btn {
       width: 24px;
@@ -88,19 +89,19 @@ export default {
       }
     }
     .search-input-wrapper {
-      width: calc(100% - 24px);
+      flex-grow: 1;
       height: 100%;
       .search-input {
         width: 100%;
         height: 100%;
         color: #fff;
-        background-color: $item_background_color;
+        background-color: transparent;
         border: none;
         padding-left: 15px;
         border-radius: 10px 0 0 10px;
-      }
-      .search-input:focus {
-        outline: none;
+        &:focus {
+          outline: none;
+        }
       }
     }
     .search-btn {

@@ -75,10 +75,8 @@ export default {
   background-color: $item_background_color;
   border-radius: 7px;
   color: $font_color;
-  &:hover {
-    background-color: $hover_color;
-    cursor: pointer;
-  }
+  cursor: pointer;
+
   .content-wrapper {
     width: calc(100% - 110px);
     height: 100%;
