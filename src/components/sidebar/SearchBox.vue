@@ -99,6 +99,7 @@ export default {
         border: none;
         padding-left: 15px;
         border-radius: 10px 0 0 10px;
+        font-size: 0.875rem;
         &:focus {
           outline: none;
         }

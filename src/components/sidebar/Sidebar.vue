@@ -38,11 +38,10 @@ export default {
 <style lang="scss" scoped>
 .sidebar-wrapper {
   width: 100%;
-  height: auto;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 100; // naver map logo : 99
 }
 
 // .fade-enter-active,

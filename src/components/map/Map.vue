@@ -63,11 +63,11 @@ export default {
         scaleControl: false,
         mapDataControl: false,
         mapTypeControl: false,
-        zoomControl: true,
-        zoomControlOptions: {
-          style: window.naver.maps.ZoomControlStyle.SMALL,
-          position: window.naver.maps.Position.BOTTOM_RIGHT,
-        },
+        zoomControl: false,
+        // zoomControlOptions: {
+        //   style: window.naver.maps.ZoomControlStyle.SMALL,
+        //   position: window.naver.maps.Position.BOTTOM_RIGHT,
+        // },
         logoControlOptions: {
           position: window.naver.maps.Position.BOTTOM_LEFT,
         },
@@ -239,9 +239,10 @@ export default {
         'cluster-marker-4.png',
         'cluster-marker-5.png',
       ];
+
       const htmlMarkers = images.map(image => {
         return {
-          content: `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:0.625rem;color:white;text-align:center;font-weight:700;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/${image});background-size:contain;"></div>`,
+          content: `<div style="cursor:pointer;width:40px;height:40px;line-height:40px;font-size:0.625rem;color:white;text-align:center;font-weight:700;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/${image});background-size:contain;"></div>`,
           size,
           anchor,
         };
