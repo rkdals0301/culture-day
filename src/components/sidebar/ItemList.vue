@@ -85,7 +85,6 @@ export default {
   .item-list-content-wrapper {
     height: calc(100dvh - 60px);
     margin-top: 60px;
-    @include scrollbar; // 중복 리팩토링
     .list-wrapper {
       height: calc(100dvh - 60px);
       overflow: auto;

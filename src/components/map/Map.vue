@@ -14,8 +14,8 @@
 import { makeMarkerClustering } from '@/plugins/MarkerClustering.js';
 import { MarkerOverlappingRecognizer } from '@/plugins/MarkerOverlappingRecognizer.js';
 import { mapState } from 'vuex';
-import icon_marker from '@/assets/icon_marker.png';
-import icon_marker_selected from '@/assets/icon_marker_selected.png';
+import icon_marker from '@/assets/icon_marker.svg';
+import icon_marker_selected from '@/assets/icon_marker_selected.svg';
 import InfoWindow from '@/components/map/InfoWindow.vue';
 import ItemDetailModal from '@/components/map/ItemDetailModal.vue';
 

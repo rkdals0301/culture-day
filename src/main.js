@@ -7,6 +7,10 @@ import _ from 'lodash';
 import VueLazyload from 'vue-lazyload';
 import VueUUID from 'vue-uuid';
 
+import '@/assets/styles/reset.scss';
+import '@/assets/styles/font.scss';
+import '@/assets/styles/global.scss';
+
 Vue.config.productionTip = false;
 Vue.config.errorHandler = error => {
   console.error('errorHandler', error);

@@ -1,14 +1,12 @@
 <template>
   <div>
     <div ref="side-menu" class="sidebar-wrapper" :style="`height: ${listVisibleStatus ? '100dvh' : 'auto'}`">
-      <search-box ref="search" @open="openList" />
+      <search-box ref="search" :listVisibleStatus="listVisibleStatus" @open="openList" @close="closeList" />
       <div v-show="listVisibleStatus">
-        <transition name="fade">
-          <item-list v-show="listVisibleStatus" @onClickItem="onClickItem" />
-        </transition>
+        <item-list v-show="listVisibleStatus" @onClickItem="onClickItem" />
       </div>
     </div>
-    <div v-show="listVisibleStatus" class="overlay" :class="{ show: listVisibleStatus }" @click="hideList"></div>
+    <!-- <div v-show="listVisibleStatus" class="overlay" :class="{ show: listVisibleStatus }" @click="closeList"></div> -->
   </div>
 </template>
 
@@ -28,10 +26,8 @@ export default {
     openList() {
       this.listVisibleStatus = true;
     },
-    hideList(e) {
-      if (this.listVisibleStatus && !this.$refs['side-menu'].contains(e.target)) {
-        this.listVisibleStatus = false;
-      }
+    closeList() {
+      this.listVisibleStatus = false;
     },
     onClickItem(id) {
       this.$emit('onClickItem', id);
@@ -42,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar-wrapper {
-  width: 400px;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
