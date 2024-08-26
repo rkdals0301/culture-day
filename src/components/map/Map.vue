@@ -1,41 +1,56 @@
 <template>
   <div class="map-wrapper">
     <div id="map" class="map" />
-    <info-window
+    <!-- <info-window
       ref="info-window"
       :info-window="infoWindow"
       @showCultureDetailModal="showCultureDetailModal"
-    ></info-window>
-    <item-detail-modal ref="item-detail-modal" />
+    ></info-window> -->
+    <!-- <item-detail-modal ref="item-detail-modal" /> -->
+    <bottom-sheet
+      ref="bottom-sheet"
+      v-if="isShowBottomSheet"
+      :culture="selectedCulture"
+      @closeBottomSheet="closeBottomSheet"
+    ></bottom-sheet>
   </div>
 </template>
 
 <script>
 import { makeMarkerClustering } from '@/plugins/MarkerClustering.js';
-import { MarkerOverlappingRecognizer } from '@/plugins/MarkerOverlappingRecognizer.js';
+// import { MarkerOverlappingRecognizer } from '@/plugins/MarkerOverlappingRecognizer.js';
 import { mapState } from 'vuex';
 import icon_marker from '@/assets/icon_marker.svg';
 import icon_marker_selected from '@/assets/icon_marker_selected.svg';
-import InfoWindow from '@/components/map/InfoWindow.vue';
-import ItemDetailModal from '@/components/map/ItemDetailModal.vue';
+// import InfoWindow from '@/components/map/InfoWindow.vue';
+// import ItemDetailModal from '@/components/map/ItemDetailModal.vue';
+import BottomSheet from '@/components/map/BottomSheet.vue';
 
 export default {
   name: 'Map',
-  components: { InfoWindow, ItemDetailModal },
+  components: {
+    // InfoWindow,
+    // ItemDetailModal,
+    BottomSheet,
+  },
   data() {
     return {
       map: null,
-      recognizer: null,
+      // recognizer: null,
       marker: {},
       markers: [],
       markerMap: new Map(),
-      infoWindow: {},
+      // infoWindow: {},
       markerIcon: {},
       selectedMarkerIcon: {},
+      selectedCulture: null,
     };
   },
   computed: {
     ...mapState('culture', ['cultures', 'cultureMap']),
+    isShowBottomSheet() {
+      return !this.$_.isEmpty(this.selectedCulture) ? true : false;
+    },
   },
   mounted() {
     this.init();
@@ -73,30 +88,30 @@ export default {
         },
       });
 
-      this.recognizer = new MarkerOverlappingRecognizer({
-        highlightRect: false,
-        tolerance: 5,
-      });
+      // this.recognizer = new MarkerOverlappingRecognizer({
+      //   highlightRect: false,
+      //   tolerance: 5,
+      // });
 
-      this.infoWindow = new window.naver.maps.InfoWindow({
-        id: '',
-        title: '',
-        guname: '',
-        place: '',
-        date: '',
-        themecode: '',
-        orgName: '',
-        use_trgt: '',
-        is_free: '',
-        use_fee: '',
-        borderWidth: 0,
-        disableAnchor: true,
-        backgroundColor: 'transparent',
-        pixelOffset: new window.naver.maps.Point(0, -10),
-        content: this.$refs['info-window'].$el,
-      });
+      // this.infoWindow = new window.naver.maps.InfoWindow({
+      //   id: '',
+      //   title: '',
+      //   guname: '',
+      //   place: '',
+      //   date: '',
+      //   themecode: '',
+      //   orgName: '',
+      //   use_trgt: '',
+      //   is_free: '',
+      //   use_fee: '',
+      //   borderWidth: 0,
+      //   disableAnchor: true,
+      //   backgroundColor: 'transparent',
+      //   pixelOffset: new window.naver.maps.Point(0, -10),
+      //   content: this.$refs['info-window'].$el,
+      // });
 
-      this.recognizer.setMap(this.map);
+      // this.recognizer.setMap(this.map);
 
       window.naver.maps.Event.once(this.map, 'init', () => {
         this.addEventListener();
@@ -106,14 +121,14 @@ export default {
       window.naver.maps.Event.addListener(this.map, 'idle', this.idleEventHandler);
       window.naver.maps.Event.addListener(this.map, 'click', this.clickEventHandler);
       window.naver.maps.Event.addListener(this.map, 'zoom_changed', this.zoomChangedEventHandler);
-      window.naver.maps.Event.addListener(this.recognizer, 'clickItem', this.clickItemEventHandler);
+      // window.naver.maps.Event.addListener(this.recognizer, 'clickItem', this.clickItemEventHandler);
       window.naver.maps.Event.addDOMListener(this.map.getPanes().floatPane, 'mousewheel', this.mouseWheelEventHandler);
     },
     removeEventListener() {
       window.naver.maps.Event.removeListener(this.map, 'idle', this.idleEventHandler);
       window.naver.maps.Event.removeListener(this.map, 'click', this.clickEventHandler);
       window.naver.maps.Event.removeListener(this.map, 'zoom_changed', this.zoomChangedEventHandler);
-      window.naver.maps.Event.removeListener(this.recognizer, 'clickItem', this.clickItemEventHandler);
+      // window.naver.maps.Event.removeListener(this.recognizer, 'clickItem', this.clickItemEventHandler);
       window.naver.maps.Event.removeDOMListener(
         this.map.getPanes().floatPane,
         'mousewheel',
@@ -125,19 +140,21 @@ export default {
       if (!this.$_.isEmpty(this.marker)) {
         this.marker.setZIndex(100);
         this.marker.setIcon(this.markerIcon);
+        this.selectedCulture = null;
+        // this.$refs['bottom-sheet'].closeSheet();
       }
-      if (this.infoWindow.getMap()) {
-        this.infoWindow.close();
-      }
+      // if (this.infoWindow.getMap()) {
+      //   this.infoWindow.close();
+      // }
     },
     zoomChangedEventHandler(zoom) {
       if (zoom < 16) {
         this.clickEventHandler();
       }
     },
-    clickItemEventHandler() {
-      this.recognizer.hide();
-    },
+    // clickItemEventHandler() {
+    //   this.recognizer.hide();
+    // },
     mouseWheelEventHandler(e) {
       e.stopPropagation();
     },
@@ -187,16 +204,16 @@ export default {
 
       this.markers.forEach(marker => {
         window.naver.maps.Event.addListener(marker, 'click', () => {
-          this.onClickMarker(marker.id);
+          this.onClickMarker(marker.id, false);
         });
 
-        this.recognizer.add(marker);
+        // this.recognizer.add(marker);
         this.markerMap.set(marker.id, marker);
       });
 
       this.updateMarkers();
     },
-    onClickMarker(id) {
+    onClickMarker(id, isSetCenter) {
       if (!this.$_.isEmpty(this.marker) && this.marker.id !== id) {
         this.marker.setIcon(this.markerIcon);
         this.marker.setZIndex(100);
@@ -206,29 +223,31 @@ export default {
       this.marker.setIcon(this.selectedMarkerIcon);
       this.marker.setZIndex(1000);
       this.map.setZoom(16);
-      this.map.setCenter(this.marker.getPosition());
-      this.showInfoWindow(id);
-    },
-    showInfoWindow(id) {
-      const { title, guname, place, date, themecode, org_name, use_trgt, is_free, use_fee } = this.cultureMap.get(id);
+      if (isSetCenter) this.map.setCenter(this.marker.getPosition());
 
-      this.infoWindow.id = id;
-      this.infoWindow.title = title;
-      this.infoWindow.guname = guname;
-      this.infoWindow.place = place;
-      this.infoWindow.date = date;
-      this.infoWindow.themecode = themecode;
-      this.infoWindow.org_name = org_name;
-      this.infoWindow.use_trgt = use_trgt;
-      this.infoWindow.is_free = is_free;
-      this.infoWindow.use_fee = use_fee;
+      this.selectedCulture = this.cultureMap.get(id);
+      // this.showInfoWindow(id);
+    },
+    // showInfoWindow(id) {
+    //   const { title, guname, place, date, themecode, org_name, use_trgt, is_free, use_fee } = this.cultureMap.get(id);
 
-      this.infoWindow.open(this.map, this.marker);
-    },
-    showCultureDetailModal(id) {
-      const culture = this.cultureMap.get(id);
-      this.$refs['item-detail-modal'].show(culture);
-    },
+    //   this.infoWindow.id = id;
+    //   this.infoWindow.title = title;
+    //   this.infoWindow.guname = guname;
+    //   this.infoWindow.place = place;
+    //   this.infoWindow.date = date;
+    //   this.infoWindow.themecode = themecode;
+    //   this.infoWindow.org_name = org_name;
+    //   this.infoWindow.use_trgt = use_trgt;
+    //   this.infoWindow.is_free = is_free;
+    //   this.infoWindow.use_fee = use_fee;
+
+    //   this.infoWindow.open(this.map, this.marker);
+    // },
+    // showCultureDetailModal(id) {
+    // const culture = this.cultureMap.get(id);
+    // this.$refs['item-detail-modal'].show(culture);
+    // },
     updateMarkers() {
       const size = window.naver.maps.Size(40, 40);
       const anchor = window.naver.maps.Point(20, 20);
@@ -262,6 +281,14 @@ export default {
           clusterMarker.getElement().querySelector('div:first-child').innerText = count;
         },
       });
+    },
+    closeBottomSheet() {
+      if (!this.$_.isEmpty(this.marker)) {
+        this.marker.setZIndex(100);
+        this.marker.setIcon(this.markerIcon);
+        this.selectedCulture = null;
+        // this.$refs['bottom-sheet'].closeSheet();
+      }
     },
   },
 };

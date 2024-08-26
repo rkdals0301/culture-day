@@ -35,7 +35,7 @@ export default {
       }
     },
     onClickItem(id) {
-      this.$refs['map'].onClickMarker(id);
+      this.$refs['map'].onClickMarker(id, true);
     },
   },
 };
