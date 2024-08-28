@@ -1,44 +1,44 @@
-name: Deploy
-on:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
-  workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      # 1. 저장소 체크아웃
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
+# name: Deploy
+# on:
+#   push:
+#     branches: ['main']
+#   pull_request:
+#     branches: ['main']
+#   workflow_dispatch:
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       # 1. 저장소 체크아웃
+#       - name: Checkout
+#         uses: actions/checkout@v4.1.1
 
-      # 2. node.js 환경설정
-      - name: Setup Node.js Environment
-        uses: actions/setup-node@v4.0.0
-        with:
-          node-version: '16.16.0'
+#       # 2. node.js 환경설정
+#       - name: Setup Node.js Environment
+#         uses: actions/setup-node@v4.0.0
+#         with:
+#           node-version: '16.16.0'
 
-      # 3. Github Repository Secrets를 통해 .env 환경 변수 파일을 생성
-      - name: Create .env file
-        run: |
-          echo VUE_APP_SEOUL_URL=${{ secrets.VUE_APP_SEOUL_URL }} >> .env
-          echo VUE_APP_SEOUL_AUTH_KEY=${{ secrets.VUE_APP_SEOUL_AUTH_KEY }} >> .env
-          echo VUE_APP_SEOUL_RESPONSE_TYPE=${{ secrets.VUE_APP_SEOUL_RESPONSE_TYPE }} >> .env
-          echo VUE_APP_MAP_URL=${{ secrets.VUE_APP_MAP_URL }} >> .env
-          echo VUE_APP_MAP_CLIENT_ID=${{ secrets.VUE_APP_MAP_CLIENT_ID }} >> .env
+#       # 3. Github Repository Secrets를 통해 .env 환경 변수 파일을 생성
+#       - name: Create .env file
+#         run: |
+#           echo VUE_APP_SEOUL_URL=${{ secrets.VUE_APP_SEOUL_URL }} >> .env
+#           echo VUE_APP_SEOUL_AUTH_KEY=${{ secrets.VUE_APP_SEOUL_AUTH_KEY }} >> .env
+#           echo VUE_APP_SEOUL_RESPONSE_TYPE=${{ secrets.VUE_APP_SEOUL_RESPONSE_TYPE }} >> .env
+#           echo VUE_APP_MAP_URL=${{ secrets.VUE_APP_MAP_URL }} >> .env
+#           echo VUE_APP_MAP_CLIENT_ID=${{ secrets.VUE_APP_MAP_CLIENT_ID }} >> .env
 
-      # 4. 패키지 설치
-      - name: Install Packages
-        run: npm install
+#       # 4. 패키지 설치
+#       - name: Install Packages
+#         run: npm install
 
-      # 5. 빌드
-      - name: Build
-        run: npm run build
+#       # 5. 빌드
+#       - name: Build
+#         run: npm run build
 
-      # 6. gh-pages로 배포
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+#       # 6. gh-pages로 배포
+#       - name: Deploy to gh-pages
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./dist
