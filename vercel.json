@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "https://openapi.seoul.go.kr",
+      "destination": "http://openapi.seoul.go.kr"
+    }
+  ]
+}
