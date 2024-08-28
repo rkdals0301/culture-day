@@ -4,12 +4,11 @@
       <p class="content-title">{{ title }}</p>
       <p class="content-place">{{ place }}</p>
       <p class="content-date">{{ date }}</p>
-      <p class="content-organization">{{ organization }}</p>
       <p class="content-target">{{ target }}</p>
       <p class="content-price">{{ price }}</p>
     </div>
     <div class="image-wrapper">
-      <img v-lazy="culture.main_img" class="image" alt="culture_main_img" />
+      <img v-lazy="culture.MAIN_IMG" class="image" alt="culture_main_img" />
     </div>
   </div>
 </template>
@@ -29,37 +28,45 @@ export default {
   },
   computed: {
     title() {
-      const { title } = this.culture;
+      const { TITLE: title } = this.culture;
       return title ? title : '';
     },
     place() {
-      return this.generateString('guname', 'place', ' / ');
+      return this.formatString(['CODENAME', 'GUNAME', 'PLACE'], ' / ');
     },
     date() {
-      const { date } = this.culture;
-      return date ? date.replaceAll('~', ' ~ ') : '';
-    },
-    organization() {
-      return this.generateString('themecode', 'org_name');
+      const { STRTDATE: startDate, END_DATE: endDate } = this.culture;
+      const formattedStartDate = this.formatDate(startDate);
+      const formattedEndDate = this.formatDate(endDate);
+      return formattedStartDate === formattedEndDate
+        ? formattedStartDate
+        : `${formattedStartDate} ~ ${formattedEndDate}`;
     },
     target() {
-      const { use_trgt } = this.culture;
-      return use_trgt ? use_trgt : '';
+      const { USE_TRGT: use_target } = this.culture;
+      return use_target ? use_target : '';
     },
     price() {
-      return this.generateString('is_free', 'use_fee');
+      const { IS_FREE: isFree } = this.culture;
+      return isFree === '유료' ? this.formatString(['IS_FREE', 'USE_FEE']) : isFree;
     },
   },
   methods: {
     onClickItem() {
       this.$emit('onClickItem', this.culture.id);
     },
-    generateString(key1, key2, separate = ', ') {
-      const value1 = this.culture[key1];
-      const value2 = this.culture[key2];
-      const result = [value1, value2].filter(val => val !== undefined && val !== null).join(separate);
+    formatString(keys, separate = ', ') {
+      const values = keys.map(key => this.culture[key]);
+      const result = values.filter(val => val !== undefined && val !== null).join(separate);
 
       return result;
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     },
   },
 };
@@ -67,7 +74,7 @@ export default {
 
 <style lang="scss" scoped>
 .item-wrapper {
-  height: 145px;
+  height: 130px;
   display: flex;
   gap: 10px;
   margin: 0 10px 10px 10px;
@@ -90,7 +97,6 @@ export default {
       font-size: 0.875rem;
       font-weight: 700;
     }
-    .content-organization,
     .content-target,
     .content-price {
       color: $font_sub_color;

@@ -8,30 +8,49 @@
       @touchstart="startResize"
     >
       <div class="sheet-header">
-        <div class="grip-bar"></div>
+        <div class="grip-bar" />
       </div>
       <div class="sheet-content">
-        <div class="item-wrapper">
-          <div class="content-wrapper">
+        <!-- <div v-if="initialHeight === 160"> -->
+        <item v-if="initialHeight === 160" :culture="culture"></item>
+        <!-- <div class="content-wrapper">
             <p class="content-title">{{ title }}</p>
             <p class="content-place">{{ place }}</p>
             <p class="content-date">{{ date }}</p>
-            <p class="content-organization">{{ organization }}</p>
             <p class="content-target">{{ target }}</p>
             <p class="content-price">{{ price }}</p>
           </div>
           <div class="image-wrapper">
-            <img v-lazy="culture.main_img" class="image" alt="culture_main_img" />
+            <img v-lazy="culture.MAIN_IMG" class="image" alt="culture_main_img" />
+          </div> -->
+        <!-- </div> -->
+        <!-- <div v-else-if="initialHeight === 500" class="item-full-wrapper">
+          <div class="image-wrapper">
+            <img v-lazy="culture.MAIN_IMG" class="image" alt="culture_main_img" />
           </div>
-        </div>
+          <div class="content-wrapper">
+            <p class="content-title">{{ title }}</p>
+            <p class="content-place">{{ place }}</p>
+            <p class="content-date">{{ date }}</p>
+            <p class="content-target">{{ target }}</p>
+            <p class="content-price">{{ price }}</p>
+            <a :href="culture.org_link" target="_blank">바로가기</a>
+            <a :href="culture.hmpg_addr" target="_blank">바로가기</a>
+          </div>
+        </div> -->
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+import Item from '@/components/sidebar/Item.vue';
+
 export default {
   name: 'BottomSheet',
+  components: {
+    Item,
+  },
   props: {
     culture: {
       type: Object,
@@ -42,43 +61,51 @@ export default {
     return {
       isOpen: true,
       initialY: 0,
-      initialHeight: 250,
+      initialHeight: 160,
       dragging: false,
-      snapHeights: [250, 600],
-      minHeight: 250,
-      maxHeight: 600,
+      snapHeights: [160, 500],
+      minHeight: 160,
+      maxHeight: 500,
     };
   },
   computed: {
     title() {
-      const { title } = this.culture;
+      const { TITLE: title } = this.culture;
       return title ? title : '';
     },
     place() {
-      return this.generateString('guname', 'place', ' / ');
+      return this.formatString(['CODENAME', 'GUNAME', 'PLACE'], ' / ');
     },
     date() {
-      const { date } = this.culture;
-      return date ? date.replaceAll('~', ' ~ ') : '';
-    },
-    organization() {
-      return this.generateString('themecode', 'org_name');
+      const { STRTDATE: startDate, END_DATE: endDate } = this.culture;
+      const formattedStartDate = this.formatDate(startDate);
+      const formattedEndDate = this.formatDate(endDate);
+      return formattedStartDate === formattedEndDate
+        ? formattedStartDate
+        : `${formattedStartDate} ~ ${formattedEndDate}`;
     },
     target() {
-      const { use_trgt } = this.culture;
-      return use_trgt ? use_trgt : '';
+      const { USE_TRGT: use_target } = this.culture;
+      return use_target ? use_target : '';
     },
     price() {
-      return this.generateString('is_free', 'use_fee');
+      const { IS_FREE: isFree } = this.culture;
+      return isFree === '유료' ? this.formatString(['IS_FREE', 'USE_FEE']) : isFree;
     },
   },
   methods: {
-    generateString(key1, key2, separate = ', ') {
-      const value1 = this.culture[key1];
-      const value2 = this.culture[key2];
-      const result = [value1, value2].filter(val => val !== undefined && val !== null).join(separate);
+    formatString(keys, separate = ', ') {
+      const values = keys.map(key => this.culture[key]);
+      const result = values.filter(val => val !== undefined && val !== null).join(separate);
 
       return result;
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     },
     closeSheet() {
       // 시트가 열린 후 닫기 동작이 실행되도록 딜레이를 추가
@@ -156,7 +183,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 250px;
+  height: 160px;
   background-color: $item_background_color;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -173,36 +200,81 @@ export default {
 }
 
 .sheet-header {
+  height: 32px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-}
-
-.grip-bar {
-  width: 40px;
-  height: 4px;
-  background-color: #ccc;
-  border-radius: 2px;
-  margin-bottom: 8px;
+  .grip-bar {
+    width: 40px;
+    height: 4px;
+    background-color: #ccc;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
 }
 
 .sheet-content {
+  height: calc(100% - 32px);
   .item-wrapper {
-    height: 145px;
+    height: 100%;
     display: flex;
     gap: 10px;
-    margin: 0 10px 10px 10px;
     padding: 15px;
     background-color: $item_background_color;
     border-radius: 7px;
     color: $font_color;
-    cursor: pointer;
-
     .content-wrapper {
-      width: calc(100% - 110px);
+      width: calc(100% - 130px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      font-size: 0.75rem;
+      & > * {
+        @include ellipsis;
+      }
+      .content-title {
+        font-size: 0.875rem;
+        font-weight: 700;
+      }
+      .content-target,
+      .content-price {
+        color: $font_sub_color;
+      }
+    }
+    .image-wrapper {
+      .image {
+        width: 120px;
+        height: 100%;
+        object-fit: fill;
+        border-radius: 7px;
+      }
+    }
+  }
+
+  .item-full-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background-color: $item_background_color;
+    border-radius: 7px;
+    color: $font_color;
+    .image-wrapper {
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        border-radius: 7px;
+      }
+    }
+    .content-wrapper {
+      width: 100%;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -218,14 +290,6 @@ export default {
       .content-target,
       .content-price {
         color: $font_sub_color;
-      }
-    }
-    .image-wrapper {
-      .image {
-        width: 100px;
-        height: 100%;
-        object-fit: fill;
-        border-radius: 7px;
       }
     }
   }

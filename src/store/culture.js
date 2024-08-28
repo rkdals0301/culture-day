@@ -11,7 +11,11 @@ const actions = {
   fetchCultures: async ({ commit }) => {
     commit('SET_IS_LOADING', true);
     const response = await cultureAPI.fetchCultures();
-    const cultures = response?.data?.DATA.map((item, index) => ({
+    // const cultures = response?.data?.DATA.map((item, index) => ({
+    //   id: index,
+    //   ...item,
+    // }));
+    const cultures = response?.data?.culturalEventInfo?.row.map((item, index) => ({
       id: index,
       ...item,
     }));

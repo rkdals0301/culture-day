@@ -20,7 +20,7 @@
             v-slot="{ item, index }"
             :items="filteredCultures"
             key-field="id"
-            :item-size="155"
+            :item-size="140"
             :buffer="50"
             class="list-wrapper"
           >

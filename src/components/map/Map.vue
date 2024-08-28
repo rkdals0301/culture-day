@@ -12,7 +12,7 @@
       v-if="isShowBottomSheet"
       :culture="selectedCulture"
       @closeBottomSheet="closeBottomSheet"
-    ></bottom-sheet>
+    />
   </div>
 </template>
 
@@ -192,7 +192,7 @@ export default {
       };
 
       this.markers = this.cultures.map(
-        ({ id, lot: lat, lat: lng, title }) =>
+        ({ id, LOT: lat, LAT: lng, TITLE: title }) =>
           new window.naver.maps.Marker({
             id,
             position: new window.naver.maps.LatLng(lat, lng),
