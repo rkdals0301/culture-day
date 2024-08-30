@@ -192,7 +192,7 @@ export default {
       };
 
       this.markers = this.cultures.map(
-        ({ id, LOT: lat, LAT: lng, TITLE: title }) =>
+        ({ id, lat, lng, title }) =>
           new window.naver.maps.Marker({
             id,
             position: new window.naver.maps.LatLng(lat, lng),

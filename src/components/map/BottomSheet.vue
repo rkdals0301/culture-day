@@ -11,33 +11,7 @@
         <div class="grip-bar" />
       </div>
       <div class="sheet-content">
-        <!-- <div v-if="initialHeight === 160"> -->
-        <item v-if="initialHeight === 160" :culture="culture"></item>
-        <!-- <div class="content-wrapper">
-            <p class="content-title">{{ title }}</p>
-            <p class="content-place">{{ place }}</p>
-            <p class="content-date">{{ date }}</p>
-            <p class="content-target">{{ target }}</p>
-            <p class="content-price">{{ price }}</p>
-          </div>
-          <div class="image-wrapper">
-            <img v-lazy="culture.MAIN_IMG" class="image" alt="culture_main_img" />
-          </div> -->
-        <!-- </div> -->
-        <!-- <div v-else-if="initialHeight === 500" class="item-full-wrapper">
-          <div class="image-wrapper">
-            <img v-lazy="culture.MAIN_IMG" class="image" alt="culture_main_img" />
-          </div>
-          <div class="content-wrapper">
-            <p class="content-title">{{ title }}</p>
-            <p class="content-place">{{ place }}</p>
-            <p class="content-date">{{ date }}</p>
-            <p class="content-target">{{ target }}</p>
-            <p class="content-price">{{ price }}</p>
-            <a :href="culture.org_link" target="_blank">바로가기</a>
-            <a :href="culture.hmpg_addr" target="_blank">바로가기</a>
-          </div>
-        </div> -->
+        <item :culture="culture" />
       </div>
     </div>
   </transition>

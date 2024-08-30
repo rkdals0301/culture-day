@@ -8,7 +8,7 @@
       <p class="content-price">{{ price }}</p>
     </div>
     <div class="image-wrapper">
-      <img v-lazy="culture.MAIN_IMG" class="image" alt="culture_main_img" />
+      <img v-lazy="mainImage" class="image" alt="culture_main_img" />
     </div>
   </div>
 </template>
@@ -28,14 +28,14 @@ export default {
   },
   computed: {
     title() {
-      const { TITLE: title } = this.culture;
+      const { title } = this.culture;
       return title ? title : '';
     },
     place() {
-      return this.formatString(['CODENAME', 'GUNAME', 'PLACE'], ' / ');
+      return this.formatString(['classification', 'guName', 'place'], ' / ');
     },
     date() {
-      const { STRTDATE: startDate, END_DATE: endDate } = this.culture;
+      const { startDate, endDate } = this.culture;
       const formattedStartDate = this.formatDate(startDate);
       const formattedEndDate = this.formatDate(endDate);
       return formattedStartDate === formattedEndDate
@@ -43,12 +43,16 @@ export default {
         : `${formattedStartDate} ~ ${formattedEndDate}`;
     },
     target() {
-      const { USE_TRGT: use_target } = this.culture;
-      return use_target ? use_target : '';
+      const { useTarget } = this.culture;
+      return useTarget ? useTarget : '';
     },
     price() {
-      const { IS_FREE: isFree } = this.culture;
-      return isFree === '유료' ? this.formatString(['IS_FREE', 'USE_FEE']) : isFree;
+      const { isFree } = this.culture;
+      return isFree === '유료' ? this.formatString(['isFree', 'useFee']) : isFree;
+    },
+    mainImage() {
+      const { mainImage } = this.culture;
+      return mainImage ? mainImage : null;
     },
   },
   methods: {

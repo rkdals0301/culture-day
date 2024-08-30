@@ -13,7 +13,7 @@ import ItemList from './ItemList.vue';
 import SearchBox from './SearchBox.vue';
 
 export default {
-  name: 'ItemListHandler',
+  name: 'Sidebar',
   components: { ItemList, SearchBox },
   data() {
     return {
