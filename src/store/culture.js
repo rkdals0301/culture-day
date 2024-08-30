@@ -78,7 +78,18 @@ const actions = {
 
         if (cultures.length === 0) isData = false; // 데이터가 없으면 종료
 
-        allCultures = [...allCultures, ...cultures];
+        // 현재 날짜
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // startDate와 endDate가 현재 날짜 범위 내에 있는지 확인 후 필터링
+        const filteredCultures = cultures.filter(culture => {
+          const startDate = new Date(culture.startDate.split(' ')[0]);
+          const endDate = new Date(culture.endDate.split(' ')[0]);
+          return today >= startDate && today <= endDate;
+        });
+
+        allCultures = [...allCultures, ...filteredCultures];
         params.startIndex = params.startIndex + 1000;
         params.endIndex = params.endIndex + 1000;
       }
