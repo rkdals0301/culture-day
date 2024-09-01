@@ -4,7 +4,7 @@ const baseURL = `/api/${process.env.VUE_APP_SEOUL_AUTH_KEY}/${process.env.VUE_AP
 
 const instance = axios.create({
   baseURL: baseURL,
-  timeout: 10000,
+  timeout: 100000, // 10sec
 });
 
 export default instance;

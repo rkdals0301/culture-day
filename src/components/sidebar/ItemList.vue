@@ -11,7 +11,7 @@
     <div class="item-list-content-wrapper">
       <template v-if="isLoading">
         <div class="list-wrapper">
-          <skeleton :count="7" />
+          <skeleton :count="10" />
         </div>
       </template>
       <template v-else>
@@ -24,11 +24,11 @@
             :buffer="50"
             class="list-wrapper"
           >
-            <item :culture="item" :index="index" @onClickItem="onClickItem(item.id)" />
+            <item :isSidebar="true" :culture="item" :index="index" @onClickItem="onClickItem(item.id)" />
           </recycle-scroller>
         </template>
         <template v-else>
-          <div class="no-data">조회된 행사가 없습니다.</div>
+          <div class="no-data">조회된 문화행사가 없습니다.</div>
         </template>
       </template>
     </div>

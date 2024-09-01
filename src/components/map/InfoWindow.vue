@@ -66,9 +66,6 @@ export default {
   border-radius: 7px;
   background-color: $item_background_color;
   box-shadow: 0 0 10px rgba(59, 79, 129, 0.8), 0 0 20px rgba(59, 79, 129, 0.6);
-  &:hover {
-    cursor: pointer;
-  }
   &::after {
     width: 0;
     height: 0;

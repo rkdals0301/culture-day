@@ -152,9 +152,6 @@ export default {
           padding: 0;
           width: 32px;
           height: 32px;
-          &:hover {
-            cursor: pointer;
-          }
         }
       }
     }

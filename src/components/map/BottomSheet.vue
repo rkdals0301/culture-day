@@ -11,7 +11,7 @@
         <div class="grip-bar" />
       </div>
       <div class="sheet-content">
-        <item :culture="culture" />
+        <item :culture="culture" :isExpanded="isExpanded" />
       </div>
     </div>
   </transition>
@@ -43,44 +43,11 @@ export default {
     };
   },
   computed: {
-    title() {
-      const { TITLE: title } = this.culture;
-      return title ? title : '';
-    },
-    place() {
-      return this.formatString(['CODENAME', 'GUNAME', 'PLACE'], ' / ');
-    },
-    date() {
-      const { STRTDATE: startDate, END_DATE: endDate } = this.culture;
-      const formattedStartDate = this.formatDate(startDate);
-      const formattedEndDate = this.formatDate(endDate);
-      return formattedStartDate === formattedEndDate
-        ? formattedStartDate
-        : `${formattedStartDate} ~ ${formattedEndDate}`;
-    },
-    target() {
-      const { USE_TRGT: use_target } = this.culture;
-      return use_target ? use_target : '';
-    },
-    price() {
-      const { IS_FREE: isFree } = this.culture;
-      return isFree === '유료' ? this.formatString(['IS_FREE', 'USE_FEE']) : isFree;
+    isExpanded() {
+      return this.initialHeight === this.maxHeight;
     },
   },
   methods: {
-    formatString(keys, separate = ', ') {
-      const values = keys.map(key => this.culture[key]);
-      const result = values.filter(val => val !== undefined && val !== null).join(separate);
-
-      return result;
-    },
-    formatDate(dateString) {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    },
     closeSheet() {
       // 시트가 열린 후 닫기 동작이 실행되도록 딜레이를 추가
       setTimeout(() => {
@@ -191,82 +158,6 @@ export default {
 
 .sheet-content {
   height: calc(100% - 32px);
-  .item-wrapper {
-    height: 100%;
-    display: flex;
-    gap: 10px;
-    padding: 15px;
-    background-color: $item_background_color;
-    border-radius: 7px;
-    color: $font_color;
-    .content-wrapper {
-      width: calc(100% - 130px);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      font-size: 0.75rem;
-      & > * {
-        @include ellipsis;
-      }
-      .content-title {
-        font-size: 0.875rem;
-        font-weight: 700;
-      }
-      .content-target,
-      .content-price {
-        color: $font_sub_color;
-      }
-    }
-    .image-wrapper {
-      .image {
-        width: 120px;
-        height: 100%;
-        object-fit: fill;
-        border-radius: 7px;
-      }
-    }
-  }
-
-  .item-full-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-    background-color: $item_background_color;
-    border-radius: 7px;
-    color: $font_color;
-    .image-wrapper {
-      height: 250px;
-      display: flex;
-      justify-content: center;
-      .image {
-        width: 100%;
-        height: 100%;
-        object-fit: fill;
-        border-radius: 7px;
-      }
-    }
-    .content-wrapper {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      font-size: 0.75rem;
-      & > * {
-        @include ellipsis;
-      }
-      .content-title {
-        font-size: 0.875rem;
-        font-weight: 700;
-      }
-      .content-organization,
-      .content-target,
-      .content-price {
-        color: $font_sub_color;
-      }
-    }
-  }
 }
 
 .sheet-fade-leave-active {

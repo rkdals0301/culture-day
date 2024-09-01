@@ -9,7 +9,7 @@
           v-model="keyword"
           type="text"
           class="search-input"
-          placeholder="찾으실 행사명을 입력해 주세요"
+          placeholder="찾으실 문화행사명을 입력해 주세요"
           @focus="open"
           @keyup.enter="search"
         />
@@ -84,9 +84,6 @@ export default {
         width: 100%;
         height: 100%;
       }
-      &:hover {
-        cursor: pointer;
-      }
     }
     .search-input-wrapper {
       flex-grow: 1;
@@ -114,9 +111,6 @@ export default {
         width: 100%;
         height: 100%;
       }
-      &:hover {
-        cursor: pointer;
-      }
     }
 
     // .search-btn-wrapper {
@@ -133,9 +127,6 @@ export default {
     //     padding: 0;
     //     width: 24px;
     //     height: 24px;
-    //     &:hover {
-    //       cursor: pointer;
-    //     }
     //   }
     // }
   }
