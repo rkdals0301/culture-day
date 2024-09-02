@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://cultureday.vercel.app/sitemap.xml
