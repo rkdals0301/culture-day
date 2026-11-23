@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <Map ref="map" />
+  <div class="app-layout">
+    <CultureMap ref="map" />
     <sidebar ref="handler" @onClickItem="onClickItem" />
     <snackbar />
   </div>
@@ -9,14 +9,14 @@
 <script>
 import { mapActions } from 'vuex';
 import SnackbarType from '@/utils/define/SnackbarType';
-import Map from '@/components/map/Map.vue';
+import CultureMap from '@/components/map/Map.vue';
 import Sidebar from '@/components/sidebar/Sidebar.vue';
 import Snackbar from '@/components/common/Snackbar.vue';
 
 export default {
   name: 'App',
   components: {
-    Map,
+    CultureMap,
     Sidebar,
     Snackbar,
   },
@@ -25,13 +25,14 @@ export default {
   },
   methods: {
     ...mapActions('culture', ['fetchCultures']),
+    ...mapActions('snackbar', ['showSnackbar']),
     async loadCultures() {
       try {
         await this.fetchCultures();
         await this.$nextTick();
         this.$refs['map'].addMarkers();
       } catch (error) {
-        this.$root.showSnackbar(SnackbarType.ERROR, error);
+        this.showSnackbar({ type: SnackbarType.ERROR, text: error });
       }
     },
     onClickItem(id) {
@@ -42,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#app {
+.app-layout {
   width: 100dvw;
   height: 100dvh;
   position: relative;

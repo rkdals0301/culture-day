@@ -1,6 +1,6 @@
 <template>
   <div class="skeleton-wrapper">
-    <div v-for="skeleton of skeletons" :key="skeleton.uuid" class="skeleton">
+    <div v-for="index in count" :key="index" class="skeleton">
       <content-loader
         width="370"
         height="100"
@@ -31,13 +31,6 @@ export default {
     count: {
       type: Number,
       default: 1,
-    },
-  },
-  computed: {
-    skeletons() {
-      return Array.from({ length: this.count }, () => ({
-        uuid: this.$uuid.v4(),
-      }));
     },
   },
 };

@@ -12,7 +12,7 @@
         </div>
         <div class="content-wrapper">
           <div class="image-wrapper">
-            <img v-lazy="culture.main_img" class="image" alt="culture_main_img" />
+            <img :src="culture.main_img" loading="lazy" class="image" alt="culture_main_img" />
           </div>
           <div class="content">
             <div class="data">
@@ -83,7 +83,7 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.keydownEventHandler);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.removeEventListener('keydown', this.keydownEventHandler);
   },
   methods: {

@@ -19,6 +19,7 @@
 <script>
 import { makeMarkerClustering } from '@/plugins/MarkerClustering.js';
 // import { MarkerOverlappingRecognizer } from '@/plugins/MarkerOverlappingRecognizer.js';
+import { markRaw } from 'vue';
 import { mapState } from 'vuex';
 import icon_marker from '@/assets/icon_marker.svg';
 import icon_marker_selected from '@/assets/icon_marker_selected.svg';
@@ -27,7 +28,7 @@ import icon_marker_selected from '@/assets/icon_marker_selected.svg';
 import BottomSheet from '@/components/map/BottomSheet.vue';
 
 export default {
-  name: 'Map',
+  name: 'CultureMap',
   components: {
     // InfoWindow,
     // ItemDetailModal,
@@ -37,7 +38,7 @@ export default {
     return {
       map: null,
       // recognizer: null,
-      marker: {},
+      marker: null,
       markers: [],
       markerMap: new Map(),
       // infoWindow: {},
@@ -49,20 +50,20 @@ export default {
   computed: {
     ...mapState('culture', ['cultures', 'cultureMap']),
     isShowBottomSheet() {
-      return !this.$_.isEmpty(this.selectedCulture) ? true : false;
+      return this.selectedCulture !== null;
     },
   },
   mounted() {
     this.init();
   },
-  beforeDestroy() {
-    this.removeEventListener();
+  beforeUnmount() {
+    if (this.map) this.removeEventListener();
   },
   methods: {
     init() {
       const script = document.createElement('script');
-      const mapUrl = process.env.VUE_APP_MAP_URL;
-      const clientId = process.env.VUE_APP_MAP_CLIENT_ID;
+      const mapUrl = import.meta.env.VUE_APP_MAP_URL;
+      const clientId = import.meta.env.VUE_APP_MAP_CLIENT_ID;
       script.src = `${mapUrl}?ncpClientId=${clientId}`;
       script.defer = true;
       script.addEventListener('load', () => {
@@ -72,7 +73,7 @@ export default {
       document.head.appendChild(script);
     },
     initMap() {
-      this.map = new window.naver.maps.Map('map', {
+      this.map = markRaw(new window.naver.maps.Map('map', {
         center: new window.naver.maps.LatLng(37.5665, 126.978), // Seoul
         zoom: 15,
         scaleControl: false,
@@ -86,7 +87,7 @@ export default {
         logoControlOptions: {
           position: window.naver.maps.Position.BOTTOM_LEFT,
         },
-      });
+      }));
 
       // this.recognizer = new MarkerOverlappingRecognizer({
       //   highlightRect: false,
@@ -137,7 +138,7 @@ export default {
     },
     idleEventHandler() {},
     clickEventHandler() {
-      if (!this.$_.isEmpty(this.marker)) {
+      if (this.marker) {
         this.marker.setZIndex(100);
         this.marker.setIcon(this.markerIcon);
         this.selectedCulture = null;
@@ -164,13 +165,14 @@ export default {
         return;
       }
 
-      if (this.$_.isEmpty(this.map)) {
+      if (!this.map) {
         setTimeout(() => {
           this.addMarkers(tryCount + 1);
         }, 250);
+        return;
       }
 
-      this.marker = {};
+      this.marker = null;
       this.markers = [];
       this.markerMap = new Map();
 
@@ -193,13 +195,13 @@ export default {
 
       this.markers = this.cultures.map(
         ({ id, lat, lng, title }) =>
-          new window.naver.maps.Marker({
+          markRaw(new window.naver.maps.Marker({
             id,
             position: new window.naver.maps.LatLng(lat, lng),
             title,
             icon: this.markerIcon,
             zIndex: 100,
-          })
+          }))
       );
 
       this.markers.forEach(marker => {
@@ -214,18 +216,21 @@ export default {
       this.updateMarkers();
     },
     onClickMarker(id, isSetCenter) {
-      if (!this.$_.isEmpty(this.marker) && this.marker.id !== id) {
+      const nextMarker = this.markerMap.get(id);
+      if (!nextMarker) return;
+
+      if (this.marker && this.marker.id !== id) {
         this.marker.setIcon(this.markerIcon);
         this.marker.setZIndex(100);
       }
 
-      this.marker = this.markerMap.get(id);
+      this.marker = nextMarker;
       this.marker.setIcon(this.selectedMarkerIcon);
       this.marker.setZIndex(1000);
       this.map.setZoom(16);
       if (isSetCenter) this.map.setCenter(this.marker.getPosition());
 
-      this.selectedCulture = this.cultureMap.get(id);
+      this.selectedCulture = this.cultureMap.get(id) ?? null;
       // this.showInfoWindow(id);
     },
     // showInfoWindow(id) {
@@ -283,7 +288,7 @@ export default {
       });
     },
     closeBottomSheet() {
-      if (!this.$_.isEmpty(this.marker)) {
+      if (this.marker) {
         this.marker.setZIndex(100);
         this.marker.setIcon(this.markerIcon);
         this.selectedCulture = null;

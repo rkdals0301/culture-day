@@ -9,12 +9,12 @@
         <p class="content-price">{{ price }}</p>
       </div>
       <div class="image-wrapper">
-        <img v-lazy="mainImage" class="image" alt="culture_main_img" />
+        <img :src="mainImage" loading="lazy" class="image" alt="culture_main_img" />
       </div>
     </div>
     <div v-else class="item-expanded-wrapper">
       <div class="image-wrapper">
-        <img v-lazy="mainImage" class="image" alt="culture_main_img" />
+        <img :src="mainImage" loading="lazy" class="image" alt="culture_main_img" />
       </div>
       <div class="content-wrapper">
         <p class="content-title">{{ title }}</p>
