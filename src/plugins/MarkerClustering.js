@@ -1,4 +1,3 @@
-/* eslint-disable */
 function makeMarkerClustering(naver) {
   /**
    * Copyright 2016 NAVER Corp.

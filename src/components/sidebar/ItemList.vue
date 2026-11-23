@@ -38,6 +38,7 @@
 <script>
 import { mapState } from 'vuex';
 import { RecycleScroller } from 'vue-virtual-scroller';
+import 'vue-virtual-scroller/index.css';
 import Skeleton from './Skeleton.vue';
 import Item from './Item.vue';
 
@@ -59,8 +60,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
-
 .item-list-wrapper {
   width: 100%;
   height: 100dvh;

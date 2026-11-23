@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 export default {
   name: 'Snackbar',
   data() {
@@ -15,21 +13,14 @@ export default {
     };
   },
   created() {
-    this.setSnackbar();
     this.setSubscribe();
   },
+  beforeUnmount() {
+    this.unsubscribe();
+  },
   methods: {
-    ...mapActions('snackbar', ['showSnackbar']),
-    setSnackbar() {
-      this.$root.showSnackbar = (type, text) => {
-        this.showSnackbar({
-          type,
-          text,
-        });
-      };
-    },
     setSubscribe() {
-      this.$store.subscribe((mutation, state) => {
+      this.unsubscribe = this.$store.subscribe((mutation, state) => {
         if (mutation.type !== 'snackbar/SET_SNACKBAR') return;
 
         this.type = state.snackbar.type;

@@ -2,6 +2,7 @@
   <transition name="sheet-fade" @after-leave="afterLeave">
     <div
       v-if="isOpen"
+      ref="sheet"
       class="bottom-sheet"
       :class="{ open: isOpen }"
       @mousedown="startResize"
@@ -51,9 +52,9 @@ export default {
     closeSheet() {
       // 시트가 열린 후 닫기 동작이 실행되도록 딜레이를 추가
       setTimeout(() => {
-        this.$el.style.transition = 'transform 0.3s ease, height 0.3s ease';
-        this.$el.style.transform = 'translateY(100%)';
-        this.$el.style.height = '0';
+        this.$refs.sheet.style.transition = 'transform 0.3s ease, height 0.3s ease';
+        this.$refs.sheet.style.transform = 'translateY(100%)';
+        this.$refs.sheet.style.height = '0';
         setTimeout(() => {
           this.isOpen = false;
         }, 300);
@@ -62,7 +63,7 @@ export default {
     startResize(event) {
       this.dragging = true;
       this.initialY = event.clientY || event.touches[0].clientY;
-      this.initialHeight = parseInt(this.$el.style.height) || this.initialHeight;
+      this.initialHeight = parseInt(this.$refs.sheet.style.height) || this.initialHeight;
       document.addEventListener('mousemove', this.resizeSheet);
       document.addEventListener('mouseup', this.stopResize);
       document.addEventListener('touchmove', this.resizeSheet);
@@ -75,12 +76,12 @@ export default {
       let newHeight = this.initialHeight - dy;
 
       // 높이를 현재의 최대 높이와 최소 높이 사이로 제한
-      this.$el.style.height = `${Math.max(this.minHeight, Math.min(newHeight, this.maxHeight))}px`;
+      this.$refs.sheet.style.height = `${Math.max(this.minHeight, Math.min(newHeight, this.maxHeight))}px`;
     },
     stopResize() {
       if (!this.dragging) return;
       this.dragging = false;
-      let currentHeight = parseInt(this.$el.style.height);
+      let currentHeight = parseInt(this.$refs.sheet.style.height);
 
       let nextHeight;
       if (currentHeight < this.initialHeight) {
@@ -102,8 +103,8 @@ export default {
       }
 
       // 시트의 높이를 스냅 높이로 조정
-      this.$el.style.transition = 'height 0.3s ease';
-      this.$el.style.height = `${nextHeight}px`;
+      this.$refs.sheet.style.transition = 'height 0.3s ease';
+      this.$refs.sheet.style.height = `${nextHeight}px`;
       this.initialHeight = nextHeight;
 
       document.removeEventListener('mousemove', this.resizeSheet);
